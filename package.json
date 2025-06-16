@@ -1,0 +1,28 @@
+{
+  "name": "forzak",
+  "version": "1.0.0",
+  "description": "Forzak LLC - Modern Business Landing Page",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.html",
+    "format": "prettier --write \"src/**/*.{js,html,css,md}\""
+  },
+  "keywords": ["business", "landing-page", "investment", "consulting"],
+  "author": "Forzak LLC",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "alpinejs": "^3.13.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.4",
+    "vite-plugin-md": "^0.21.0"
+  }
+}
