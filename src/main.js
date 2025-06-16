@@ -16,56 +16,65 @@ window.contentLoader = contentLoader
 // Content loading functions for each page
 window.loadPageContent = {
     async about() {
+        console.log('🏠 About page loading function called');
+        
         try {
+            console.log('🔄 Loading about content...');
             const content = await contentLoader.loadContent('about');
-            const personnel = contentLoader.parsePersonnel(content.html);
+            console.log('✅ About content loaded successfully:', content);
             
             // Update page title if needed
             const titleElement = document.querySelector('h1');
+            console.log('🏷️ Title element:', titleElement);
             if (titleElement && content.frontmatter.title) {
+                console.log(`📝 Updating title from "${titleElement.textContent}" to "${content.frontmatter.title}"`);
                 titleElement.textContent = content.frontmatter.title;
             }
             
-            // Render main content
+            // Render main content with proper styling
             const mainContentContainer = document.getElementById('about-main-content');
-            if (mainContentContainer) {
-                // Extract main description (everything before "Key Personnel")
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = content.html;
-                
-                // Get first few paragraphs before Key Personnel section
-                const paragraphs = tempDiv.querySelectorAll('p');
-                let mainContent = '';
-                paragraphs.forEach(p => {
-                    if (!p.textContent.includes('Sameer') && !p.textContent.includes('Nazlin')) {
-                        mainContent += p.outerHTML;
-                    }
-                });
-                
-                mainContentContainer.innerHTML = mainContent;
+            console.log('📦 Main content container:', mainContentContainer);
+            console.log('📄 Main content data:', content.sections.mainContent);
+            
+            if (mainContentContainer && content.sections.mainContent) {
+                console.log('🎨 Applying styling to main content...');
+                const styledContent = contentLoader.applyContentStyling(content.sections.mainContent);
+                console.log('🎨 Styled content:', styledContent);
+                mainContentContainer.innerHTML = styledContent;
+                console.log('✅ Main content rendered');
+            } else {
+                console.warn('⚠️ Main content container or content missing');
             }
             
-            // Render personnel
+            // Render personnel with styled cards
             const personnelContainer = document.getElementById('personnel-content');
-            if (personnelContainer && personnel.length > 0) {
-                let personnelHtml = '<h3 class="text-2xl font-bold text-primary mb-6">Key Personnel</h3>';
-                
-                personnel.forEach(person => {
-                    personnelHtml += `
-                        <div class="mb-8 p-6 bg-neutral-50 rounded-lg">
-                            <h4 class="text-xl font-bold text-primary mb-2">${person.name}</h4>
-                            <p class="text-accent-gold font-semibold mb-3">${person.title}</p>
-                            <p class="text-neutral-800 leading-relaxed">${person.bio}</p>
-                        </div>
-                    `;
-                });
-                
+            console.log('👥 Personnel container:', personnelContainer);
+            console.log('👥 Personnel data:', content.sections.personnel);
+            
+            if (personnelContainer && content.sections.personnel.length > 0) {
+                console.log('🎨 Generating personnel cards...');
+                const personnelHtml = contentLoader.generatePersonnelCards(content.sections.personnel);
+                console.log('🎨 Personnel HTML:', personnelHtml);
                 personnelContainer.innerHTML = personnelHtml;
+                console.log('✅ Personnel content rendered');
+            } else {
+                console.warn('⚠️ Personnel container missing or no personnel data');
             }
+            
+            console.log('🎉 About page loading completed successfully');
             
         } catch (error) {
-            console.error('Failed to load about content:', error);
-            contentLoader.showError(document.getElementById('about-main-content'));
+            console.error('❌ Failed to load about content:', error);
+            
+            const mainContentContainer = document.getElementById('about-main-content');
+            if (mainContentContainer) {
+                contentLoader.showError(mainContentContainer, error.message);
+            }
+            
+            const personnelContainer = document.getElementById('personnel-content');
+            if (personnelContainer) {
+                contentLoader.showError(personnelContainer, error.message);
+            }
         }
     },
 
@@ -92,7 +101,7 @@ window.loadPageContent = {
     async investments() {
         try {
             const content = await contentLoader.loadContent('investments');
-            const investments = contentLoader.parseInvestments(content.html);
+            console.log('Investments content loaded:', content);
             
             // Update page title
             const titleElement = document.querySelector('h1');
@@ -102,38 +111,36 @@ window.loadPageContent = {
             
             // Update industries section if it exists
             const industriesContainer = document.getElementById('industries-list');
-            if (industriesContainer && investments.industries.length > 0) {
-                let industriesHtml = '';
-                investments.industries.forEach(industry => {
-                    industriesHtml += `
-                        <div class="bg-neutral-50 p-4 rounded-lg text-center">
-                            <p class="text-sm text-neutral-800">${industry}</p>
-                        </div>
-                    `;
-                });
+            if (industriesContainer && content.sections.industries.length > 0) {
+                const industriesHtml = contentLoader.generateIndustryCards(content.sections.industries);
                 industriesContainer.innerHTML = industriesHtml;
             }
             
         } catch (error) {
             console.error('Failed to load investments content:', error);
+            contentLoader.showError(document.getElementById('industries-list'));
         }
     }
 };
 
 // Auto-load content based on current page
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 DOM Content Loaded event fired');
     const path = window.location.pathname;
-    console.log('Current path:', path);
+    console.log('📍 Current path:', path);
+    console.log('🔧 Available loadPageContent methods:', Object.keys(window.loadPageContent));
     
     if (path.includes('about.html')) {
-        console.log('Loading about content...');
+        console.log('✅ About page detected - calling about loader');
         window.loadPageContent.about();
     } else if (path.includes('services.html')) {
-        console.log('Loading services content...');
+        console.log('✅ Services page detected - calling services loader');
         window.loadPageContent.services();
     } else if (path.includes('investments.html')) {
-        console.log('Loading investments content...');
+        console.log('✅ Investments page detected - calling investments loader');
         window.loadPageContent.investments();
+    } else {
+        console.log('ℹ️ No matching page detected for dynamic content loading');
     }
 });
 

@@ -16,68 +16,313 @@ export class ContentLoader {
         }
 
         try {
-            console.log(`Loading content: ${contentName}`);
+            console.log(`🔄 Starting to load content: ${contentName}`);
             
             // Fetch the markdown file as text
-            const response = await fetch(`/src/content/${contentName}.md`);
+            const fetchUrl = `/src/content/${contentName}.md`;
+            console.log(`📡 Fetching from URL: ${fetchUrl}`);
+            
+            const response = await fetch(fetchUrl);
+            console.log(`📡 Fetch response:`, {
+                ok: response.ok,
+                status: response.status,
+                statusText: response.statusText,
+                url: response.url,
+                headers: Object.fromEntries(response.headers.entries())
+            });
+            
             if (!response.ok) {
-                throw new Error(`Failed to fetch ${contentName}.md: ${response.status}`);
+                console.error(`❌ Fetch failed with status ${response.status}: ${response.statusText}`);
+                throw new Error(`Failed to fetch ${contentName}.md: ${response.status} ${response.statusText}`);
             }
             
             const markdownText = await response.text();
-            console.log('Raw markdown:', markdownText.substring(0, 200) + '...');
+            console.log(`📄 Raw markdown loaded:`, {
+                length: markdownText.length,
+                preview: markdownText.substring(0, 300) + '...',
+                firstLine: markdownText.split('\n')[0]
+            });
             
             // Parse frontmatter and content
+            console.log(`⚙️ Parsing markdown content...`);
             const parsed = this.parseMarkdown(markdownText);
-            console.log('Parsed content:', parsed);
+            console.log(`✅ Parsed content:`, {
+                frontmatter: parsed.frontmatter,
+                sectionsKeys: Object.keys(parsed.sections),
+                personnelCount: parsed.sections.personnel?.length || 0,
+                mainContentLength: parsed.sections.mainContent?.length || 0
+            });
 
             // Cache the result
             this.cache.set(contentName, parsed);
+            console.log(`💾 Content cached for: ${contentName}`);
             
             return parsed;
         } catch (error) {
-            console.error(`Failed to load content: ${contentName}`, error);
-            throw new Error(`Content not found: ${contentName}`);
+            console.error(`❌ Failed to load content: ${contentName}`, {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            });
+            throw error;
         }
     }
 
     /**
      * Parse markdown text into frontmatter and HTML
      * @param {string} markdownText - Raw markdown text
-     * @returns {Object} Parsed content
+     * @returns {Object} Parsed content with sections
      */
     parseMarkdown(markdownText) {
-        // Split frontmatter and content
-        const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+        console.log('🔍 Raw markdown input:', markdownText.substring(0, 100));
+        
+        // Split frontmatter and content - handle the malformed frontmatter
+        const frontmatterRegex = /^---\s*\n([\s\S]*?)\n-+\s*\n([\s\S]*)$/;
         const match = markdownText.match(frontmatterRegex);
         
         let frontmatter = {};
         let content = markdownText;
         
         if (match) {
+            console.log('✅ Frontmatter match found');
             const frontmatterText = match[1];
             content = match[2];
+            console.log('📋 Frontmatter text:', frontmatterText);
+            console.log('📄 Content after frontmatter:', content.substring(0, 100));
             
-            // Parse frontmatter (simple YAML parsing)
-            const lines = frontmatterText.split('\n');
-            lines.forEach(line => {
-                const colonIndex = line.indexOf(':');
-                if (colonIndex > 0) {
-                    const key = line.substring(0, colonIndex).trim();
-                    const value = line.substring(colonIndex + 1).trim().replace(/^["']|["']$/g, '');
-                    frontmatter[key] = value;
-                }
-            });
+            // Parse frontmatter (improved YAML parsing)
+            frontmatter = this.parseFrontmatter(frontmatterText);
+        } else {
+            console.log('❌ No frontmatter match found');
+            // Try alternative patterns
+            const altRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+            const altMatch = markdownText.match(altRegex);
+            if (altMatch) {
+                console.log('✅ Alternative frontmatter pattern matched');
+                frontmatter = this.parseFrontmatter(altMatch[1]);
+                content = altMatch[2];
+            }
         }
         
-        // Convert markdown to HTML (basic conversion)
-        const html = this.markdownToHtml(content);
+        // Parse content into sections
+        const sections = this.parseContentSections(content);
         
         return {
             frontmatter,
-            html,
-            content
+            sections,
+            rawContent: content
         };
+    }
+
+    /**
+     * Parse YAML frontmatter
+     * @param {string} frontmatterText - YAML content
+     * @returns {Object} Parsed frontmatter
+     */
+    parseFrontmatter(frontmatterText) {
+        const frontmatter = {};
+        const lines = frontmatterText.split('\n');
+        
+        lines.forEach(line => {
+            line = line.trim();
+            if (line && !line.startsWith('#')) {
+                const colonIndex = line.indexOf(':');
+                if (colonIndex > 0) {
+                    const key = line.substring(0, colonIndex).trim();
+                    let value = line.substring(colonIndex + 1).trim();
+                    
+                    // Remove quotes and handle special characters
+                    value = value.replace(/^["']|["']$/g, '');
+                    
+                    frontmatter[key] = value;
+                }
+            }
+        });
+        
+        return frontmatter;
+    }
+
+    /**
+     * Parse content into sections based on headings
+     * @param {string} content - Markdown content
+     * @returns {Object} Organized sections
+     */
+    parseContentSections(content) {
+        console.log('📝 Parsing content sections from:', content.substring(0, 200));
+        
+        const sections = {
+            mainContent: '',
+            personnel: [],
+            services: [],
+            industries: [],
+            other: []
+        };
+        
+        // Split by ## headings
+        const sectionRegex = /^## (.+)$/gm;
+        const parts = content.split(sectionRegex);
+        
+        console.log('📂 Content split into', parts.length, 'parts');
+        parts.forEach((part, index) => {
+            console.log(`📄 Part ${index}:`, part.substring(0, 100));
+        });
+        
+        // First part is content before any ## heading
+        if (parts[0]) {
+            sections.mainContent = this.markdownToHtml(parts[0].trim());
+            console.log('📄 Main content set:', sections.mainContent.substring(0, 100));
+        }
+        
+        // Process sections
+        for (let i = 1; i < parts.length; i += 2) {
+            const heading = parts[i];
+            const sectionContent = parts[i + 1] || '';
+            
+            console.log(`🏷️ Processing section: "${heading}"`);
+            console.log(`📄 Section content preview:`, sectionContent.substring(0, 150));
+            
+            if (heading.toLowerCase().includes('personnel')) {
+                console.log('👥 Found personnel section!');
+                sections.personnel = this.parsePersonnel(sectionContent);
+            } else if (heading.toLowerCase().includes('services')) {
+                console.log('🛠️ Found services section!');
+                sections.services = this.parseServices(sectionContent);
+            } else {
+                console.log('📋 Adding to other sections:', heading);
+                sections.other.push({
+                    title: heading,
+                    content: this.markdownToHtml(sectionContent.trim())
+                });
+            }
+        }
+        
+        // Extract industries from content (long bullet lists)
+        sections.industries = this.extractIndustries(content);
+        
+        console.log('📊 Final sections summary:', {
+            mainContentLength: sections.mainContent.length,
+            personnelCount: sections.personnel.length,
+            servicesCount: sections.services.length,
+            otherSections: sections.other.map(s => s.title)
+        });
+        
+        return sections;
+    }
+
+    /**
+     * Parse personnel from a section
+     * @param {string} sectionContent - Personnel section content
+     * @returns {Array} Array of personnel objects
+     */
+    parsePersonnel(sectionContent) {
+        console.log('👥 Parsing personnel from content length:', sectionContent.length);
+        console.log('👥 Personnel content preview:', sectionContent.substring(0, 300));
+        console.log('👥 Personnel content (escaped):', JSON.stringify(sectionContent.substring(0, 300)));
+        const personnel = [];
+        
+        // First, let's clean up the content by removing backslash line continuations
+        const cleanContent = sectionContent.replace(/\\\s*\n/g, ' ');
+        console.log('👥 Cleaned content preview:', cleanContent.substring(0, 300));
+        console.log('👥 Cleaned content (escaped):', JSON.stringify(cleanContent.substring(0, 300)));
+        
+        // Split by personnel entries (looking for **Name** – Title pattern)
+        // Updated regex to be more flexible with dash characters and whitespace
+        const personnelRegex = /\*\*([^*]+)\*\*\s*[–—-]\s*([^\n]+)[\s\S]*?(?=\*\*[^*]+\*\*|$)/g;
+        let match;
+        
+        console.log('👥 Using regex:', personnelRegex.source);
+        
+        // Reset regex lastIndex to ensure we start from the beginning
+        personnelRegex.lastIndex = 0;
+        
+        while ((match = personnelRegex.exec(cleanContent)) !== null) {
+            console.log('👤 Found personnel match:', {
+                fullMatch: match[0].substring(0, 200),
+                name: match[1],
+                title: match[2],
+                matchIndex: match.index
+            });
+            
+            const name = match[1].trim();
+            const title = match[2].trim();
+            
+            // Extract bio from the full match by removing the name/title part
+            const fullMatch = match[0];
+            const nameAndTitlePattern = `**${match[1]}** – ${match[2]}`;
+            const bioText = fullMatch.replace(nameAndTitlePattern, '').trim();
+            
+            console.log('👤 Extracted values:', { 
+                name, 
+                title, 
+                bioLength: bioText.length,
+                bioPreview: bioText.substring(0, 100)
+            });
+            
+            // Convert bio markdown to HTML
+            const bio = bioText ? this.markdownToHtml(bioText).replace(/<p><\/p>/g, '').trim() : '';
+            
+            if (name && title) {
+                personnel.push({
+                    name,
+                    title,
+                    bio
+                });
+                console.log('✅ Added personnel:', { name, title, bioPreview: bio.substring(0, 50) });
+            }
+        }
+        
+        console.log('👥 Total personnel found:', personnel.length);
+        return personnel;
+    }
+
+    /**
+     * Parse services from a section
+     * @param {string} sectionContent - Services section content
+     * @returns {Array} Array of service objects
+     */
+    parseServices(sectionContent) {
+        const services = [];
+        
+        // Split by ### subsections
+        const serviceRegex = /^### (.+)$/gm;
+        const parts = sectionContent.split(serviceRegex);
+        
+        for (let i = 1; i < parts.length; i += 2) {
+            const title = parts[i];
+            const content = parts[i + 1] || '';
+            
+            services.push({
+                title: title.trim(),
+                content: this.markdownToHtml(content.trim())
+            });
+        }
+        
+        return services;
+    }
+
+    /**
+     * Extract industries from bullet lists
+     * @param {string} content - Full content
+     * @returns {Array} Array of industry names
+     */
+    extractIndustries(content) {
+        const industries = [];
+        
+        // Find all bullet lists
+        const listRegex = /^[-*]\s+(.+)$/gm;
+        let match;
+        let currentList = [];
+        
+        while ((match = listRegex.exec(content)) !== null) {
+            currentList.push(match[1].trim());
+        }
+        
+        // If we have a long list (>10 items), treat as industries
+        if (currentList.length > 10) {
+            return currentList;
+        }
+        
+        return industries;
     }
 
     /**
@@ -111,67 +356,6 @@ export class ContentLoader {
             .replace(/<p><\/p>/gim, '');
     }
 
-    /**
-     * Parse personnel information from about content
-     * @param {string} htmlContent - HTML content from markdown
-     * @returns {Array} Array of personnel objects
-     */
-    parsePersonnel(htmlContent) {
-        const personnel = [];
-        
-        // Create a temporary DOM element to parse HTML
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-        
-        // Find all personnel sections (looking for strong tags with names)
-        const strongElements = tempDiv.querySelectorAll('strong');
-        
-        strongElements.forEach(strong => {
-            const text = strong.textContent.trim();
-            
-            // Check if this looks like a personnel entry (contains " – ")
-            if (text.includes(' – ')) {
-                const [name, title] = text.split(' – ');
-                
-                // Get the biography - collect all text content from the parent paragraph and following paragraphs
-                let bio = '';
-                let currentElement = strong.parentNode;
-                
-                // Start from the current paragraph after the strong element
-                let textContent = currentElement.textContent.replace(text, '').trim();
-                if (textContent) {
-                    bio += textContent + ' ';
-                }
-                
-                // Continue with next paragraphs until we hit another strong element or section
-                let nextElement = currentElement.nextElementSibling;
-                while (nextElement && nextElement.nodeType === Node.ELEMENT_NODE) {
-                    // Stop if we hit another personnel entry or major heading
-                    if (nextElement.querySelector('strong') && 
-                        nextElement.querySelector('strong').textContent.includes(' – ')) {
-                        break;
-                    }
-                    
-                    if (nextElement.tagName === 'H2' || nextElement.tagName === 'H3') {
-                        break;
-                    }
-                    
-                    bio += nextElement.textContent.trim() + ' ';
-                    nextElement = nextElement.nextElementSibling;
-                }
-                
-                if (name && title) {
-                    personnel.push({
-                        name: name.trim(),
-                        title: title.trim(),
-                        bio: bio.trim()
-                    });
-                }
-            }
-        });
-        
-        return personnel;
-    }
 
     /**
      * Parse services from services content
@@ -263,6 +447,72 @@ export class ContentLoader {
         });
         
         return investments;
+    }
+
+    /**
+     * Apply Tailwind styling to content
+     * @param {string} htmlContent - HTML content
+     * @returns {string} Styled HTML
+     */
+    applyContentStyling(htmlContent) {
+        return htmlContent
+            .replace(/<p>/g, '<p class="text-neutral-800 mb-4">')
+            .replace(/<h1>/g, '<h1 class="text-3xl font-bold text-primary mb-6">')
+            .replace(/<h2>/g, '<h2 class="text-2xl font-bold text-primary mb-4">')
+            .replace(/<h3>/g, '<h3 class="text-xl font-bold text-primary mb-3">')
+            .replace(/<ul>/g, '<ul class="space-y-2 mb-4">')
+            .replace(/<li>/g, '<li class="text-neutral-800">');
+    }
+
+    /**
+     * Generate styled personnel cards
+     * @param {Array} personnel - Array of personnel objects
+     * @returns {string} HTML for personnel cards
+     */
+    generatePersonnelCards(personnel) {
+        let html = '<h3 class="text-2xl font-bold text-primary mb-6">Key Personnel</h3>';
+        
+        personnel.forEach(person => {
+            html += `
+                <div class="mb-8 p-6 bg-neutral-50 rounded-lg">
+                    <h4 class="text-xl font-bold text-primary mb-2">${this.escapeHtml(person.name)}</h4>
+                    <p class="text-accent-gold font-semibold mb-3">${this.escapeHtml(person.title)}</p>
+                    <p class="text-neutral-800 leading-relaxed">${person.bio}</p>
+                </div>
+            `;
+        });
+        
+        return html;
+    }
+
+    /**
+     * Generate styled industry cards
+     * @param {Array} industries - Array of industry names
+     * @returns {string} HTML for industry grid
+     */
+    generateIndustryCards(industries) {
+        let html = '';
+        
+        industries.forEach(industry => {
+            html += `
+                <div class="bg-neutral-50 p-4 rounded-lg text-center">
+                    <p class="text-sm text-neutral-800">${this.escapeHtml(industry)}</p>
+                </div>
+            `;
+        });
+        
+        return html;
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     * @param {string} text - Text to escape
+     * @returns {string} Escaped text
+     */
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
 
     /**
