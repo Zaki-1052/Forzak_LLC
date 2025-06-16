@@ -427,14 +427,13 @@ export class ContentLoader {
             <h3 class="text-3xl font-bold text-primary mb-12 font-heading text-center">Key Personnel</h3>
             <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
         `;
-        
+        // TODO: Personnel headshots may not be available - consider removing these photo placeholders entirely
         personnel.forEach(person => {
             html += `
                 <div class="personnel-card bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
                     <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
                         <!-- Photo Area -->
                         <div class="lg:col-span-1">
-                            <!-- TODO: Replace with actual headshot photo of ${this.escapeHtml(person.name)} -->
                             <div class="w-32 h-32 mx-auto bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full flex items-center justify-center">
                                 <svg class="w-16 h-16 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -444,7 +443,12 @@ export class ContentLoader {
                         
                         <!-- Info Area -->
                         <div class="lg:col-span-3">
-                            <h4 class="text-2xl font-bold text-primary mb-2 font-heading">${this.escapeHtml(person.name)}</h4>
+                            <h4 class="text-2xl font-bold text-primary mb-2 font-heading">
+                                ${person.name === 'Sameer Alibhai' ? 
+                                    `<a href="https://www.linkedin.com/in/sameer-alibhai-0b878321/" target="_blank" rel="noopener noreferrer" class="hover:text-secondary transition-colors">${this.escapeHtml(person.name)}</a>` : 
+                                    this.escapeHtml(person.name)
+                                }
+                            </h4>
                             <p class="text-xl text-accent-gold font-semibold mb-4 font-heading">${this.escapeHtml(person.title)}</p>
                             <div class="text-neutral-800 leading-relaxed font-body space-y-4">${person.bio}</div>
                         </div>
@@ -544,12 +548,37 @@ export class ContentLoader {
         `;
         
         services.forEach(service => {
+            console.log('🔧 Processing service from array:', service.title);
+            console.log('🔧 Service content:', service.content);
+            
+            // Extract bullet points from the content
+            const bulletRegex = /<p>-\s*(.+?)<\/p>/g;
+            const bullets = [];
+            let match;
+            
+            while ((match = bulletRegex.exec(service.content)) !== null) {
+                bullets.push(match[1].trim());
+            }
+            
+            console.log('🔧 Extracted bullets for', service.title, ':', bullets);
+            
+            // Generate proper list items with arrow bullets
+            let listItems = '';
+            bullets.forEach(bullet => {
+                listItems += `
+                    <li class="font-body flex items-start">
+                        <span class="text-primary mr-3 font-semibold text-lg">▸</span>
+                        <span class="text-neutral-800">${this.escapeHtml(bullet)}</span>
+                    </li>
+                `;
+            });
+            
             html += `
                 <div class="service-category bg-white p-8 rounded-lg shadow-md">
                     <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
-                    <div class="space-y-4">
-                        ${service.content}
-                    </div>
+                    <ul class="space-y-4 services-list">
+                        ${listItems}
+                    </ul>
                 </div>
             `;
         });
@@ -564,15 +593,23 @@ export class ContentLoader {
      * @returns {string} Formatted list items
      */
     formatServiceList(listItems) {
-        if (!listItems) return '';
+        if (!listItems) {
+            console.log('⚠️ formatServiceList: No list items provided');
+            return '';
+        }
+        
+        console.log('🔧 formatServiceList input:', listItems);
         
         // Replace list items with proper blue arrow bullet styling
-        return listItems
+        const formatted = listItems
             .replace(/<li[^>]*>/g, '<li class="font-body flex items-start">')
             .replace(/^(\s*)<li/gm, '$1<li')
             .replace(/<li class="font-body flex items-start">/g, 
                 '<li class="font-body flex items-start"><span class="text-primary mr-3 font-semibold text-lg">▸</span><span class="text-neutral-800">')
             .replace(/<\/li>/g, '</span></li>');
+            
+        console.log('🎨 formatServiceList output:', formatted);
+        return formatted;
     }
 
     /**

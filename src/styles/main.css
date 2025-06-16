@@ -96,4 +96,36 @@
     outline: 2px solid #003366;
     outline-offset: 2px;
   }
+
+  /* Services List Styling - Override Tailwind Typography */
+  .service-category ul,
+  .services-list {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .service-category li,
+  .services-list li {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+    padding: 0.5rem 0 !important;
+    list-style: none !important;
+  }
+
+  .service-category li::before,
+  .services-list li::before {
+    display: none !important;
+  }
+
+  /* Ensure arrow bullets are visible */
+  .service-category li span:first-child,
+  .services-list li span:first-child {
+    color: #003366 !important;
+    font-weight: 600 !important;
+    font-size: 1.125rem !important;
+    margin-right: 0.75rem !important;
+    line-height: 1.5 !important;
+  }
 } 
