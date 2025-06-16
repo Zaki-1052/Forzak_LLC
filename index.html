@@ -16,30 +16,30 @@
 </head>
 <body class="min-h-screen">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
-        <div class="container mx-auto px-4">
+    <nav class="fixed w-full z-50 bg-gradient-to-r from-primary/60 to-primary/90 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="/" class="text-2xl font-bold text-primary">
-                        Forzak LLC
+                    <a href="/index.html" class="flex items-center">
+                        <img src="/assets/logo_trimmed.png" alt="Forzak LLC" class="h-14 w-auto">
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="/" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
-                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
-                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
-                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
-                        <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
+                        <a href="/index.html" class="text-accent-gold font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Home</a>
+                        <a href="/about.html" class="text-white/90 hover:text-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
+                        <a href="/services.html" class="text-white/90 hover:text-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
+                        <a href="/investments.html" class="text-white/90 hover:text-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Investments</a>
+                        <a href="/contact.html" class="bg-white text-primary hover:bg-accent-gold hover:text-white px-4 py-2 rounded transition-colors font-heading ml-4">Contact Us</a>
                     </div>
                 </div>
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
-                    <button type="button" @click="open = !open" class="text-neutral-800 hover:text-secondary p-2" aria-label="Toggle mobile menu">
+                    <button type="button" @click="open = !open" class="text-white hover:text-accent-gold p-2" aria-label="Toggle mobile menu">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -50,12 +50,12 @@
 
             <!-- Mobile Navigation -->
             <div x-show="open" x-transition class="md:hidden">
-                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-                    <a href="/" class="text-primary block px-3 py-2 text-base font-medium">Home</a>
-                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">About</a>
-                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Services</a>
-                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
-                    <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Contact Us</a>
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-primary/90 border-t border-white/20">
+                    <a href="/index.html" class="text-accent-gold font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-accent-gold/20">Home</a>
+                    <a href="/about.html" class="text-white/90 hover:text-accent-gold block px-3 py-2 text-base font-medium font-heading">About</a>
+                    <a href="/services.html" class="text-white/90 hover:text-accent-gold block px-3 py-2 text-base font-medium font-heading">Services</a>
+                    <a href="/investments.html" class="text-white/90 hover:text-accent-gold block px-3 py-2 text-base font-medium font-heading">Investments</a>
+                    <a href="/contact.html" class="text-white/90 hover:text-accent-gold block px-3 py-2 text-base font-medium font-heading">Contact Us</a>
                 </div>
             </div>
         </div>
@@ -79,8 +79,8 @@
                         <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
                             Schedule Consultation
                         </a>
-                        <a href="#" class="btn-secondary border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
-                            Download Brochure
+                        <a href="/about.html" class="btn-secondary border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
+                            About Us
                         </a>
                     </div>
                 </div>

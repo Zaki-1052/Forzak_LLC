@@ -17,23 +17,23 @@
 <body class="min-h-screen">
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="/" class="text-2xl font-bold text-primary">
-                        Forzak LLC
+                    <a href="/index.html" class="flex items-center">
+                        <img src="/assets/logo_trimmed.png" alt="Forzak LLC" class="h-14 w-auto">
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="/" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
-                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
-                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
-                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
-                        <a href="/contact.html" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Contact Us</a>
+                        <a href="/index.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Home</a>
+                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
+                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
+                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Investments</a>
+                        <a href="/contact.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Contact Us</a>
                     </div>
                 </div>
 
@@ -51,11 +51,11 @@
             <!-- Mobile Navigation -->
             <div x-show="open" x-transition class="md:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-                    <a href="/" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Home</a>
-                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">About</a>
-                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Services</a>
-                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
-                    <a href="/contact.html" class="text-primary block px-3 py-2 text-base font-medium">Contact Us</a>
+                    <a href="/index.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Home</a>
+                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">About</a>
+                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Services</a>
+                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Investments</a>
+                    <a href="/contact.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">Contact Us</a>
                 </div>
             </div>
         </div>
