@@ -217,41 +217,37 @@ export class ContentLoader {
     parsePersonnel(sectionContent) {
         console.log('👥 Parsing personnel from content length:', sectionContent.length);
         console.log('👥 Personnel content preview:', sectionContent.substring(0, 300));
-        console.log('👥 Personnel content (escaped):', JSON.stringify(sectionContent.substring(0, 300)));
         const personnel = [];
         
-        // First, let's clean up the content by removing backslash line continuations
-        const cleanContent = sectionContent.replace(/\\\s*\n/g, ' ');
-        console.log('👥 Cleaned content preview:', cleanContent.substring(0, 300));
-        console.log('👥 Cleaned content (escaped):', JSON.stringify(cleanContent.substring(0, 300)));
+        // Clean up any remaining backslash line continuations
+        const cleanContent = sectionContent.replace(/\\\s*\n/g, ' ').trim();
         
-        // Split by personnel entries (looking for **Name** – Title pattern)
-        // Updated regex to be more flexible with dash characters and whitespace
-        const personnelRegex = /\*\*([^*]+)\*\*\s*[–—-]\s*([^\n]+)[\s\S]*?(?=\*\*[^*]+\*\*|$)/g;
-        let match;
+        // Split by **Name** pattern to identify personnel entries
+        const personnelEntries = cleanContent.split(/(?=\*\*[^*]+\*\*\s*[–—-])/);
         
-        console.log('👥 Using regex:', personnelRegex.source);
+        console.log('👥 Found', personnelEntries.length, 'potential personnel entries');
         
-        // Reset regex lastIndex to ensure we start from the beginning
-        personnelRegex.lastIndex = 0;
-        
-        while ((match = personnelRegex.exec(cleanContent)) !== null) {
-            console.log('👤 Found personnel match:', {
-                fullMatch: match[0].substring(0, 200),
-                name: match[1],
-                title: match[2],
-                matchIndex: match.index
-            });
+        for (const entry of personnelEntries) {
+            if (!entry.trim() || !entry.includes('**')) continue;
             
-            const name = match[1].trim();
-            const title = match[2].trim();
+            console.log('👤 Processing entry:', entry.substring(0, 150));
             
-            // Extract bio from the full match by removing the name/title part
-            const fullMatch = match[0];
-            const nameAndTitlePattern = `**${match[1]}** – ${match[2]}`;
-            const bioText = fullMatch.replace(nameAndTitlePattern, '').trim();
+            // Extract name and title using regex
+            const nameMatch = entry.match(/\*\*([^*]+)\*\*\s*[–—-]\s*([^\n]+)/);
+            if (!nameMatch) {
+                console.log('👤 No name/title match found');
+                continue;
+            }
             
-            console.log('👤 Extracted values:', { 
+            const name = nameMatch[1].trim();
+            const title = nameMatch[2].trim();
+            
+            // Extract bio - everything after the first line
+            const lines = entry.split('\n');
+            const bioLines = lines.slice(1).filter(line => line.trim());
+            const bioText = bioLines.join('\n').trim();
+            
+            console.log('👤 Extracted:', { 
                 name, 
                 title, 
                 bioLength: bioText.length,
@@ -465,23 +461,44 @@ export class ContentLoader {
     }
 
     /**
-     * Generate styled personnel cards
+     * Generate enhanced styled personnel cards
      * @param {Array} personnel - Array of personnel objects
      * @returns {string} HTML for personnel cards
      */
     generatePersonnelCards(personnel) {
-        let html = '<h3 class="text-2xl font-bold text-primary mb-6">Key Personnel</h3>';
+        if (personnel.length === 0) return '';
+        
+        let html = `
+            <h3 class="text-3xl font-bold text-primary mb-12 font-heading text-center">Key Personnel</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
+        `;
         
         personnel.forEach(person => {
             html += `
-                <div class="mb-8 p-6 bg-neutral-50 rounded-lg">
-                    <h4 class="text-xl font-bold text-primary mb-2">${this.escapeHtml(person.name)}</h4>
-                    <p class="text-accent-gold font-semibold mb-3">${this.escapeHtml(person.title)}</p>
-                    <p class="text-neutral-800 leading-relaxed">${person.bio}</p>
+                <div class="personnel-card bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                        <!-- Photo Area -->
+                        <div class="lg:col-span-1">
+                            <!-- TODO: Replace with actual headshot photo of ${this.escapeHtml(person.name)} -->
+                            <div class="w-32 h-32 mx-auto bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full flex items-center justify-center">
+                                <svg class="w-16 h-16 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Info Area -->
+                        <div class="lg:col-span-3">
+                            <h4 class="text-2xl font-bold text-primary mb-2 font-heading">${this.escapeHtml(person.name)}</h4>
+                            <p class="text-xl text-accent-gold font-semibold mb-4 font-heading">${this.escapeHtml(person.title)}</p>
+                            <div class="text-neutral-800 leading-relaxed font-body space-y-4">${person.bio}</div>
+                        </div>
+                    </div>
                 </div>
             `;
         });
         
+        html += '</div>';
         return html;
     }
 

@@ -1,7 +1,7 @@
 ---
-
 title: "About Us"
 layout: about
+description: "Established in 2010, Forzak LLC is a Los Angeles-based investment and consulting company with a global reach."
 -------------
 
 # About Us

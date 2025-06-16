@@ -8,24 +8,78 @@
   }
   
   body {
-    @apply font-serif text-neutral-800;
+    font-family: 'Merriweather', serif;
+    color: #1F2937;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans font-bold;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+  }
+}
+
+@layer utilities {
+  /* Typography hierarchy per spec */
+  .font-heading {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 700 !important;
+  }
+
+  .font-body {
+    font-family: 'Merriweather', serif !important;
+    font-weight: 400 !important;
   }
 }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-md font-sans font-medium transition-colors duration-200;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
   }
 
   .btn-primary {
-    @apply btn bg-primary text-white hover:bg-secondary;
+    background-color: #003366;
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #0055A5;
   }
 
   .btn-secondary {
-    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white;
+    border: 2px solid #003366;
+    color: #003366;
+    background-color: transparent;
+  }
+
+  .btn-secondary:hover {
+    background-color: #003366;
+    color: white;
+  }
+
+  /* Personnel Cards */
+  .personnel-card {
+    transition: box-shadow 0.3s ease-in-out;
+  }
+
+  .personnel-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Focus states for accessibility */
+  button:focus,
+  a:focus,
+  input:focus,
+  textarea:focus {
+    outline: 2px solid #003366;
+    outline-offset: 2px;
   }
 } 

@@ -31,6 +31,14 @@ window.loadPageContent = {
                 titleElement.textContent = content.frontmatter.title;
             }
             
+            // Update hero subtitle if needed
+            const subtitleElement = document.getElementById('hero-subtitle');
+            console.log('📄 Subtitle element:', subtitleElement);
+            if (subtitleElement && content.frontmatter.description) {
+                console.log(`📝 Updating subtitle to: "${content.frontmatter.description}"`);
+                subtitleElement.textContent = content.frontmatter.description;
+            }
+            
             // Render main content with proper styling
             const mainContentContainer = document.getElementById('about-main-content');
             console.log('📦 Main content container:', mainContentContainer);
