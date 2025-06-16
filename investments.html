@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Investments - Forzak LLC</title>
-    <meta name="description" content="Forzak LLC specializes in diverse financial investments including private equity, asset-based financing, and real estate development across 25+ industries.">
+    <meta name="description" content="Forzak LLC specializes in diverse financial investments including private equity, asset-based financing, and real estate development across multiple industries.">
     
     <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -62,300 +62,72 @@
     </nav>
 
     <!-- Investments Content -->
-    <main class="pt-16">
+    <main class="pt-20">
         <!-- Hero Section -->
         <section class="bg-gradient-to-br from-neutral-100 to-white py-16">
-            <div class="container mx-auto px-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">
+                    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6 font-heading">
                         Financial Investments
                     </h1>
-                    <p class="text-xl text-neutral-800">
-                        Personalized attention with the skills and flexibility to finance complex deals that others may be reluctant to pursue.
+                    <p class="text-xl text-neutral-800 font-body" id="hero-subtitle">
+                        <!-- Dynamic subtitle will be loaded from investments.md frontmatter -->
+                        Personalized attention with the skills and flexibility to finance complex deals.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Key Stats -->
+        <!-- Main Description Section -->
         <section class="py-16">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2">25+</div>
-                        <div class="text-lg text-neutral-800">Years Combined Experience</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2">$10M</div>
-                        <div class="text-lg text-neutral-800">Maximum Credit Facility</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2">Global</div>
-                        <div class="text-lg text-neutral-800">Investment Reach</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2">25+</div>
-                        <div class="text-lg text-neutral-800">Industries Served</div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="investments-main-content" class="prose prose-lg max-w-none font-body">
+                    <!-- Content will be loaded dynamically from investments.md -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading content...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Main Value Proposition -->
-        <section class="py-16 bg-neutral-100">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h2 class="text-3xl font-bold text-primary mb-6">
-                                Personalized Investment Solutions
-                            </h2>
-                            <div class="space-y-4 text-neutral-800">
-                                <p>
-                                    We have developed the skills and flexibility to finance complex deals that other lenders may be reluctant to pursue. We have also earned a reputation for taking time to understand our clients' individual needs.
-                                </p>
-                                <p>
-                                    With over 25 years combined experience among management and staff, serving the small-business market enables us to finance businesses in a broad range of industries.
-                                </p>
-                                <p>
-                                    Whether your company is a retailer, manufacturer, distributor, importer or service provider, we will understand both your business and the language of your industry.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg aspect-square flex items-center justify-center">
-                            <div class="text-center">
-                                <svg class="w-24 h-24 mx-auto text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <p class="text-primary font-semibold">Investment Focus</p>
-                            </div>
-                        </div>
+        <!-- Industries Section -->
+        <section class="py-16 bg-neutral-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
+                    Industries We Have Invested In
+                </h2>
+                <div id="industries-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Industries will be loaded dynamically from investments.md -->
+                    <div class="col-span-full flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading industries...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Industries We Serve -->
+        <!-- Investment Services Section -->
         <section class="py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <h2 class="text-3xl font-bold text-primary text-center mb-12">
-                        Industries We Have Invested In
-                    </h2>
-                    <div id="industries-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                        <!-- Industries will be loaded dynamically from investments.md -->
-                        <div class="col-span-full flex items-center justify-center py-8">
-                            <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                            <span class="ml-3 text-neutral-600">Loading industries...</span>
-                        </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="investment-services-content">
+                    <!-- Investment services content will be loaded dynamically from investments.md -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading investment services...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Investment Services -->
-        <section class="py-16 bg-neutral-100">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <h2 class="text-3xl font-bold text-primary text-center mb-12">
-                        Our Investment Services
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Private Equity -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">Private Equity</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Direct investments up to $1 million</li>
-                                <li>• Active involvement in investments</li>
-                                <li>• Long-term investment perspective</li>
-                                <li>• Proven commercial potential required</li>
-                            </ul>
-                        </div>
-
-                        <!-- Private Placements -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">Private Placements</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Optimal capital structure advice</li>
-                                <li>• Clear presentation to investors</li>
-                                <li>• Competitive environment creation</li>
-                                <li>• Documentation process oversight</li>
-                            </ul>
-                        </div>
-
-                        <!-- Management Buyouts -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">Management Buyouts</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Enable management control</li>
-                                <li>• Enhance ownership opportunities</li>
-                                <li>• Create wealth for managers</li>
-                                <li>• Fair value for selling owners</li>
-                            </ul>
-                        </div>
-
-                        <!-- Financial Restructuring -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">Financial Restructuring</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Transactions $500K to $5M</li>
-                                <li>• Bankruptcy and restructuring expertise</li>
-                                <li>• Interim financing sourcing</li>
-                                <li>• Complex transaction negotiations</li>
-                            </ul>
-                        </div>
-
-                        <!-- DIP Financing -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">DIP Financing</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Debtor-in-Possession financing</li>
-                                <li>• Appropriate terms negotiation</li>
-                                <li>• Successful restructuring support</li>
-                                <li>• Professional collaboration</li>
-                            </ul>
-                        </div>
-
-                        <!-- Asset Based Financing -->
-                        <div class="bg-white p-8 rounded-lg shadow-sm">
-                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
-                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-primary mb-4">Asset Based Financing</h3>
-                            <ul class="space-y-2 text-sm text-neutral-800">
-                                <li>• Secure loans using business assets</li>
-                                <li>• Greater borrowing power than banks</li>
-                                <li>• No minimum profitability required</li>
-                                <li>• Multiple collateral types accepted</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Our Approach -->
-        <section class="py-16 bg-primary text-white">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h2 class="text-3xl font-bold mb-8">Our Approach</h2>
-                    <div class="text-6xl font-bold text-accent-gold mb-8">
-                        Listening ... Learning ... Lending
-                    </div>
-                    <p class="text-xl opacity-90 mb-8">
-                        Our straightforward approach to business can be summed up in three words that define our commitment to understanding and serving our clients.
-                    </p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-                        <div>
-                            <h3 class="text-xl font-bold mb-4">Creative Solutions</h3>
-                            <p class="opacity-90">Innovative and flexible financing programs</p>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-4">Competitive Pricing</h3>
-                            <p class="opacity-90">Fair and transparent pricing structures</p>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-4">Experienced Professionals</h3>
-                            <p class="opacity-90">Seasoned team with deep industry knowledge</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Banking Services -->
-        <section class="py-16">
-            <div class="container mx-auto px-4">
-                <div class="max-w-6xl mx-auto">
-                    <h2 class="text-3xl font-bold text-primary text-center mb-12">
-                        Comprehensive Financial Products
-                    </h2>
-                    <div class="bg-neutral-100 rounded-lg p-8">
-                        <p class="text-neutral-800 mb-6">
-                            With a broad network of contacts around the globe, we can introduce you to a diverse line of banking, financial and investment banking products:
-                        </p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <ul class="space-y-2">
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Cash management and treasury services
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Letters of credit and trade services
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    High yield debt issuance
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Cash flow leveraged finance
-                                </li>
-                            </ul>
-                            <ul class="space-y-2">
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Public and private equity
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Debt and equity research coverage
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Derivatives and interest rate options
-                                </li>
-                                <li class="flex items-center text-neutral-800">
-                                    <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    M&A Advisory Services
-                                </li>
-                            </ul>
-                        </div>
+        <!-- Financial Products Section -->
+        <section class="py-16 bg-neutral-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="financial-products-content">
+                    <!-- Financial products content will be loaded dynamically from investments.md -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading financial products...</span>
                     </div>
                 </div>
             </div>
@@ -363,9 +135,9 @@
 
         <!-- CTA Section -->
         <section class="py-16 bg-secondary text-white">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-3xl font-bold mb-4">Ready to Explore Investment Opportunities?</h2>
-                <p class="text-xl mb-8 opacity-90">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4 font-heading">Ready to Explore Investment Opportunities?</h2>
+                <p class="text-xl mb-8 opacity-90 font-body">
                     Let's discuss how our investment expertise can help meet your financing needs.
                 </p>
                 <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
@@ -377,7 +149,7 @@
 
     <!-- Footer -->
     <footer class="bg-neutral-800 text-neutral-100">
-        <div class="container mx-auto px-4 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- About -->
                 <div class="md:col-span-2">

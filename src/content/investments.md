@@ -1,8 +1,8 @@
 ---
-
 title: "Financial Investments"
 layout: investments
--------------------
+description: "Personalized attention with the skills and flexibility to finance complex deals."
+---
 
 # Financial Investments
 

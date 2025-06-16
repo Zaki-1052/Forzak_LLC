@@ -76,7 +76,7 @@ export class ContentLoader {
     parseMarkdown(markdownText) {
         console.log('🔍 Raw markdown input:', markdownText.substring(0, 100));
         
-        // Split frontmatter and content - handle the malformed frontmatter
+        // Split frontmatter and content - handle various frontmatter formats
         const frontmatterRegex = /^---\s*\n([\s\S]*?)\n-+\s*\n([\s\S]*)$/;
         const match = markdownText.match(frontmatterRegex);
         
@@ -155,8 +155,21 @@ export class ContentLoader {
             personnel: [],
             services: [],
             industries: [],
-            other: []
+            other: [],
+            // Special sections for services.md
+            servicesMainDescription: '',
+            coreValues: [],
+            serviceAreas: []
         };
+        
+        // Check if this is services content by looking for specific markers
+        const isServicesContent = content.includes('### Forzak Will Do More for Your Business') ||
+                                 content.includes('### Core Values');
+        
+        if (isServicesContent) {
+            console.log('🛠️ Detected services content, using specialized parsing');
+            return this.parseServicesContent(content);
+        }
         
         // Split by ## headings
         const sectionRegex = /^## (.+)$/gm;
@@ -204,6 +217,70 @@ export class ContentLoader {
             personnelCount: sections.personnel.length,
             servicesCount: sections.services.length,
             otherSections: sections.other.map(s => s.title)
+        });
+        
+        return sections;
+    }
+
+    /**
+     * Parse services.md content with specialized handling
+     * @param {string} content - Services markdown content
+     * @returns {Object} Organized services sections
+     */
+    parseServicesContent(content) {
+        console.log('🛠️ Parsing specialized services content');
+        
+        const sections = {
+            mainContent: '',
+            servicesMainDescription: '',
+            coreValues: [],
+            serviceAreas: [],
+            other: []
+        };
+        
+        // Extract main description under "### Forzak Will Do More for Your Business"
+        const mainDescMatch = content.match(/### Forzak Will Do More for Your Business\s*\n\n([^#]*?)(?=###|##|$)/s);
+        if (mainDescMatch) {
+            sections.servicesMainDescription = this.markdownToHtml(mainDescMatch[1].trim());
+            console.log('✅ Found main description:', sections.servicesMainDescription.substring(0, 100));
+        }
+        
+        // Extract core values sections (### headings that are value-related)
+        const coreValuesPattern = /### (Core Values|Creativity & Rigour|Relationship Driven|Objective Advice)\s*\n\n((?:(?!###|##)[\s\S])*)/g;
+        let coreValuesMatch;
+        while ((coreValuesMatch = coreValuesPattern.exec(content)) !== null) {
+            const title = coreValuesMatch[1];
+            const content = coreValuesMatch[2].trim();
+            sections.coreValues.push({
+                title,
+                content: this.markdownToHtml(content)
+            });
+            console.log('✅ Found core value section:', title);
+        }
+        
+        // Extract all major service areas (## headings)
+        const serviceAreaPattern = /^## (.+?)\s*\n([\s\S]*?)(?=^##|$)/gm;
+        let serviceAreaMatch;
+        while ((serviceAreaMatch = serviceAreaPattern.exec(content)) !== null) {
+            const title = serviceAreaMatch[1].trim();
+            const sectionContent = serviceAreaMatch[2].trim();
+            
+            // Skip the header-only sections
+            if (title === 'Market Leading Advisory Firm') {
+                continue;
+            }
+            
+            sections.serviceAreas.push({
+                title,
+                content: this.markdownToHtml(sectionContent)
+            });
+            console.log('✅ Found service area:', title);
+        }
+        
+        console.log('🛠️ Services parsing complete:', {
+            mainDescriptionLength: sections.servicesMainDescription.length,
+            coreValuesCount: sections.coreValues.length,
+            serviceAreasCount: sections.serviceAreas.length
         });
         
         return sections;
@@ -302,9 +379,29 @@ export class ContentLoader {
      * @returns {Array} Array of industry names
      */
     extractIndustries(content) {
+        console.log('🏭 Extracting industries from content...');
         const industries = [];
         
-        // Find all bullet lists
+        // Look for the specific industries section
+        const industriesMatch = content.match(/### Industries we have invested in:\s*((?:\s*-\s*.+\s*)+)/i);
+        if (industriesMatch) {
+            console.log('🎯 Found industries section:', industriesMatch[1]);
+            const industriesList = industriesMatch[1];
+            const listRegex = /^[-*]\s+(.+)$/gm;
+            let match;
+            
+            while ((match = listRegex.exec(industriesList)) !== null) {
+                const industry = match[1].trim();
+                if (industry) {
+                    industries.push(industry);
+                }
+            }
+            console.log('🏭 Extracted industries:', industries);
+            return industries;
+        }
+        
+        // Fallback: Find all bullet lists and use the longest one
+        console.log('⚠️ No specific industries section found, trying fallback...');
         const listRegex = /^[-*]\s+(.+)$/gm;
         let match;
         let currentList = [];
@@ -315,9 +412,11 @@ export class ContentLoader {
         
         // If we have a long list (>10 items), treat as industries
         if (currentList.length > 10) {
+            console.log('🏭 Using fallback industries list:', currentList);
             return currentList;
         }
         
+        console.log('⚠️ No industries found');
         return industries;
     }
 
@@ -622,13 +721,213 @@ export class ContentLoader {
         
         industries.forEach(industry => {
             html += `
-                <div class="bg-neutral-50 p-4 rounded-lg text-center">
-                    <p class="text-sm text-neutral-800">${this.escapeHtml(industry)}</p>
+                <div class="bg-white p-4 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
+                    <p class="text-sm text-neutral-800 font-body">${this.escapeHtml(industry)}</p>
                 </div>
             `;
         });
         
         return html;
+    }
+
+    /**
+     * Generate core values section from services content
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for core values section
+     */
+    generateCoreValuesSection(sections) {
+        console.log('💎 Generating core values section, available sections:', Object.keys(sections));
+        
+        // Use the specialized coreValues array if available
+        let coreValuesSections = [];
+        if (sections.coreValues && sections.coreValues.length > 0) {
+            coreValuesSections = sections.coreValues;
+            console.log('✅ Using specialized coreValues sections:', coreValuesSections.length);
+        } else {
+            // Fallback: Find core values and other value sections
+            coreValuesSections = sections.other.filter(section => 
+                section.title.toLowerCase().includes('values') ||
+                section.title.toLowerCase().includes('creativity') ||
+                section.title.toLowerCase().includes('relationship') ||
+                section.title.toLowerCase().includes('objective')
+            );
+            console.log('🔄 Using fallback core values sections:', coreValuesSections.length);
+        }
+        
+        if (coreValuesSections.length === 0) {
+            console.warn('⚠️ No core values sections found');
+            return '';
+        }
+        
+        let html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        `;
+        
+        coreValuesSections.forEach((section, index) => {
+            const icons = [
+                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>`,
+                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>`,
+                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>`,
+                `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>`
+            ];
+            
+            html += `
+                <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 text-center">
+                    <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            ${icons[index % icons.length]}
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-primary mb-3 font-heading">${this.escapeHtml(section.title)}</h3>
+                    <div class="text-sm text-neutral-800 font-body">${section.content}</div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * Generate services sections from services content
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for services sections
+     */
+    generateServicesSections(sections) {
+        console.log('🛠️ Generating services sections, available sections:', Object.keys(sections));
+        
+        // Use the specialized serviceAreas array if available
+        let serviceSections = [];
+        if (sections.serviceAreas && sections.serviceAreas.length > 0) {
+            serviceSections = sections.serviceAreas;
+            console.log('✅ Using specialized serviceAreas sections:', serviceSections.length);
+        } else {
+            // Fallback: Find major service sections (Management Consulting, Corporate Restructuring, etc.)
+            serviceSections = sections.other.filter(section => 
+                section.title.toLowerCase().includes('management consulting') ||
+                section.title.toLowerCase().includes('corporate restructuring') ||
+                section.title.toLowerCase().includes('mergers') ||
+                section.title.toLowerCase().includes('strategic advisory') ||
+                section.title.toLowerCase().includes('sell side') ||
+                section.title.toLowerCase().includes('buy-side') ||
+                section.title.toLowerCase().includes('corporate structure')
+            );
+            console.log('🔄 Using fallback service sections:', serviceSections.length);
+        }
+        
+        if (serviceSections.length === 0) {
+            console.warn('⚠️ No service sections found');
+            return '';
+        }
+        
+        let html = `
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-primary mb-4 font-heading">Our Service Areas</h2>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        `;
+        
+        serviceSections.forEach(section => {
+            html += `
+                <div class="service-section bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
+                    <div class="text-neutral-800 font-body">${section.content}</div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * Generate investment services section from investments content
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for investment services section
+     */
+    generateInvestmentServicesSection(sections) {
+        console.log('💼 Generating investment services section, available sections:', Object.keys(sections));
+        
+        // Find investment service sections (Private Equity, Private Placements, etc.)
+        const investmentSections = sections.other.filter(section => 
+            section.title.toLowerCase().includes('private equity') ||
+            section.title.toLowerCase().includes('private placements') ||
+            section.title.toLowerCase().includes('management buyouts') ||
+            section.title.toLowerCase().includes('financial restructuring') ||
+            section.title.toLowerCase().includes('debtor-in-possession') ||
+            section.title.toLowerCase().includes('asset based')
+        );
+        
+        if (investmentSections.length === 0) {
+            console.warn('⚠️ No investment service sections found');
+            return '';
+        }
+        
+        let html = `
+            <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
+                Our Investment Services
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        `;
+        
+        const icons = [
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>`,
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>`,
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>`,
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>`,
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>`,
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>`
+        ];
+        
+        investmentSections.forEach((section, index) => {
+            html += `
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            ${icons[index % icons.length]}
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h3>
+                    <div class="text-neutral-800 font-body">${section.content}</div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * Generate financial products section from investments content
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for financial products section
+     */
+    generateFinancialProductsSection(sections) {
+        console.log('💳 Generating financial products section, available sections:', Object.keys(sections));
+        
+        // Look for the financial products list in the content
+        const productsSection = sections.other.find(section => 
+            section.content.includes('cash management') || 
+            section.content.includes('letters of credit') ||
+            section.title.toLowerCase().includes('products')
+        );
+        
+        if (!productsSection) {
+            console.warn('⚠️ No financial products section found');
+            return '';
+        }
+        
+        return `
+            <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
+                Comprehensive Financial Products
+            </h2>
+            <div class="bg-neutral-100 rounded-lg p-8">
+                <p class="text-neutral-800 mb-6 font-body">
+                    With a broad network of contacts around the globe, we can introduce you to a diverse line of banking, financial and investment banking products:
+                </p>
+                <div class="text-neutral-800 font-body">${productsSection.content}</div>
+            </div>
+        `;
     }
 
     /**

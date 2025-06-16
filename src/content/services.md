@@ -1,8 +1,8 @@
 ---
-
 title: "Our Services"
 layout: services
-----------------
+description: "Market leading advisory firm providing comprehensive consulting and financial services."
+---
 
 # Our Services
 

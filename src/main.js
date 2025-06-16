@@ -102,46 +102,173 @@ window.loadPageContent = {
     },
 
     async services() {
+        console.log('🛠️ Services page loading function called');
+        
         try {
+            console.log('🔄 Loading services content...');
             const content = await contentLoader.loadContent('services');
-            const services = contentLoader.parseServices(content.html);
+            console.log('✅ Services content loaded successfully:', content);
             
-            // Update page title
+            // Update page title if needed
             const titleElement = document.querySelector('h1');
+            console.log('🏷️ Title element:', titleElement);
             if (titleElement && content.frontmatter.title) {
+                console.log(`📝 Updating title from "${titleElement.textContent}" to "${content.frontmatter.title}"`);
                 titleElement.textContent = content.frontmatter.title;
             }
             
-            // The services page already has a good structure, 
-            // we can enhance it with dynamic content as needed
-            console.log('Services content loaded:', services);
+            // Update hero subtitle if needed
+            const subtitleElement = document.getElementById('hero-subtitle');
+            console.log('📄 Subtitle element:', subtitleElement);
+            if (subtitleElement && content.frontmatter.description) {
+                console.log(`📝 Updating subtitle to: "${content.frontmatter.description}"`);
+                subtitleElement.textContent = content.frontmatter.description;
+            }
+            
+            // Render main description content
+            const mainContentContainer = document.getElementById('services-main-content');
+            console.log('📦 Main content container:', mainContentContainer);
+            console.log('📄 Available content sections:', Object.keys(content.sections));
+            
+            if (mainContentContainer && content.sections.servicesMainDescription) {
+                console.log('🎨 Applying styling to services main description...');
+                const styledContent = contentLoader.applyContentStyling(content.sections.servicesMainDescription);
+                console.log('🎨 Styled content:', styledContent);
+                mainContentContainer.innerHTML = styledContent;
+                console.log('✅ Main description content rendered');
+            } else if (mainContentContainer && content.sections.mainContent) {
+                console.log('🎨 Fallback: Using mainContent...');
+                const styledContent = contentLoader.applyContentStyling(content.sections.mainContent);
+                mainContentContainer.innerHTML = styledContent;
+            } else {
+                console.warn('⚠️ No main description content found');
+            }
+            
+            // Render core values section
+            const coreValuesContainer = document.getElementById('core-values-content');
+            console.log('💎 Core values container:', coreValuesContainer);
+            
+            if (coreValuesContainer) {
+                console.log('🎨 Generating core values section...');
+                const coreValuesHtml = contentLoader.generateCoreValuesSection(content.sections);
+                console.log('🎨 Core values HTML:', coreValuesHtml);
+                coreValuesContainer.innerHTML = coreValuesHtml;
+                console.log('✅ Core values content rendered');
+            }
+            
+            // Render services sections
+            const servicesSectionsContainer = document.getElementById('services-sections-content');
+            console.log('🛠️ Services sections container:', servicesSectionsContainer);
+            
+            if (servicesSectionsContainer) {
+                console.log('🎨 Generating services sections...');
+                const servicesSectionsHtml = contentLoader.generateServicesSections(content.sections);
+                console.log('🎨 Services sections HTML:', servicesSectionsHtml);
+                servicesSectionsContainer.innerHTML = servicesSectionsHtml;
+                console.log('✅ Services sections content rendered');
+            }
+            
+            console.log('🎉 Services page loading completed successfully');
             
         } catch (error) {
-            console.error('Failed to load services content:', error);
+            console.error('❌ Failed to load services content:', error);
+            
+            const mainContentContainer = document.getElementById('services-main-content');
+            if (mainContentContainer) {
+                contentLoader.showError(mainContentContainer, error.message);
+            }
         }
     },
 
     async investments() {
+        console.log('💰 Investments page loading function called');
+        
         try {
+            console.log('🔄 Loading investments content...');
             const content = await contentLoader.loadContent('investments');
-            console.log('Investments content loaded:', content);
+            console.log('✅ Investments content loaded successfully:', content);
             
-            // Update page title
+            // Update page title if needed
             const titleElement = document.querySelector('h1');
+            console.log('🏷️ Title element:', titleElement);
             if (titleElement && content.frontmatter.title) {
+                console.log(`📝 Updating title from "${titleElement.textContent}" to "${content.frontmatter.title}"`);
                 titleElement.textContent = content.frontmatter.title;
             }
             
-            // Update industries section if it exists
-            const industriesContainer = document.getElementById('industries-list');
-            if (industriesContainer && content.sections.industries.length > 0) {
-                const industriesHtml = contentLoader.generateIndustryCards(content.sections.industries);
-                industriesContainer.innerHTML = industriesHtml;
+            // Update hero subtitle if needed
+            const subtitleElement = document.getElementById('hero-subtitle');
+            console.log('📄 Subtitle element:', subtitleElement);
+            if (subtitleElement && content.frontmatter.description) {
+                console.log(`📝 Updating subtitle to: "${content.frontmatter.description}"`);
+                subtitleElement.textContent = content.frontmatter.description;
             }
             
+            // Render main content
+            const mainContentContainer = document.getElementById('investments-main-content');
+            console.log('📦 Main content container:', mainContentContainer);
+            
+            if (mainContentContainer && content.sections.mainContent) {
+                console.log('🎨 Applying styling to main content...');
+                const styledContent = contentLoader.applyContentStyling(content.sections.mainContent);
+                console.log('🎨 Styled content:', styledContent);
+                mainContentContainer.innerHTML = styledContent;
+                console.log('✅ Main content rendered');
+            }
+            
+            // Render industries section
+            const industriesContainer = document.getElementById('industries-list');
+            console.log('🏭 Industries container:', industriesContainer);
+            console.log('🏭 Industries data:', content.sections.industries);
+            
+            if (industriesContainer && content.sections.industries.length > 0) {
+                console.log('🎨 Generating industry cards...');
+                const industriesHtml = contentLoader.generateIndustryCards(content.sections.industries);
+                console.log('🎨 Industries HTML:', industriesHtml);
+                industriesContainer.innerHTML = industriesHtml;
+                console.log('✅ Industries content rendered');
+            } else {
+                console.warn('⚠️ Industries container missing or no industries data');
+            }
+            
+            // Render investment services section
+            const investmentServicesContainer = document.getElementById('investment-services-content');
+            console.log('💼 Investment services container:', investmentServicesContainer);
+            
+            if (investmentServicesContainer) {
+                console.log('🎨 Generating investment services section...');
+                const investmentServicesHtml = contentLoader.generateInvestmentServicesSection(content.sections);
+                console.log('🎨 Investment services HTML:', investmentServicesHtml);
+                investmentServicesContainer.innerHTML = investmentServicesHtml;
+                console.log('✅ Investment services content rendered');
+            }
+            
+            // Render financial products section
+            const financialProductsContainer = document.getElementById('financial-products-content');
+            console.log('💳 Financial products container:', financialProductsContainer);
+            
+            if (financialProductsContainer) {
+                console.log('🎨 Generating financial products section...');
+                const financialProductsHtml = contentLoader.generateFinancialProductsSection(content.sections);
+                console.log('🎨 Financial products HTML:', financialProductsHtml);
+                financialProductsContainer.innerHTML = financialProductsHtml;
+                console.log('✅ Financial products content rendered');
+            }
+            
+            console.log('🎉 Investments page loading completed successfully');
+            
         } catch (error) {
-            console.error('Failed to load investments content:', error);
-            contentLoader.showError(document.getElementById('industries-list'));
+            console.error('❌ Failed to load investments content:', error);
+            
+            const mainContentContainer = document.getElementById('investments-main-content');
+            if (mainContentContainer) {
+                contentLoader.showError(mainContentContainer, error.message);
+            }
+            
+            const industriesContainer = document.getElementById('industries-list');
+            if (industriesContainer) {
+                contentLoader.showError(industriesContainer, error.message);
+            }
         }
     }
 };
