@@ -877,7 +877,7 @@ export class ContentLoader {
                                 <!-- TODO: Management Consulting Image -->
                                 <!-- AI-generated image of intense business consultation between two men at modern office desk, 
                                      speaker in dark suit with red tie gesturing passionately, blurred office background -->
-                                <div class="aspect-[4/3] bg-neutral-200 rounded-lg flex items-center justify-center">
+                                <div class="aspect-[3/2] bg-neutral-200 rounded-lg flex items-center justify-center">
                                     <span class="text-sm text-neutral-500 text-center p-4">Management Consulting<br/>Image Placeholder</span>
                                 </div>
                             </div>
@@ -995,35 +995,46 @@ export class ContentLoader {
     parseManagementConsultingSubsections(rawContent) {
         const subsections = [];
         
+        console.log('🔍 MC Parsing - Full raw content LENGTH:', rawContent.length);
         console.log('🔍 MC Parsing - Full raw content:', rawContent);
+        console.log('🔍 Raw content contains "Competitive Strategy"?', rawContent.includes('Competitive Strategy'));
+        console.log('🔍 Raw content contains "#### Competitive Strategy"?', rawContent.includes('#### Competitive Strategy'));
         
-        // Look for "### Our services include:" and extract #### subsections after it
-        const servicesIncludeRegex = /### Our services include:\s*\n([\s\S]*?)(?=\n##|$)/;
-        const servicesIncludeMatch = rawContent.match(servicesIncludeRegex);
+        // Look for "### Our services include:" and extract everything after it
+        // Since rawContent only contains Management Consulting section, we extract to the end
+        const startMarker = "### Our services include:";
+        const startIndex = rawContent.indexOf(startMarker);
         
-        if (!servicesIncludeMatch) {
+        console.log('🔍 Looking for start marker at index:', startIndex);
+        
+        if (startIndex === -1) {
             console.log('⚠️ No "Our services include:" section found');
-            console.log('🔍 Trying alternative patterns...');
-            
-            // Try simpler pattern
-            const altMatch = rawContent.match(/Our services include:([\s\S]*?)(?=\n##|$)/);
-            if (altMatch) {
-                console.log('✅ Found with alternative pattern');
-                console.log('📋 Alt match content:', altMatch[1].substring(0, 200));
-            }
             return subsections;
         }
         
-        const servicesContent = servicesIncludeMatch[1];
-        console.log('📋 Found services include section:', servicesContent);
+        // Extract content from marker to end of Management Consulting section
+        const servicesContent = rawContent.substring(startIndex + startMarker.length).trim();
+        console.log('🔍 Extracted content length:', servicesContent.length);
+        console.log('🔍 Does extracted content include Competitive Strategy?', servicesContent.includes('#### Competitive Strategy'));
+        console.log('📋 Found services include section LENGTH:', servicesContent.length);
+        console.log('📋 Found services include section FULL CONTENT:', servicesContent);
+        console.log('📋 Does it contain "Competitive Strategy"?', servicesContent.includes('Competitive Strategy'));
+        console.log('📋 Does it contain "#### Competitive Strategy"?', servicesContent.includes('#### Competitive Strategy'));
         
-        // Parse #### subsections within the services include section
-        const subheadingPattern = /#### (.+?)\s*\n([\s\S]*?)(?=\n####|\n###|\n##|$)/g;
-        let match;
+        // Split by #### to get individual subsections (more reliable than regex)
+        const sections = servicesContent.split('#### ');
+        console.log(`🔍 Split into ${sections.length} parts`);
+        console.log('🔍 All split parts:', sections);
         
-        while ((match = subheadingPattern.exec(servicesContent)) !== null) {
-            const title = match[1].trim();
-            const sectionContent = match[2].trim();
+        // Process each section (skip first empty part)
+        for (let i = 1; i < sections.length; i++) {
+            const section = sections[i].trim();
+            if (!section) continue;
+            
+            // Extract title (first line) and content (rest)
+            const lines = section.split('\n');
+            const title = lines[0].trim();
+            const sectionContent = lines.slice(1).join('\n').trim();
             
             console.log(`🎯 Found MC subsection: "${title}"`);
             console.log(`📄 Subsection content: ${sectionContent.substring(0, 100)}...`);
