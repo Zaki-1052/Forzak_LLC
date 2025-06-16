@@ -15,19 +15,134 @@
     <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body class="min-h-screen">
-    <!-- Navigation will go here -->
-    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm">
-        <!-- Nav content will be added -->
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold text-primary">
+                        Forzak LLC
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
+                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
+                        <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" @click="open = !open" class="text-neutral-800 hover:text-secondary p-2" aria-label="Toggle mobile menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div x-show="open" x-transition class="md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
+                    <a href="/" class="text-primary block px-3 py-2 text-base font-medium">Home</a>
+                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">About</a>
+                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Services</a>
+                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
+                    <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Contact Us</a>
+                </div>
+            </div>
+        </div>
     </nav>
 
-    <!-- Main content sections will go here -->
-    <main>
-        <!-- Sections will be added -->
+    <!-- Hero Section -->
+    <main class="pt-16">
+        <section class="h-[100dvh] bg-gradient-to-br from-primary/90 to-secondary/90 relative">
+            <div class="absolute inset-0 bg-[url('/assets/img/hero-bg.jpg')] bg-cover bg-center"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary/90 to-secondary/90"></div>
+            
+            <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
+                <div class="max-w-3xl text-white">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                        Global Investment & Advisory Excellence
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 opacity-90">
+                        Forzak LLC provides expert investment consulting and advisory services with a global reach. Trust our experienced team for your financial success.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
+                            Schedule Consultation
+                        </a>
+                        <a href="#" class="btn-secondary border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4">
+                            Download Brochure
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+                <div class="animate-bounce">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer will go here -->
+    <!-- Footer -->
     <footer class="bg-neutral-800 text-neutral-100">
-        <!-- Footer content will be added -->
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold text-white mb-4">Forzak LLC</h3>
+                    <p class="text-neutral-300 mb-4">
+                        Global investment and consulting company providing expert advisory services with personalized attention and innovative solutions.
+                    </p>
+                    <p class="text-sm text-neutral-400">
+                        Los Angeles, California | Serving clients worldwide since 2010
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-neutral-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/about.html" class="text-neutral-300 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="/services.html" class="text-neutral-300 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="/investments.html" class="text-neutral-300 hover:text-white transition-colors">Investments</a></li>
+                        <li><a href="/contact.html" class="text-neutral-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact</h4>
+                    <div class="space-y-2 text-neutral-300">
+                        <p>Los Angeles, California</p>
+                        <p>United States</p>
+                        <a href="/contact.html" class="inline-block mt-4 btn-primary">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-700 mt-8 pt-8 text-center">
+                <p class="text-neutral-400">
+                    © 2024 Forzak LLC. All rights reserved. | 
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </p>
+            </div>
+        </div>
     </footer>
 
     <!-- Scripts -->

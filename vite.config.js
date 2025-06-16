@@ -1,13 +1,7 @@
 import { defineConfig } from 'vite'
-import Markdown from 'vite-plugin-md'
 
 export default defineConfig({
-  plugins: [
-    Markdown({
-      // Enable frontmatter
-      headEnabled: true,
-    }),
-  ],
+  plugins: [],
   build: {
     // Enable source maps in production
     sourcemap: true,
@@ -20,4 +14,6 @@ export default defineConfig({
       },
     },
   },
+  // Allow importing .md files as text
+  assetsInclude: ['**/*.md']
 }) 

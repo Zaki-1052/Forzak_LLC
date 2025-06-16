@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Forzak LLC</title>
+    <meta name="description" content="Forzak LLC offers comprehensive consulting services including management consulting, corporate restructuring, M&A advisory, and strategic guidance.">
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold text-primary">
+                        Forzak LLC
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="/services.html" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
+                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
+                        <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" @click="open = !open" class="text-neutral-800 hover:text-secondary p-2" aria-label="Toggle mobile menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div x-show="open" x-transition class="md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
+                    <a href="/" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Home</a>
+                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">About</a>
+                    <a href="/services.html" class="text-primary block px-3 py-2 text-base font-medium">Services</a>
+                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
+                    <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Content -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-br from-neutral-100 to-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">
+                        Our Services
+                    </h1>
+                    <p class="text-xl text-neutral-800">
+                        Market leading advisory firm providing comprehensive consulting and financial services.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Values -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-primary mb-4">
+                            Forzak Will Do More for Your Business
+                        </h2>
+                        <div id="services-main-description" class="text-lg text-neutral-800 max-w-4xl mx-auto">
+                            <!-- Description will be loaded dynamically from services.md -->
+                            Forzak's objectivity, global network and commitment to a relationship-driven approach, combine to create value for our clients; building value through stability, integrity and creativity.
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-primary mb-2">Client First</h3>
+                            <p class="text-sm text-neutral-800">Discretion and integrity in all our dealings</p>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-primary mb-2">Long-Term Perspective</h3>
+                            <p class="text-sm text-neutral-800">Ownership and corporate adviser stability</p>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-primary mb-2">Creativity & Rigour</h3>
+                            <p class="text-sm text-neutral-800">Innovative solutions with specialist expertise</p>
+                        </div>
+
+                        <div class="text-center">
+                            <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-primary mb-2">Relationship Driven</h3>
+                            <p class="text-sm text-neutral-800">Senior advisors engaged from pitch to completion</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Sections -->
+        <section class="py-16 bg-neutral-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto" x-data="{ activeTab: 'management' }">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-primary mb-4">Our Service Areas</h2>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="flex flex-wrap justify-center mb-8 border-b">
+                        <button type="button" @click="activeTab = 'management'" :class="activeTab === 'management' ? 'border-primary text-primary' : 'border-transparent text-neutral-600 hover:text-primary'" class="px-6 py-3 font-medium border-b-2 transition-colors">
+                            Management Consulting
+                        </button>
+                        <button type="button" @click="activeTab = 'restructuring'" :class="activeTab === 'restructuring' ? 'border-primary text-primary' : 'border-transparent text-neutral-600 hover:text-primary'" class="px-6 py-3 font-medium border-b-2 transition-colors">
+                            Corporate Restructuring
+                        </button>
+                        <button type="button" @click="activeTab = 'mergers'" :class="activeTab === 'mergers' ? 'border-primary text-primary' : 'border-transparent text-neutral-600 hover:text-primary'" class="px-6 py-3 font-medium border-b-2 transition-colors">
+                            Mergers & Acquisitions
+                        </button>
+                        <button type="button" @click="activeTab = 'advisory'" :class="activeTab === 'advisory' ? 'border-primary text-primary' : 'border-transparent text-neutral-600 hover:text-primary'" class="px-6 py-3 font-medium border-b-2 transition-colors">
+                            Strategic Advisory
+                        </button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="bg-white rounded-lg shadow-sm p-8">
+                        <!-- Management Consulting -->
+                        <div x-show="activeTab === 'management'" x-transition>
+                            <h3 class="text-2xl font-bold text-primary mb-6">Management Consulting</h3>
+                            <p class="text-neutral-800 mb-6">
+                                Management Consulting includes a number of value-adding services that assist clients to improve the performance of their businesses. We assist organizations by providing a wide range of services to boost profit margins and/or reduce costs.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Operating Strategy</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Review cost base and identify potential areas to rationalize
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Review business processes and procedures for efficiency
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Competitor analysis and industry best practice
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Project management and change management
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Competitive Strategy</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Increase business market share and sales growth
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Define sustainable competitive advantage
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Develop competitive differentiation strategies
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Craft effective marketing messages
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Corporate Restructuring -->
+                        <div x-show="activeTab === 'restructuring'" x-transition>
+                            <h3 class="text-2xl font-bold text-primary mb-6">Corporate Restructuring</h3>
+                            <p class="text-neutral-800 mb-6">
+                                During a time of financial distress or crisis, one of the best ways to build goodwill and trust with stakeholders and customers can be to restructure or simplify the business. Forzak's Corporate Restructuring team has a successful track record of securing a future for companies in difficulty.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Restructuring Services</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Review core areas of competitive strength and weakness
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Identify activities with weak strategic rationale
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Implement cost base rationalizing programs
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Cash flow enhancement and working capital improvements
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Risk Management</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Risk analysis, assessment and management plan
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Measure, monitor and manage business risks
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Crisis planning and response strategies
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Corporate structure simplification
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mergers & Acquisitions -->
+                        <div x-show="activeTab === 'mergers'" x-transition>
+                            <h3 class="text-2xl font-bold text-primary mb-6">Mergers & Acquisitions</h3>
+                            <p class="text-neutral-800 mb-6">
+                                We provide small business owners with the highest quality of independent merger and acquisition advisory expertise. Our professionals have led clients through a range of transactions, including exclusive sales, divestitures, mergers, and acquisitions.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-neutral-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-bold text-primary mb-3">Sell Side Advisory</h4>
+                                    <p class="text-sm text-neutral-800">
+                                        Founded on providing the highest level of client service, strict confidentiality, and maximizing value for our clients.
+                                    </p>
+                                </div>
+                                
+                                <div class="bg-neutral-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-bold text-primary mb-3">Buy-Side Advisory</h4>
+                                    <p class="text-sm text-neutral-800">
+                                        Extensive experience in identifying, evaluating, and executing strategic mergers and acquisitions.
+                                    </p>
+                                </div>
+                                
+                                <div class="bg-neutral-50 p-6 rounded-lg">
+                                    <h4 class="text-lg font-bold text-primary mb-3">Strategic Advisory</h4>
+                                    <p class="text-sm text-neutral-800">
+                                        Guidance regarding evaluations of strategic alternatives, fairness opinions, and business valuations.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategic Advisory -->
+                        <div x-show="activeTab === 'advisory'" x-transition>
+                            <h3 class="text-2xl font-bold text-primary mb-6">Strategic Advisory</h3>
+                            <p class="text-neutral-800 mb-6">
+                                Our strategic advisory services provide guidance regarding evaluations of strategic alternatives, fairness opinions, and business valuations. We maintain up-to-the-minute expertise in transaction structuring and market trends.
+                            </p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Our Expertise</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Transaction structuring and market analysis
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Detailed understanding of client businesses
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Creative, customized advice solutions
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-xl font-bold text-primary mb-4">Service Areas</h4>
+                                    <ul class="space-y-2 text-neutral-800">
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Strategic alternatives evaluation
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Fairness opinions and valuations
+                                        </li>
+                                        <li class="flex items-start">
+                                            <svg class="w-5 h-5 text-accent-gold mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            Business valuations and assessments
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-16 bg-primary text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Business?</h2>
+                <p class="text-xl mb-8 opacity-90">
+                    Let's discuss how our expertise can help you achieve your goals.
+                </p>
+                <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
+                    Schedule a Consultation
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-800 text-neutral-100">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold text-white mb-4">Forzak LLC</h3>
+                    <p class="text-neutral-300 mb-4">
+                        Global investment and consulting company providing expert advisory services with personalized attention and innovative solutions.
+                    </p>
+                    <p class="text-sm text-neutral-400">
+                        Los Angeles, California | Serving clients worldwide since 2010
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-neutral-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/about.html" class="text-neutral-300 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="/services.html" class="text-neutral-300 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="/investments.html" class="text-neutral-300 hover:text-white transition-colors">Investments</a></li>
+                        <li><a href="/contact.html" class="text-neutral-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact</h4>
+                    <div class="space-y-2 text-neutral-300">
+                        <p>Los Angeles, California</p>
+                        <p>United States</p>
+                        <a href="/contact.html" class="inline-block mt-4 btn-primary">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-700 mt-8 pt-8 text-center">
+                <p class="text-neutral-400">
+                    © 2024 Forzak LLC. All rights reserved. | 
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

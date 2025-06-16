@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Forzak LLC</title>
+    <meta name="description" content="Get in touch with Forzak LLC for expert investment consulting and advisory services. Schedule a consultation with our experienced team.">
+    
+    <!-- Preload fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold text-primary">
+                        Forzak LLC
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="/" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
+                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
+                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
+                        <a href="/contact.html" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Contact Us</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" @click="open = !open" class="text-neutral-800 hover:text-secondary p-2" aria-label="Toggle mobile menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div x-show="open" x-transition class="md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
+                    <a href="/" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Home</a>
+                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">About</a>
+                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Services</a>
+                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
+                    <a href="/contact.html" class="text-primary block px-3 py-2 text-base font-medium">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Content -->
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-br from-neutral-100 to-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6">
+                        Contact Us
+                    </h1>
+                    <p class="text-xl text-neutral-800">
+                        Ready to explore how Forzak LLC can help your business succeed? Get in touch with our expert team.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form & Info -->
+        <section class="py-16">
+            <div class="container mx-auto px-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Contact Form -->
+                        <div>
+                            <h2 class="text-3xl font-bold text-primary mb-8">Schedule a Consultation</h2>
+                            
+                            <!-- Contact Form -->
+                            <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" 
+                                  x-data="contactForm()" @submit.prevent="submitForm">
+                                <!-- Honeypot field -->
+                                <div class="hidden">
+                                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                                </div>
+                                
+                                <div class="space-y-6">
+                                    <!-- Name -->
+                                    <div>
+                                        <label for="name" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Full Name *
+                                        </label>
+                                        <input type="text" id="name" name="name" required 
+                                               x-model="formData.name"
+                                               class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                                               placeholder="Your full name">
+                                        <p x-show="errors.name" x-text="errors.name" class="mt-1 text-sm text-red-600"></p>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div>
+                                        <label for="email" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Email Address *
+                                        </label>
+                                        <input type="email" id="email" name="email" required 
+                                               x-model="formData.email"
+                                               class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                                               placeholder="your.email@company.com">
+                                        <p x-show="errors.email" x-text="errors.email" class="mt-1 text-sm text-red-600"></p>
+                                    </div>
+
+                                    <!-- Company -->
+                                    <div>
+                                        <label for="company" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Company Name
+                                        </label>
+                                        <input type="text" id="company" name="company" 
+                                               x-model="formData.company"
+                                               class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                                               placeholder="Your company name">
+                                    </div>
+
+                                    <!-- Phone -->
+                                    <div>
+                                        <label for="phone" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Phone Number
+                                        </label>
+                                        <input type="tel" id="phone" name="phone" 
+                                               x-model="formData.phone"
+                                               class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                                               placeholder="+1 (555) 123-4567">
+                                    </div>
+
+                                    <!-- Service Interest -->
+                                    <div>
+                                        <label for="service" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Service of Interest
+                                        </label>
+                                        <select id="service" name="service" 
+                                                x-model="formData.service"
+                                                class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors">
+                                            <option value="">Select a service</option>
+                                            <option value="management-consulting">Management Consulting</option>
+                                            <option value="corporate-restructuring">Corporate Restructuring</option>
+                                            <option value="mergers-acquisitions">Mergers & Acquisitions</option>
+                                            <option value="private-equity">Private Equity</option>
+                                            <option value="private-placements">Private Placements</option>
+                                            <option value="asset-based-financing">Asset Based Financing</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Message -->
+                                    <div>
+                                        <label for="message" class="block text-sm font-medium text-neutral-800 mb-2">
+                                            Message *
+                                        </label>
+                                        <textarea id="message" name="message" rows="5" required 
+                                                  x-model="formData.message"
+                                                  class="w-full px-4 py-3 border border-neutral-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                                                  placeholder="Tell us about your project or how we can help..."></textarea>
+                                        <p x-show="errors.message" x-text="errors.message" class="mt-1 text-sm text-red-600"></p>
+                                    </div>
+
+                                    <!-- Submit Button -->
+                                    <div>
+                                        <button type="submit" 
+                                                :disabled="isSubmitting"
+                                                :class="isSubmitting ? 'opacity-50 cursor-not-allowed' : ''"
+                                                class="w-full btn-primary text-lg py-4">
+                                            <span x-show="!isSubmitting">Send Message</span>
+                                            <span x-show="isSubmitting">Sending...</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Success Message -->
+                                <div x-show="showSuccess" x-transition 
+                                     class="mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
+                                    <p class="font-medium">Thank you for your message!</p>
+                                    <p class="text-sm">We'll get back to you within 24 hours.</p>
+                                </div>
+
+                                <!-- Error Message -->
+                                <div x-show="showError" x-transition 
+                                     class="mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
+                                    <p class="font-medium">Sorry, there was an error sending your message.</p>
+                                    <p class="text-sm">Please try again or contact us directly.</p>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div>
+                            <h2 class="text-3xl font-bold text-primary mb-8">Get in Touch</h2>
+                            
+                            <div class="space-y-8">
+                                <!-- Office Location -->
+                                <div class="flex items-start">
+                                    <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-primary mb-2">Office Location</h3>
+                                        <p class="text-neutral-800">
+                                            Los Angeles, California<br>
+                                            United States
+                                        </p>
+                                        <p class="text-sm text-neutral-600 mt-2">
+                                            Serving clients globally from our Los Angeles headquarters
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Response Time -->
+                                <div class="flex items-start">
+                                    <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-primary mb-2">Response Time</h3>
+                                        <p class="text-neutral-800">
+                                            We typically respond within 24 hours during business days.
+                                        </p>
+                                        <p class="text-sm text-neutral-600 mt-2">
+                                            For urgent matters, please indicate in your message
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Consultation -->
+                                <div class="flex items-start">
+                                    <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
+                                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-primary mb-2">Free Consultation</h3>
+                                        <p class="text-neutral-800">
+                                            Initial consultations are complimentary to discuss your needs and how we can help.
+                                        </p>
+                                        <p class="text-sm text-neutral-600 mt-2">
+                                            Available via phone, video call, or in-person meeting
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTA Box -->
+                            <div class="bg-primary text-white p-8 rounded-lg mt-12">
+                                <h3 class="text-xl font-bold mb-4">Ready to Get Started?</h3>
+                                <p class="mb-6 opacity-90">
+                                    Our experienced team is ready to help you achieve your business and investment goals.
+                                </p>
+                                <div class="space-y-3">
+                                    <div class="flex items-center">
+                                        <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Expert consultation and advice
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Personalized solutions for your business
+                                    </div>
+                                    <div class="flex items-center">
+                                        <svg class="w-5 h-5 text-accent-gold mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15 4.707 11.293a1 1 0 011.414-1.414L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Global reach with local expertise
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-800 text-neutral-100">
+        <div class="container mx-auto px-4 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div class="md:col-span-2">
+                    <h3 class="text-2xl font-bold text-white mb-4">Forzak LLC</h3>
+                    <p class="text-neutral-300 mb-4">
+                        Global investment and consulting company providing expert advisory services with personalized attention and innovative solutions.
+                    </p>
+                    <p class="text-sm text-neutral-400">
+                        Los Angeles, California | Serving clients worldwide since 2010
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-neutral-300 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="/about.html" class="text-neutral-300 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="/services.html" class="text-neutral-300 hover:text-white transition-colors">Services</a></li>
+                        <li><a href="/investments.html" class="text-neutral-300 hover:text-white transition-colors">Investments</a></li>
+                        <li><a href="/contact.html" class="text-neutral-300 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact</h4>
+                    <div class="space-y-2 text-neutral-300">
+                        <p>Los Angeles, California</p>
+                        <p>United States</p>
+                        <a href="/contact.html" class="inline-block mt-4 btn-primary">Get In Touch</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-neutral-700 mt-8 pt-8 text-center">
+                <p class="text-neutral-400">
+                    © 2024 Forzak LLC. All rights reserved. | 
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function contactForm() {
+            return {
+                formData: {
+                    name: '',
+                    email: '',
+                    company: '',
+                    phone: '',
+                    service: '',
+                    message: ''
+                },
+                errors: {},
+                isSubmitting: false,
+                showSuccess: false,
+                showError: false,
+                
+                validateForm() {
+                    this.errors = {};
+                    
+                    if (!this.formData.name.trim()) {
+                        this.errors.name = 'Name is required';
+                    }
+                    
+                    if (!this.formData.email.trim()) {
+                        this.errors.email = 'Email is required';
+                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
+                        this.errors.email = 'Please enter a valid email address';
+                    }
+                    
+                    if (!this.formData.message.trim()) {
+                        this.errors.message = 'Message is required';
+                    }
+                    
+                    return Object.keys(this.errors).length === 0;
+                },
+                
+                async submitForm() {
+                    if (!this.validateForm()) {
+                        return;
+                    }
+                    
+                    this.isSubmitting = true;
+                    this.showSuccess = false;
+                    this.showError = false;
+                    
+                    try {
+                        const formData = new FormData();
+                        Object.keys(this.formData).forEach(key => {
+                            formData.append(key, this.formData[key]);
+                        });
+                        formData.append('form-name', 'contact');
+                        
+                        const response = await fetch('/', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        if (response.ok) {
+                            this.showSuccess = true;
+                            this.formData = {
+                                name: '',
+                                email: '',
+                                company: '',
+                                phone: '',
+                                service: '',
+                                message: ''
+                            };
+                        } else {
+                            throw new Error('Form submission failed');
+                        }
+                    } catch (error) {
+                        this.showError = true;
+                    } finally {
+                        this.isSubmitting = false;
+                    }
+                }
+            }
+        }
+    </script>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
