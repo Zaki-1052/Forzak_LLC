@@ -927,8 +927,27 @@ export class ContentLoader {
                 });
                 
                 html += '</div></div>';
+            } else if (section.title.toLowerCase().includes('risk management')) {
+                // Special layout for Risk Management with vertical image
+                html += `
+                    <div class="mb-8">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                                <h3 class="text-3xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
+                                <div class="text-neutral-800 font-body">${section.content}</div>
+                            </div>
+                            <div class="lg:col-span-1">
+                                <!-- TODO: Risk Management Vertical Image -->
+                                <!-- Professional image representing risk assessment, monitoring, or crisis management -->
+                                <div class="aspect-[2/3] bg-neutral-200 rounded-lg flex items-center justify-center h-full">
+                                    <span class="text-sm text-neutral-500 text-center p-4">Risk Management<br/>Vertical Image<br/>Placeholder</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
             } else {
-                // Regular service section layout (Corporate Restructuring, Risk Management)
+                // Regular service section layout (Corporate Restructuring)
                 html += `
                     <div class="mb-8">
                         <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
