@@ -74,13 +74,13 @@ During a time of financial distress or crisis, one of the best ways to build goo
 - Implement cost base rationalizing programs
 - Cash flow enhancement, identify potential improvements to working capital
 
-### Risk Management
+## Risk Management
 
 - Risk analysis, assessment and management plan
 - Measure, monitor and manage business risks
 - Crisis planning
 
-## Corporate Structure Simplification
+### Corporate Structure Simplification
 
 We will work with you to determine the best process, and manage a corporate structure simplification for your business and corporate interests, whatever the reasons behind it.
 
@@ -89,17 +89,18 @@ We will work with you to determine the best process, and manage a corporate stru
 
 ## Mergers & Acquisitions
 
+### Advisory Excellence
+
 We provide small business owners with the highest quality of independent merger and acquisition advisory expertise. Our professionals have led clients through a range of transactions, including exclusive sales, divestitures, mergers, and acquisitions, and have provided advice regarding evaluations of strategic alternatives, fairness opinions, and business valuations.
 
-## Sell Side Advisory
+### Sell Side Advisory
 
 Our sell side advisory services are founded on the principles of providing the highest level of client service, adhering to strict confidentiality, maintaining an intense focus on business positioning, developing customized marketing solutions, and maximizing value for our clients.
 
-## Buy-Side Advisory
+### Buy-Side Advisory
 
 Our acquisition advisory services provide our clients with extensive experience and senior-level focus in identifying, evaluating, and executing strategic mergers and acquisitions. We use our depth of execution experience in private company advisory transactions, combined with our industry knowledge, research, and relationships, to ensure a highly efficient acquisition process.
 
-## Strategic Advisory
+### Strategic Advisory
 
 Our strategic advisory services provide guidance regarding evaluations of strategic alternatives, fairness opinions, and business valuations. We strive to maintain up-to-the-minute expertise in transaction structuring and market trends and to develop a detailed understanding of our clients' businesses and industries, allowing us to provide creative, customized advice to meet our clients' needs.
-

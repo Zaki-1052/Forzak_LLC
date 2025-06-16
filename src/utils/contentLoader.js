@@ -258,21 +258,29 @@ export class ContentLoader {
             console.log('✅ Found core value section:', title);
         }
         
-        // Extract all major service areas (## headings)
-        const serviceAreaPattern = /^## (.+?)\s*\n([\s\S]*?)(?=^##|$)/gm;
-        let serviceAreaMatch;
-        while ((serviceAreaMatch = serviceAreaPattern.exec(content)) !== null) {
-            const title = serviceAreaMatch[1].trim();
-            const sectionContent = serviceAreaMatch[2].trim();
+        // Extract all major service areas (## headings) with better parsing
+        // Split content by ## headings first, then process each section
+        const sectionParts = content.split(/^## /gm);
+        
+        for (let i = 1; i < sectionParts.length; i++) {
+            const sectionText = sectionParts[i];
+            const lines = sectionText.split('\n');
+            const title = lines[0].trim();
+            const sectionContent = lines.slice(1).join('\n').trim();
             
             // Skip the header-only sections
             if (title === 'Market Leading Advisory Firm') {
                 continue;
             }
             
+            console.log(`📋 Processing service area: "${title}"`);
+            console.log(`📄 Raw content length: ${sectionContent.length}`);
+            console.log(`📄 Content preview: ${sectionContent.substring(0, 200)}...`);
+            
             sections.serviceAreas.push({
                 title,
-                content: this.markdownToHtml(sectionContent)
+                content: this.markdownToHtml(sectionContent),
+                rawContent: sectionContent  // Keep raw for subsection parsing
             });
             console.log('✅ Found service area:', title);
         }
@@ -421,34 +429,58 @@ export class ContentLoader {
     }
 
     /**
-     * Basic markdown to HTML conversion
+     * Enhanced markdown to HTML conversion
      * @param {string} markdown - Markdown text
      * @returns {string} HTML string
      */
     markdownToHtml(markdown) {
-        return markdown
-            // Headers
-            .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-            .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-            .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-            // Bold
-            .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>')
-            // Italic
-            .replace(/\*(.*)\*/gim, '<em>$1</em>')
-            // Line breaks and paragraphs
-            .replace(/\n\n/gim, '</p><p>')
-            .replace(/^\s*$/gim, '')
-            // Wrap in paragraphs
-            .replace(/^(.+)$/gim, '<p>$1</p>')
-            // Lists
-            .replace(/^\- (.+)$/gim, '<li>$1</li>')
-            .replace(/(<li>.*<\/li>)/gims, '<ul>$1</ul>')
-            // Fix nested tags
-            .replace(/<p><h([1-6])>/gim, '<h$1>')
-            .replace(/<\/h([1-6])><\/p>/gim, '</h$1>')
-            .replace(/<p><ul>/gim, '<ul>')
-            .replace(/<\/ul><\/p>/gim, '</ul>')
-            .replace(/<p><\/p>/gim, '');
+        // Split content by double newlines to handle paragraphs and lists separately
+        const sections = markdown.trim().split(/\n\s*\n/);
+        let html = '';
+        
+        sections.forEach(section => {
+            const trimmedSection = section.trim();
+            if (!trimmedSection) return;
+            
+            // Check if this section is a list (starts with -)
+            if (trimmedSection.includes('\n-') || trimmedSection.startsWith('-')) {
+                // Handle lists with proper bullet styling
+                const listItems = trimmedSection
+                    .split('\n')
+                    .filter(line => line.trim().startsWith('-'))
+                    .map(line => {
+                        const content = line.replace(/^-\s*/, '').trim();
+                        return `<li class="font-body flex items-start"><span class="text-primary mr-3 font-semibold text-lg">▸</span><span class="text-neutral-800">${content}</span></li>`;
+                    })
+                    .join('');
+                
+                if (listItems) {
+                    html += `<ul class="space-y-3 mb-6">${listItems}</ul>`;
+                }
+            } else {
+                // Handle regular paragraphs and headers
+                let processedSection = trimmedSection
+                    // Headers
+                    .replace(/^#### (.*$)/gim, '<h4 class="text-lg font-bold text-primary mb-3 font-heading">$1</h4>')
+                    .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold text-primary mb-4 font-heading">$1</h3>')
+                    .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-primary mb-6 font-heading">$1</h2>')
+                    .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-primary mb-6 font-heading">$1</h1>')
+                    // Bold and italic
+                    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/gim, '<em>$1</em>');
+                
+                // Check if it's a header line
+                if (processedSection.includes('<h1>') || processedSection.includes('<h2>') || 
+                    processedSection.includes('<h3>') || processedSection.includes('<h4>')) {
+                    html += processedSection;
+                } else {
+                    // Regular paragraph
+                    html += `<p class="text-neutral-800 mb-4 font-body">${processedSection}</p>`;
+                }
+            }
+        });
+        
+        return html;
     }
 
 
@@ -779,7 +811,7 @@ export class ContentLoader {
                         </svg>
                     </div>
                     <h3 class="text-lg font-bold text-primary mb-3 font-heading">${this.escapeHtml(section.title)}</h3>
-                    <div class="text-sm text-neutral-800 font-body">${section.content}</div>
+                    <div class="text-sm text-neutral-800 font-body text-left">${section.content}</div>
                 </div>
             `;
         });
@@ -820,24 +852,210 @@ export class ContentLoader {
             return '';
         }
         
-        let html = `
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-primary mb-4 font-heading">Our Service Areas</h2>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        `;
+        let html = '';
         
-        serviceSections.forEach(section => {
-            html += `
-                <div class="service-section bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
-                    <div class="text-neutral-800 font-body">${section.content}</div>
-                </div>
-            `;
+        serviceSections.forEach((section, index) => {
+            const isManagementConsulting = section.title.toLowerCase().includes('management consulting');
+            const isMergersAcquisitions = section.title.toLowerCase().includes('mergers');
+            
+            if (isManagementConsulting) {
+                // Special layout for Management Consulting with image and subsections
+                const rawContent = section.rawContent || '';
+                const mcSubsections = this.parseManagementConsultingSubsections(rawContent);
+                
+                console.log('🔍 Management Consulting - Raw content preview:', rawContent.substring(0, 500));
+                console.log('🔍 Management Consulting - Found subsections:', mcSubsections.length);
+                
+                html += `
+                    <div class="mb-12">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-8">
+                            <div>
+                                <h3 class="text-3xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
+                                <div class="text-neutral-800 font-body">${this.getManagementConsultingIntro(section.content)}</div>
+                            </div>
+                            <div>
+                                <!-- TODO: Management Consulting Image -->
+                                <!-- AI-generated image of intense business consultation between two men at modern office desk, 
+                                     speaker in dark suit with red tie gesturing passionately, blurred office background -->
+                                <div class="aspect-[4/3] bg-neutral-200 rounded-lg flex items-center justify-center">
+                                    <span class="text-sm text-neutral-500 text-center p-4">Management Consulting<br/>Image Placeholder</span>
+                                </div>
+                            </div>
+                        </div>
+                `;
+                
+                // Add subsections if found
+                if (mcSubsections.length > 0) {
+                    html += `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    `;
+                    
+                    mcSubsections.forEach(subsection => {
+                        html += `
+                            <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                                <h4 class="text-xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(subsection.title)}</h4>
+                                <div class="text-neutral-800 font-body">${subsection.content}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                } else {
+                    console.warn('⚠️ No Management Consulting subsections found - debugging needed');
+                }
+                
+                html += '</div>';
+            } else if (isMergersAcquisitions) {
+                // Special 4-grid layout for M&A subsections
+                const maContent = section.content;
+                const rawContent = section.rawContent || '';
+                const subsections = this.parseMergersAcquisitionsSubsections(maContent, rawContent);
+                
+                html += `
+                    <div class="mb-12">
+                        <h3 class="text-3xl font-bold text-primary mb-8 text-center font-heading">${this.escapeHtml(section.title)}</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                `;
+                
+                subsections.forEach(subsection => {
+                    html += `
+                        <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <h4 class="text-xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(subsection.title)}</h4>
+                            <div class="text-neutral-800 font-body">${subsection.content}</div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div></div>';
+            } else {
+                // Regular service section layout (Corporate Restructuring, Risk Management)
+                html += `
+                    <div class="mb-8">
+                        <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <h3 class="text-3xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
+                            <div class="text-neutral-800 font-body">${section.content}</div>
+                        </div>
+                    </div>
+                `;
+            }
         });
         
-        html += '</div>';
         return html;
+    }
+    
+    /**
+     * Parse M&A content into subsections for 4-grid layout
+     * @param {string} content - M&A section content
+     * @param {string} rawContent - Raw markdown content before HTML conversion
+     * @returns {Array} Array of subsection objects
+     */
+    parseMergersAcquisitionsSubsections(content, rawContent) {
+        const subsections = [];
+        
+        console.log('🔍 Parsing M&A subsections from raw content:', rawContent.substring(0, 300));
+        
+        // Parse markdown headings (### subsections) from raw content
+        const headingPattern = /^### (.+?)\s*\n([\s\S]*?)(?=^###|^##|$)/gm;
+        let match;
+        
+        while ((match = headingPattern.exec(rawContent)) !== null) {
+            const title = match[1].trim();
+            const sectionContent = match[2].trim();
+            
+            console.log(`🎯 Found M&A subsection: "${title}"`);
+            console.log(`📄 Subsection content length: ${sectionContent.length}`);
+            
+            if (title && sectionContent) {
+                subsections.push({
+                    title,
+                    content: this.markdownToHtml(sectionContent)
+                });
+            }
+        }
+        
+        console.log(`📊 Total M&A subsections found: ${subsections.length}`);
+        
+        // If no subsections found, create a single section
+        if (subsections.length === 0) {
+            console.log('⚠️ No M&A subsections found, using fallback');
+            subsections.push({
+                title: 'Our Approach',
+                content: content
+            });
+        }
+        
+        return subsections;
+    }
+
+    /**
+     * Parse Management Consulting subsections (Operating Strategy, Competitive Strategy)
+     * @param {string} rawContent - Raw markdown content
+     * @returns {Array} Array of subsection objects
+     */
+    parseManagementConsultingSubsections(rawContent) {
+        const subsections = [];
+        
+        console.log('🔍 MC Parsing - Full raw content:', rawContent);
+        
+        // Look for "### Our services include:" and extract #### subsections after it
+        const servicesIncludeRegex = /### Our services include:\s*\n([\s\S]*?)(?=\n##|$)/;
+        const servicesIncludeMatch = rawContent.match(servicesIncludeRegex);
+        
+        if (!servicesIncludeMatch) {
+            console.log('⚠️ No "Our services include:" section found');
+            console.log('🔍 Trying alternative patterns...');
+            
+            // Try simpler pattern
+            const altMatch = rawContent.match(/Our services include:([\s\S]*?)(?=\n##|$)/);
+            if (altMatch) {
+                console.log('✅ Found with alternative pattern');
+                console.log('📋 Alt match content:', altMatch[1].substring(0, 200));
+            }
+            return subsections;
+        }
+        
+        const servicesContent = servicesIncludeMatch[1];
+        console.log('📋 Found services include section:', servicesContent);
+        
+        // Parse #### subsections within the services include section
+        const subheadingPattern = /#### (.+?)\s*\n([\s\S]*?)(?=\n####|\n###|\n##|$)/g;
+        let match;
+        
+        while ((match = subheadingPattern.exec(servicesContent)) !== null) {
+            const title = match[1].trim();
+            const sectionContent = match[2].trim();
+            
+            console.log(`🎯 Found MC subsection: "${title}"`);
+            console.log(`📄 Subsection content: ${sectionContent.substring(0, 100)}...`);
+            
+            if (title && sectionContent) {
+                subsections.push({
+                    title,
+                    content: this.markdownToHtml(sectionContent)
+                });
+            }
+        }
+        
+        console.log(`📊 Total MC subsections found: ${subsections.length}`);
+        subsections.forEach((sub, i) => {
+            console.log(`📋 Subsection ${i + 1}: ${sub.title}`);
+        });
+        
+        return subsections;
+    }
+
+    /**
+     * Extract the intro paragraph from Management Consulting content
+     * @param {string} content - HTML content
+     * @returns {string} Intro paragraph HTML
+     */
+    getManagementConsultingIntro(content) {
+        // Extract the first paragraph (before any lists or subsections)
+        const firstParagraphMatch = content.match(/<p[^>]*>(.*?)<\/p>/);
+        if (firstParagraphMatch) {
+            return firstParagraphMatch[0];
+        }
+        return content;
     }
 
     /**
