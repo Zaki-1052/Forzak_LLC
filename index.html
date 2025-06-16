@@ -16,11 +16,16 @@
 </head>
 <body class="min-h-screen">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 backdrop-blur-sm shadow-sm transition-all duration-90000 ease-in-out"
-         :class="scrolled ? 'bg-gradient-to-r from-white/30 to-primary/90' : 'bg-gradient-to-r from-primary/60 to-primary/90'"
+    <nav class="fixed w-full z-50 backdrop-blur-sm shadow-sm"
          x-data="{ open: false, scrolled: false }"
          @scroll.window="scrolled = (window.pageYOffset > 30)">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Base gradient (visible when at top) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-primary/60 to-primary/90 transition-opacity duration-700"
+             :class="scrolled ? 'opacity-0' : 'opacity-100'"></div>
+        <!-- Scrolled gradient (visible when scrolling) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-white/30 to-primary/90 transition-opacity duration-700"
+             :class="scrolled ? 'opacity-100' : 'opacity-0'"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
