@@ -18,21 +18,21 @@
     <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-sm shadow-sm" x-data="{ open: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
-                    <a href="/" class="flex items-center">
-                        <img src="/logo.png" alt="Forzak LLC" class="h-8 w-auto">
+                    <a href="/index.html" class="flex items-center">
+                        <img src="/assets/logo_trimmed.png" alt="Forzak LLC" class="h-14 w-auto">
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="/" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Home</a>
-                        <a href="/about.html" class="text-primary hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">About</a>
-                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Services</a>
-                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-sm font-medium transition-colors">Investments</a>
+                        <a href="/index.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Home</a>
+                        <a href="/about.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
+                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
+                        <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Investments</a>
                         <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
                     </div>
                 </div>
@@ -51,18 +51,18 @@
             <!-- Mobile Navigation -->
             <div x-show="open" x-transition class="md:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
-                    <a href="/" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Home</a>
-                    <a href="/about.html" class="text-primary block px-3 py-2 text-base font-medium">About</a>
-                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Services</a>
-                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Investments</a>
-                    <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium">Contact Us</a>
+                    <a href="/index.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Home</a>
+                    <a href="/about.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">About</a>
+                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Services</a>
+                    <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Investments</a>
+                    <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Contact Us</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- About Us Content -->
-    <main class="pt-16">
+    <main class="pt-20">
         <!-- Hero Section -->
         <section class="bg-gradient-to-br from-neutral-100 to-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,9 +84,6 @@
                 <div class="grid grid-cols-12 gap-12 items-center">
                     <!-- Text Content - 7 columns -->
                     <div class="col-span-12 lg:col-span-7">
-                        <h2 class="text-3xl font-bold text-primary mb-6 font-heading">
-                            Global Investment & Consulting Excellence
-                        </h2>
                         <div id="about-main-content" class="prose prose-lg max-w-none font-body">
                             <!-- Content will be loaded dynamically from about.md -->
                             <div class="flex items-center justify-center py-8">
@@ -96,36 +93,24 @@
                         </div>
                     </div>
 
-                    <!-- Portrait Image - 5 columns -->
+                    <!-- Team Photo - 5 columns -->
                     <div class="col-span-12 lg:col-span-5">
-                        <div class="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg aspect-[4/5] flex items-center justify-center">
-                            <div class="text-center">
-                                <svg class="w-24 h-24 mx-auto text-primary mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H3m2 0h4M9 7h6m-6 4h6m-6 4h6"></path>
-                                </svg>
-                                <p class="text-primary font-semibold">Company Portrait</p>
-                            </div>
+                        <div class="rounded-lg overflow-hidden shadow-lg">
+                            <img src="/assets/about.png" alt="Forzak LLC Professional Team" class="w-full h-full object-cover aspect-[4/3]">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Key Stats -->
-        <section class="bg-primary text-white py-16">
+        <!-- Services Section -->
+        <section class="py-16 bg-neutral-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2 font-heading">14+</div>
-                        <div class="text-lg font-body">Years of Experience</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2 font-heading">Global</div>
-                        <div class="text-lg font-body">Reach & Network</div>
-                    </div>
-                    <div>
-                        <div class="text-4xl font-bold text-accent-gold mb-2 font-heading">25+</div>
-                        <div class="text-lg font-body">Industries Served</div>
+                <div id="services-content">
+                    <!-- Services content will be loaded dynamically from about.md -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading services...</span>
                     </div>
                 </div>
             </div>

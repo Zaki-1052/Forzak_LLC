@@ -503,6 +503,55 @@ export class ContentLoader {
     }
 
     /**
+     * Generate styled services section
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for services section
+     */
+    generateServicesSection(sections) {
+        // Find the services section
+        const servicesSection = sections.other.find(section => 
+            section.title.toLowerCase().includes('services')
+        );
+        
+        if (!servicesSection) return '';
+        
+        let html = `
+            <h2 class="text-3xl font-bold text-primary mb-12 font-heading text-center">Our Services</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        `;
+        
+        // Parse the services content to extract Consulting and Financial Investments
+        const content = servicesSection.content;
+        const serviceSections = content.split(/<h3>/);
+        
+        for (let i = 1; i < serviceSections.length; i++) {
+            const section = serviceSections[i];
+            const titleMatch = section.match(/^([^<]+)</);
+            const title = titleMatch ? titleMatch[1].trim() : '';
+            
+            // Extract the list items
+            const listMatch = section.match(/<ul>(.*?)<\/ul>/s);
+            let listItems = '';
+            if (listMatch) {
+                listItems = listMatch[1];
+            }
+            
+            html += `
+                <div class="service-category">
+                    <h3 class="text-xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(title)}</h3>
+                    <ul class="space-y-3">
+                        ${listItems.replace(/<li class="text-neutral-800">/g, '<li class="text-neutral-800 font-body flex items-start"><span class="text-accent-gold mr-3">•</span><span>')}
+                        ${listItems.replace(/<\/li>/g, '</span></li>')}
+                    </ul>
+                </div>
+            `;
+        }
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
      * Generate styled industry cards
      * @param {Array} industries - Array of industry names
      * @returns {string} HTML for industry grid

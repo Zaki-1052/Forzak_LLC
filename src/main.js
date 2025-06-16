@@ -54,6 +54,21 @@ window.loadPageContent = {
                 console.warn('⚠️ Main content container or content missing');
             }
             
+            // Render services section
+            const servicesContainer = document.getElementById('services-content');
+            console.log('🛠️ Services container:', servicesContainer);
+            console.log('🛠️ Sections data:', content.sections);
+            
+            if (servicesContainer) {
+                console.log('🎨 Generating services section...');
+                const servicesHtml = contentLoader.generateServicesSection(content.sections);
+                console.log('🎨 Services HTML:', servicesHtml);
+                servicesContainer.innerHTML = servicesHtml;
+                console.log('✅ Services content rendered');
+            } else {
+                console.warn('⚠️ Services container missing');
+            }
+            
             // Render personnel with styled cards
             const personnelContainer = document.getElementById('personnel-content');
             console.log('👥 Personnel container:', personnelContainer);
