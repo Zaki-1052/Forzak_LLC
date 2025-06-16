@@ -17,15 +17,19 @@ Forzak LLC is a Los-Angeles, California-based investment and consulting company 
 - Risk Analysis
 - Mergers and Acquisitions
 
-### Financial Investments
+### Investments
 
 - Private equity
 - Private Placements
 - Management Buyouts
 - Financial Restructuring
+
+### Financing
+
 - Debtor-in-Possession Financing
 - Real estate Development Financing
 - Asset Based Financing
+- Bridge Financing
 
 ## Key Personnel
 

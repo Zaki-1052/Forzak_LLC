@@ -354,51 +354,6 @@ export class ContentLoader {
 
 
     /**
-     * Parse services from services content
-     * @param {string} htmlContent - HTML content from markdown
-     * @returns {Object} Organized services data
-     */
-    parseServices(htmlContent) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-        
-        const services = {
-            sections: [],
-            coreValues: []
-        };
-        
-        // Find all h2 and h3 headings to organize content
-        const headings = tempDiv.querySelectorAll('h2, h3, h4');
-        
-        let currentSection = null;
-        
-        headings.forEach(heading => {
-            const text = heading.textContent.trim();
-            const level = parseInt(heading.tagName.charAt(1));
-            
-            if (level === 2) {
-                // Main section
-                currentSection = {
-                    title: text,
-                    subsections: [],
-                    content: ''
-                };
-                services.sections.push(currentSection);
-            } else if (level === 3 && currentSection) {
-                // Subsection
-                const subsection = {
-                    title: text,
-                    content: '',
-                    items: []
-                };
-                currentSection.subsections.push(subsection);
-            }
-        });
-        
-        return services;
-    }
-
-    /**
      * Parse investments content
      * @param {string} htmlContent - HTML content from markdown
      * @returns {Object} Organized investments data
@@ -508,40 +463,66 @@ export class ContentLoader {
      * @returns {string} HTML for services section
      */
     generateServicesSection(sections) {
-        // Find the services section
-        const servicesSection = sections.other.find(section => 
+        console.log('🛠️ Generating services section, available sections:', Object.keys(sections));
+        
+        // Find the services section in multiple possible locations
+        let servicesSection = sections.other.find(section => 
             section.title.toLowerCase().includes('services')
         );
         
-        if (!servicesSection) return '';
+        // If not found in other, check if there's a services array
+        if (!servicesSection && sections.services && sections.services.length > 0) {
+            console.log('🛠️ Found services in sections.services array');
+            return this.generateServicesFromArray(sections.services);
+        }
+        
+        if (!servicesSection) {
+            console.warn('⚠️ No services section found');
+            return '';
+        }
+        
+        console.log('🛠️ Found services section:', servicesSection.title);
         
         let html = `
             <h2 class="text-3xl font-bold text-primary mb-12 font-heading text-center">Our Services</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         `;
         
         // Parse the services content to extract Consulting and Financial Investments
         const content = servicesSection.content;
-        const serviceSections = content.split(/<h3>/);
+        console.log('🛠️ Services content to parse:', content.substring(0, 200));
+        
+        // Split by h3 tags to get subsections
+        const serviceSections = content.split(/<h3[^>]*>/);
+        console.log('🛠️ Split into', serviceSections.length, 'service sections');
         
         for (let i = 1; i < serviceSections.length; i++) {
             const section = serviceSections[i];
             const titleMatch = section.match(/^([^<]+)</);
             const title = titleMatch ? titleMatch[1].trim() : '';
             
-            // Extract the list items
-            const listMatch = section.match(/<ul>(.*?)<\/ul>/s);
+            console.log('🛠️ Processing service section:', title);
+            
+            // Extract the list items more robustly
+            const listMatch = section.match(/<ul[^>]*>(.*?)<\/ul>/s);
             let listItems = '';
             if (listMatch) {
                 listItems = listMatch[1];
+                console.log('🔍 Found list items for', title, ':', listItems);
+            } else {
+                console.log('❌ No list match found for', title);
+                console.log('🔍 Section content:', section.substring(0, 300));
             }
             
+            const formattedList = this.formatServiceList(listItems);
+            console.log('🎨 Formatted list for', title, ':', formattedList);
+            
+            // Create styled service category
             html += `
-                <div class="service-category">
-                    <h3 class="text-xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(title)}</h3>
-                    <ul class="space-y-3">
-                        ${listItems.replace(/<li class="text-neutral-800">/g, '<li class="text-neutral-800 font-body flex items-start"><span class="text-accent-gold mr-3">•</span><span>')}
-                        ${listItems.replace(/<\/li>/g, '</span></li>')}
+                <div class="service-category bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(title)}</h3>
+                    <ul class="space-y-4 services-list">
+                        ${formattedList}
                     </ul>
                 </div>
             `;
@@ -549,6 +530,49 @@ export class ContentLoader {
         
         html += '</div>';
         return html;
+    }
+
+    /**
+     * Generate services from array format
+     * @param {Array} services - Array of service objects
+     * @returns {string} HTML for services
+     */
+    generateServicesFromArray(services) {
+        let html = `
+            <h2 class="text-3xl font-bold text-primary mb-12 font-heading text-center">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        `;
+        
+        services.forEach(service => {
+            html += `
+                <div class="service-category bg-white p-8 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
+                    <div class="space-y-4">
+                        ${service.content}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
+     * Format service list items with proper styling
+     * @param {string} listItems - Raw list items HTML
+     * @returns {string} Formatted list items
+     */
+    formatServiceList(listItems) {
+        if (!listItems) return '';
+        
+        // Replace list items with proper blue arrow bullet styling
+        return listItems
+            .replace(/<li[^>]*>/g, '<li class="font-body flex items-start">')
+            .replace(/^(\s*)<li/gm, '$1<li')
+            .replace(/<li class="font-body flex items-start">/g, 
+                '<li class="font-body flex items-start"><span class="text-primary mr-3 font-semibold text-lg">▸</span><span class="text-neutral-800">')
+            .replace(/<\/li>/g, '</span></li>');
     }
 
     /**

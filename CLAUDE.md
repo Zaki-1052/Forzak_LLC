@@ -63,3 +63,7 @@
 - Enhanced CSS for animations and interactions
 - JavaScript modules for form handling
 - Additional dependencies: AOS library, Lucide icons
+
+## Development Notes
+
+- The server is already running, you never need to restart it
