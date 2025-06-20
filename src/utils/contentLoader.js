@@ -189,6 +189,8 @@ export class ContentLoader {
             // If there's no content after removing the main heading, use the first section as main content
             if (!cleanedContent.trim() && parts.length > 2) {
                 console.log('📄 No intro content found, using first section as main content');
+                // Store the first section title
+                sections.firstSectionTitle = parts[1].trim();
                 // Use the first section's content as main content
                 sections.mainContent = this.markdownToHtml(parts[2].trim());
                 // Adjust the loop to skip the first section
@@ -200,7 +202,8 @@ export class ContentLoader {
         }
         
         // Process sections
-        const startIndex = sections.skipFirstSection ? 3 : 1;
+        let startIndex = sections.skipFirstSection ? 3 : 1; // Start from 3 if we skip first section
+        
         for (let i = startIndex; i < parts.length; i += 2) {
             const heading = parts[i];
             const sectionContent = parts[i + 1] || '';
@@ -1165,6 +1168,44 @@ export class ContentLoader {
     }
 
     /**
+     * Generate investment sections for investments page
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for investment sections
+     */
+    generateInvestmentSections(sections) {
+        console.log('📋 Generating investment sections, available sections:', Object.keys(sections));
+        
+        // Get sections that should be displayed before the industries
+        // Exclude the one used for financial products
+        const displaySections = sections.other.filter(section => 
+            !section.title.toLowerCase().includes('backing') &&
+            !section.title.toLowerCase().includes('diverse line')
+        );
+        
+        if (displaySections.length === 0) {
+            console.warn('⚠️ No additional sections found');
+            return '';
+        }
+        
+        let html = '<div class="space-y-12">';
+        
+        displaySections.forEach((section, index) => {
+            const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+            html += `
+                <div class="${bgClass} rounded-lg p-8">
+                    <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>
+                    <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                        ${section.content}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        return html;
+    }
+
+    /**
      * Generate financial products section from investments content
      * @param {Object} sections - Parsed sections object
      * @returns {string} HTML for financial products section
@@ -1185,7 +1226,7 @@ export class ContentLoader {
         
         return `
             <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
-                Comprehensive Financial Products
+                ${this.escapeHtml(productsSection.title)}
             </h2>
             <div class="bg-neutral-100 rounded-lg p-8">
                 <div class="text-neutral-800 font-body">${productsSection.content}</div>
@@ -1200,17 +1241,17 @@ export class ContentLoader {
      */
     generateInvestmentSolutionsGrid(sections) {
         console.log('💎 Generating investment solutions grid, available sections:', Object.keys(sections));
+        console.log('📋 All sections.other:', sections.other.map(s => s.title));
         
-        // For investment-solutions.md, all major sections are investment services
-        const investmentServices = sections.other.filter(section => 
-            section.title.toLowerCase().includes('private equity') ||
-            section.title.toLowerCase().includes('private placements') ||
-            section.title.toLowerCase().includes('management buyouts') ||
-            section.title.toLowerCase().includes('financial restructuring') ||
-            section.title.toLowerCase().includes('debtor-in-possession') ||
-            section.title.toLowerCase().includes('real estate') ||
-            section.title.toLowerCase().includes('asset based')
-        );
+        // For investment-solutions.md, get all sections except the first one which is the intro
+        const investmentServices = sections.other.filter(section => {
+            const title = section.title.toLowerCase();
+            // Skip the intro section if it exists
+            return title !== 'tailored financial solutions for your business' && 
+                   section.title !== ''; // Skip empty titles
+        });
+        
+        console.log('✅ Found investment services after filtering:', investmentServices.map(s => s.title));
         
         if (investmentServices.length === 0) {
             console.warn('⚠️ No investment services found');

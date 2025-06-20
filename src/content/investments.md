@@ -30,7 +30,9 @@ With over 25 years combined experience among management and staff, serving the s
 - Industrial manufacturing
 - Media
 - Mining
-- Nonprofit, Public Sector and Higher Education
+- Nonprofits
+- Public Sector
+- Higher Education
 - Paper related products
 - Retail stores/catalog sales
 - Steel and other metals

@@ -66,4 +66,5 @@
 
 ## Development Notes
 
-- The server is already running, you never need to restart it
+- The server is already running, you never need to restart it with npm run dev
+- Stop and ask the user for the console logs, never try to check them yourself

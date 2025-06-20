@@ -204,16 +204,35 @@ window.loadPageContent = {
                 subtitleElement.textContent = content.frontmatter.description;
             }
             
-            // Render main content
+            // Render main content with title
             const mainContentContainer = document.getElementById('investments-main-content');
+            const mainTitleElement = document.getElementById('main-content-title');
             console.log('📦 Main content container:', mainContentContainer);
             
             if (mainContentContainer && content.sections.mainContent) {
+                // Set the first section title if available
+                if (mainTitleElement && content.sections.firstSectionTitle) {
+                    mainTitleElement.textContent = content.sections.firstSectionTitle;
+                    console.log('📝 Set main content title:', content.sections.firstSectionTitle);
+                }
+                
                 console.log('🎨 Applying styling to main content...');
                 const styledContent = contentLoader.applyContentStyling(content.sections.mainContent);
                 console.log('🎨 Styled content:', styledContent);
                 mainContentContainer.innerHTML = styledContent;
                 console.log('✅ Main content rendered');
+            }
+            
+            // Render additional sections
+            const sectionsContainer = document.getElementById('investments-sections-content');
+            console.log('📄 Sections container:', sectionsContainer);
+            
+            if (sectionsContainer) {
+                console.log('🎨 Generating additional sections...');
+                const sectionsHtml = contentLoader.generateInvestmentSections(content.sections);
+                console.log('🎨 Sections HTML:', sectionsHtml);
+                sectionsContainer.innerHTML = sectionsHtml;
+                console.log('✅ Additional sections rendered');
             }
             
             // Render industries section
