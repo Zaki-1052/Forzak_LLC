@@ -22,6 +22,8 @@ Forzak targets the capital and financial advisory requirements of high-growth, p
 
 ## Private Placements
 
+Forzak structures and arranges private placements of debt and equity capital with select institutional investors.
+
 In structuring and raising capital, Forzak can:
 
 - Advise on the optimal capital structure

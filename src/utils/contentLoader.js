@@ -1444,7 +1444,7 @@ export class ContentLoader {
             html += `
                 <div class="${bgClass} rounded-lg shadow-md p-8 md:p-12">
                     <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
-                    <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                    <div class="text-neutral-800 font-body">
                         ${service.content}
                     </div>
                 </div>
