@@ -42,11 +42,11 @@
 - [x] Fix the main content display issue
 
 ### 7. Testing Checklist
-- [ ] Verify investments.html loads correct content
-- [ ] Verify investment-solutions.html loads correct content
-- [ ] Check navigation works properly on all pages
-- [ ] Ensure responsive design on mobile
-- [ ] Verify all console errors are resolved
+- [x] Verify investments.html loads correct content
+- [x] Verify investment-solutions.html loads correct content
+- [x] Check navigation works properly on all pages
+- [x] Ensure responsive design on mobile
+- [x] Verify all console errors are resolved
 
 ## Page Content Distribution
 
