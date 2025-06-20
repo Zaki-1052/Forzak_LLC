@@ -231,17 +231,6 @@ window.loadPageContent = {
                 console.warn('⚠️ Industries container missing or no industries data');
             }
             
-            // Render investment services section
-            const investmentServicesContainer = document.getElementById('investment-services-content');
-            console.log('💼 Investment services container:', investmentServicesContainer);
-            
-            if (investmentServicesContainer) {
-                console.log('🎨 Generating investment services section...');
-                const investmentServicesHtml = contentLoader.generateInvestmentServicesSection(content.sections);
-                console.log('🎨 Investment services HTML:', investmentServicesHtml);
-                investmentServicesContainer.innerHTML = investmentServicesHtml;
-                console.log('✅ Investment services content rendered');
-            }
             
             // Render financial products section
             const financialProductsContainer = document.getElementById('financial-products-content');

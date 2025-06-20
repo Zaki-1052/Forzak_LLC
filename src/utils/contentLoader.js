@@ -200,7 +200,8 @@ export class ContentLoader {
         }
         
         // Process sections
-        for (let i = 1; i < parts.length; i += 2) {
+        const startIndex = sections.skipFirstSection ? 3 : 1;
+        for (let i = startIndex; i < parts.length; i += 2) {
             const heading = parts[i];
             const sectionContent = parts[i + 1] || '';
             
@@ -1108,16 +1109,21 @@ export class ContentLoader {
      */
     generateInvestmentServicesSection(sections) {
         console.log('💼 Generating investment services section, available sections:', Object.keys(sections));
+        console.log('📋 Other sections available:', sections.other.map(s => s.title));
         
-        // Find investment service sections (Private Equity, Private Placements, etc.)
-        const investmentSections = sections.other.filter(section => 
-            section.title.toLowerCase().includes('private equity') ||
-            section.title.toLowerCase().includes('private placements') ||
-            section.title.toLowerCase().includes('management buyouts') ||
-            section.title.toLowerCase().includes('financial restructuring') ||
-            section.title.toLowerCase().includes('debtor-in-possession') ||
-            section.title.toLowerCase().includes('asset based')
-        );
+        // Find investment service sections from investment-solutions.md
+        const investmentSections = sections.other.filter(section => {
+            const title = section.title.toLowerCase();
+            return title === 'private equity' ||
+                   title === 'private placements' ||
+                   title === 'management buyouts' ||
+                   title === 'financial restructuring' ||
+                   title === 'debtor-in-possession financing' ||
+                   title === 'real estate development financing' ||
+                   title.includes('asset based financing');
+        });
+        
+        console.log('✅ Found investment sections:', investmentSections.map(s => s.title));
         
         if (investmentSections.length === 0) {
             console.warn('⚠️ No investment service sections found');
