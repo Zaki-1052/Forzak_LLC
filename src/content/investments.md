@@ -73,7 +73,7 @@ Forzak has the expertise required to finance diverse business situations. We wel
 
 ## Forzak Can Help Your Company Meet Its Financing Needs
 
-We specialize in a variety of transactions up to \$10 million in credit needs for:
+We specialize in a variety of transactions up to $10 million in credit needs for:
 
 - Financial and strategic acquisitions, Leveraged Buyouts and Management Buyouts
 - Refinancing of bank debt/cash flow structures

@@ -218,16 +218,26 @@ export class ContentLoader {
                 console.log('🛠️ Found services section!');
                 sections.services = this.parseServices(sectionContent);
             } else {
-                console.log('📋 Adding to other sections:', heading);
-                sections.other.push({
-                    title: heading,
-                    content: this.markdownToHtml(sectionContent.trim())
-                });
+                // Check if this section contains the industries list
+                const hasIndustriesList = sectionContent.includes('### Industries we have invested in:');
+                
+                if (hasIndustriesList) {
+                    console.log('🏭 Found section with industries list');
+                    // Parse the content but mark it for special rendering
+                    sections.other.push({
+                        title: heading,
+                        content: this.parseInvestmentSectionWithIndustries(sectionContent),
+                        hasIndustries: true
+                    });
+                } else {
+                    console.log('📋 Adding to other sections:', heading);
+                    sections.other.push({
+                        title: heading,
+                        content: this.markdownToHtml(sectionContent.trim())
+                    });
+                }
             }
         }
-        
-        // Extract industries from content (long bullet lists)
-        sections.industries = this.extractIndustries(content);
         
         console.log('📊 Final sections summary:', {
             mainContentLength: sections.mainContent.length,
@@ -396,6 +406,63 @@ export class ContentLoader {
         }
         
         return services;
+    }
+
+    /**
+     * Parse investment section that contains industries list
+     * @param {string} sectionContent - Section content with industries
+     * @returns {string} HTML with industries as grid
+     */
+    parseInvestmentSectionWithIndustries(sectionContent) {
+        console.log('🏭 Parsing investment section with industries');
+        
+        // Split the content at the industries heading
+        const parts = sectionContent.split(/### Industries we have invested in:/i);
+        
+        if (parts.length < 2) {
+            // No industries list found, just return normal HTML
+            return this.markdownToHtml(sectionContent);
+        }
+        
+        // Parse the part before industries
+        let html = this.markdownToHtml(parts[0].trim());
+        
+        // Add the industries heading
+        html += '<h3 class="text-xl font-bold text-primary mb-6 font-heading">Industries we have invested in:</h3>';
+        
+        // Extract industries from the list
+        const industriesPart = parts[1];
+        const industries = [];
+        const listRegex = /^[-*]\s+(.+)$/gm;
+        let match;
+        
+        while ((match = listRegex.exec(industriesPart)) !== null) {
+            const industry = match[1].trim();
+            if (industry) {
+                industries.push(industry);
+            }
+        }
+        
+        // Generate grid HTML for industries
+        if (industries.length > 0) {
+            html += '<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">';
+            industries.forEach(industry => {
+                html += `
+                    <div class="bg-white p-4 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
+                        <p class="text-sm text-neutral-800 font-body">${this.escapeHtml(industry)}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+        
+        // If there's content after the industries list, add it
+        const remainingContent = industriesPart.replace(listRegex, '').trim();
+        if (remainingContent) {
+            html += this.markdownToHtml(remainingContent);
+        }
+        
+        return html;
     }
 
     /**
@@ -1161,23 +1228,24 @@ export class ContentLoader {
      */
     generateInvestmentSections(sections) {
         console.log('📋 Generating investment sections, available sections:', Object.keys(sections));
+        console.log('📋 Sections to render:', sections.other.map(s => ({ title: s.title, hasIndustries: s.hasIndustries })));
         
-        // Get sections that should be displayed before the industries
-        // Exclude the one used for financial products
-        const displaySections = sections.other.filter(section => 
-            !section.title.toLowerCase().includes('backing') &&
-            !section.title.toLowerCase().includes('diverse line')
-        );
-        
-        if (displaySections.length === 0) {
-            console.warn('⚠️ No additional sections found');
+        // Display all sections in order
+        if (sections.other.length === 0) {
+            console.warn('⚠️ No sections found');
             return '';
         }
         
         let html = '<div class="space-y-12">';
         
-        displaySections.forEach((section, index) => {
+        sections.other.forEach((section, index) => {
             const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+            
+            // Check if this section has special rendering (like industries grid)
+            if (section.hasIndustries) {
+                console.log('🏭 Rendering section with industries grid:', section.title);
+            }
+            
             html += `
                 <div class="${bgClass} rounded-lg p-8">
                     <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>

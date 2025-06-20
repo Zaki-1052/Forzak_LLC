@@ -235,22 +235,6 @@ window.loadPageContent = {
                 console.log('✅ Additional sections rendered');
             }
             
-            // Render industries section
-            const industriesContainer = document.getElementById('industries-list');
-            console.log('🏭 Industries container:', industriesContainer);
-            console.log('🏭 Industries data:', content.sections.industries);
-            
-            if (industriesContainer && content.sections.industries.length > 0) {
-                console.log('🎨 Generating industry cards...');
-                const industriesHtml = contentLoader.generateIndustryCards(content.sections.industries);
-                console.log('🎨 Industries HTML:', industriesHtml);
-                industriesContainer.innerHTML = industriesHtml;
-                console.log('✅ Industries content rendered');
-            } else {
-                console.warn('⚠️ Industries container missing or no industries data');
-            }
-            
-            
             // Render financial products section
             const financialProductsContainer = document.getElementById('financial-products-content');
             console.log('💳 Financial products container:', financialProductsContainer);
@@ -271,11 +255,6 @@ window.loadPageContent = {
             const mainContentContainer = document.getElementById('investments-main-content');
             if (mainContentContainer) {
                 contentLoader.showError(mainContentContainer, error.message);
-            }
-            
-            const industriesContainer = document.getElementById('industries-list');
-            if (industriesContainer) {
-                contentLoader.showError(industriesContainer, error.message);
             }
         }
     },
