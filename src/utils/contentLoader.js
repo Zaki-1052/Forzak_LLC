@@ -467,12 +467,12 @@ export class ContentLoader {
                     .filter(line => line.trim().startsWith('-'))
                     .map(line => {
                         const content = line.replace(/^-\s*/, '').trim();
-                        return `<li class="font-body flex items-start"><span class="text-primary mr-3 font-semibold text-lg">▸</span><span class="text-neutral-800">${content}</span></li>`;
+                        return `<li><span class="custom-bullet">▸</span>${content}</li>`;
                     })
                     .join('');
                 
                 if (listItems) {
-                    html += `<ul class="space-y-3 mb-6">${listItems}</ul>`;
+                    html += `<ul class="custom-list">${listItems}</ul>`;
                 }
             } else {
                 // Handle regular paragraphs and headers
@@ -491,8 +491,8 @@ export class ContentLoader {
                     processedSection.includes('<h3>') || processedSection.includes('<h4>')) {
                     html += processedSection;
                 } else {
-                    // Regular paragraph
-                    html += `<p class="text-neutral-800 mb-4 font-body">${processedSection}</p>`;
+                    // Regular paragraph with prose styling for better typography
+                    html += `<p class="text-neutral-800 mb-4 font-body leading-relaxed text-lg">${processedSection}</p>`;
                 }
             }
         });
@@ -554,13 +554,8 @@ export class ContentLoader {
      * @returns {string} Styled HTML
      */
     applyContentStyling(htmlContent) {
-        return htmlContent
-            .replace(/<p>/g, '<p class="text-neutral-800 mb-4">')
-            .replace(/<h1>/g, '<h1 class="text-3xl font-bold text-primary mb-6">')
-            .replace(/<h2>/g, '<h2 class="text-2xl font-bold text-primary mb-4">')
-            .replace(/<h3>/g, '<h3 class="text-xl font-bold text-primary mb-3">')
-            .replace(/<ul>/g, '<ul class="space-y-2 mb-4">')
-            .replace(/<li>/g, '<li class="text-neutral-800">');
+        // Don't wrap in prose - our markdownToHtml already handles styling
+        return htmlContent;
     }
 
     /**
@@ -673,7 +668,7 @@ export class ContentLoader {
             html += `
                 <div class="service-category bg-white p-8 rounded-lg shadow-md">
                     <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(title)}</h3>
-                    <ul class="space-y-4 services-list">
+                    <ul class="custom-list">
                         ${formattedList}
                     </ul>
                 </div>
@@ -713,18 +708,13 @@ export class ContentLoader {
             // Generate proper list items with arrow bullets
             let listItems = '';
             bullets.forEach(bullet => {
-                listItems += `
-                    <li class="font-body flex items-start">
-                        <span class="text-primary mr-3 font-semibold text-lg">▸</span>
-                        <span class="text-neutral-800">${this.escapeHtml(bullet)}</span>
-                    </li>
-                `;
+                listItems += `<li><span class="custom-bullet">▸</span>${this.escapeHtml(bullet)}</li>`;
             });
             
             html += `
                 <div class="service-category bg-white p-8 rounded-lg shadow-md">
                     <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
-                    <ul class="space-y-4 services-list">
+                    <ul class="custom-list">
                         ${listItems}
                     </ul>
                 </div>
@@ -750,11 +740,8 @@ export class ContentLoader {
         
         // Replace list items with proper blue arrow bullet styling
         const formatted = listItems
-            .replace(/<li[^>]*>/g, '<li class="font-body flex items-start">')
-            .replace(/^(\s*)<li/gm, '$1<li')
-            .replace(/<li class="font-body flex items-start">/g, 
-                '<li class="font-body flex items-start"><span class="text-primary mr-3 font-semibold text-lg">▸</span><span class="text-neutral-800">')
-            .replace(/<\/li>/g, '</span></li>');
+            .replace(/<li[^>]*>/g, '<li>')
+            .replace(/<li>/g, '<li><span class="custom-bullet">▸</span>');
             
         console.log('🎨 formatServiceList output:', formatted);
         return formatted;
@@ -1194,7 +1181,7 @@ export class ContentLoader {
             html += `
                 <div class="${bgClass} rounded-lg p-8">
                     <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>
-                    <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                    <div class="text-neutral-800 font-body">
                         ${section.content}
                     </div>
                 </div>
@@ -1328,7 +1315,7 @@ export class ContentLoader {
                             </div>
                             <h3 class="text-2xl font-bold text-primary font-heading">${this.escapeHtml(service.title)}</h3>
                         </div>
-                        <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                        <div class="text-neutral-800 font-body">
                             ${service.content}
                         </div>
                     </div>
