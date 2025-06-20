@@ -761,16 +761,32 @@ export class ContentLoader {
             console.log('🔧 Processing service from array:', service.title);
             console.log('🔧 Service content:', service.content);
             
-            // Extract bullet points from the content
-            const bulletRegex = /<p>-\s*(.+?)<\/p>/g;
-            const bullets = [];
-            let match;
+            // Extract bullet points from the content - handle both formats
+            let bullets = [];
             
-            while ((match = bulletRegex.exec(service.content)) !== null) {
-                bullets.push(match[1].trim());
+            // First try to extract from existing HTML list structure
+            const listMatch = service.content.match(/<ul[^>]*class="custom-list"[^>]*>(.*?)<\/ul>/s);
+            if (listMatch) {
+                const listHTML = listMatch[1];
+                const liRegex = /<li[^>]*><span[^>]*class="custom-bullet"[^>]*>▸<\/span>(.*?)<\/li>/g;
+                let match;
+                
+                while ((match = liRegex.exec(listHTML)) !== null) {
+                    bullets.push(match[1].trim());
+                }
+                console.log('🔧 Extracted bullets from HTML list for', service.title, ':', bullets);
             }
             
-            console.log('🔧 Extracted bullets for', service.title, ':', bullets);
+            // Fallback: try to extract from paragraph format
+            if (bullets.length === 0) {
+                const bulletRegex = /<p>-\s*(.+?)<\/p>/g;
+                let match;
+                
+                while ((match = bulletRegex.exec(service.content)) !== null) {
+                    bullets.push(match[1].trim());
+                }
+                console.log('🔧 Extracted bullets from paragraphs for', service.title, ':', bullets);
+            }
             
             // Generate proper list items with arrow bullets
             let listItems = '';
