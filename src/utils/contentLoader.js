@@ -182,7 +182,20 @@ export class ContentLoader {
         
         // First part is content before any ## heading
         if (parts[0]) {
-            sections.mainContent = this.markdownToHtml(parts[0].trim());
+            const mainContentText = parts[0].trim();
+            // Remove the main heading if it exists (# Financial Investments)
+            const cleanedContent = mainContentText.replace(/^#\s+[^\n]+\n*/, '');
+            
+            // If there's no content after removing the main heading, use the first section as main content
+            if (!cleanedContent.trim() && parts.length > 2) {
+                console.log('📄 No intro content found, using first section as main content');
+                // Use the first section's content as main content
+                sections.mainContent = this.markdownToHtml(parts[2].trim());
+                // Adjust the loop to skip the first section
+                sections.skipFirstSection = true;
+            } else {
+                sections.mainContent = this.markdownToHtml(cleanedContent);
+            }
             console.log('📄 Main content set:', sections.mainContent.substring(0, 100));
         }
         
@@ -1153,11 +1166,10 @@ export class ContentLoader {
     generateFinancialProductsSection(sections) {
         console.log('💳 Generating financial products section, available sections:', Object.keys(sections));
         
-        // Look for the financial products list in the content
+        // Look for the section that has the diverse line of products
         const productsSection = sections.other.find(section => 
-            section.content.includes('cash management') || 
-            section.content.includes('letters of credit') ||
-            section.title.toLowerCase().includes('products')
+            section.title.toLowerCase().includes('backing') || 
+            section.title.toLowerCase().includes('diverse line')
         );
         
         if (!productsSection) {
@@ -1170,12 +1182,116 @@ export class ContentLoader {
                 Comprehensive Financial Products
             </h2>
             <div class="bg-neutral-100 rounded-lg p-8">
-                <p class="text-neutral-800 mb-6 font-body">
-                    With a broad network of contacts around the globe, we can introduce you to a diverse line of banking, financial and investment banking products:
-                </p>
                 <div class="text-neutral-800 font-body">${productsSection.content}</div>
             </div>
         `;
+    }
+
+    /**
+     * Generate investment solutions grid for the investment-solutions page
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for investment solutions grid
+     */
+    generateInvestmentSolutionsGrid(sections) {
+        console.log('💎 Generating investment solutions grid, available sections:', Object.keys(sections));
+        
+        // For investment-solutions.md, all major sections are investment services
+        const investmentServices = sections.other.filter(section => 
+            section.title.toLowerCase().includes('private equity') ||
+            section.title.toLowerCase().includes('private placements') ||
+            section.title.toLowerCase().includes('management buyouts') ||
+            section.title.toLowerCase().includes('financial restructuring') ||
+            section.title.toLowerCase().includes('debtor-in-possession') ||
+            section.title.toLowerCase().includes('real estate') ||
+            section.title.toLowerCase().includes('asset based')
+        );
+        
+        if (investmentServices.length === 0) {
+            console.warn('⚠️ No investment services found');
+            return '';
+        }
+        
+        let html = `
+            <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
+                Our Investment Solutions
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        `;
+        
+        const icons = [
+            // Private Equity - growth chart
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>`,
+            // Private Placements - document
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>`,
+            // Management Buyouts - people
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>`,
+            // Financial Restructuring - refresh
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>`,
+            // DIP Financing - shield
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>`,
+            // Real Estate - office building
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>`,
+            // Asset Based - briefcase
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>`
+        ];
+        
+        investmentServices.forEach((service, index) => {
+            // Extract first paragraph as summary
+            const firstParagraphMatch = service.content.match(/<p[^>]*>(.*?)<\/p>/);
+            const summary = firstParagraphMatch ? firstParagraphMatch[0] : service.content;
+            
+            html += `
+                <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-primary/10 rounded-full w-16 h-16 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                ${icons[index % icons.length]}
+                            </svg>
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(service.title)}</h3>
+                            <div class="text-neutral-800 font-body">
+                                ${summary}
+                                <a href="#${service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}" 
+                                   class="inline-block mt-4 text-secondary hover:text-primary font-semibold transition-colors">
+                                    Learn More →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        
+        // Add detailed sections below the grid
+        html += '<div class="mt-16 space-y-16">';
+        
+        investmentServices.forEach((service, index) => {
+            const anchorId = service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            html += `
+                <div id="${anchorId}" class="scroll-mt-24">
+                    <div class="bg-white rounded-lg shadow-md p-8">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-primary/10 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    ${icons[index % icons.length]}
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-primary font-heading">${this.escapeHtml(service.title)}</h3>
+                        </div>
+                        <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                            ${service.content}
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
+        
+        return html;
     }
 
     /**

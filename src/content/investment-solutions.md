@@ -87,4 +87,4 @@ Asset based financing has enjoyed remarkable growth within the banking world. Wh
 - Asset based lenders have provided loan packages well above the \$300 million range.
 - Asset based lenders today serve almost every sector of North American industry and every geographic area.
 
-Our straightforward approach to business can be summed up in three words – ***Listening ... Learning ... Lending***.
+Our straightforward approach to business can be summed up in three words – ***Listening ... Learning ... Lending*****.**

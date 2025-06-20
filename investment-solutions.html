@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Forzak LLC</title>
-    <meta name="description" content="Learn about Forzak LLC, a Los Angeles-based investment and consulting company formed in 2010, providing global financial services.">
+    <title>Investment Solutions - Forzak LLC</title>
+    <meta name="description" content="Comprehensive investment banking and financing solutions including private equity, management buyouts, and specialized financing structures.">
     
     <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,10 +30,10 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="/index.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Home</a>
-                        <a href="/about.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
+                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
                         <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
                         <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Investments</a>
-                        <a href="/investment-solutions.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Solutions</a>
+                        <a href="/investment-solutions.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Solutions</a>
                         <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
                     </div>
                 </div>
@@ -53,83 +53,68 @@
             <div x-show="open" x-transition class="md:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
                     <a href="/index.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Home</a>
-                    <a href="/about.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">About</a>
+                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">About</a>
                     <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Services</a>
                     <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Investments</a>
-                    <a href="/investment-solutions.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Solutions</a>
+                    <a href="/investment-solutions.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">Solutions</a>
                     <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Contact Us</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- About Us Content -->
+    <!-- Investment Solutions Content -->
     <main class="pt-20">
         <!-- Hero Section -->
         <section class="bg-gradient-to-br from-neutral-100 to-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center">
                     <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6 font-heading">
-                        About Us
+                        Investment Solutions
                     </h1>
                     <p class="text-xl text-neutral-800 font-body" id="hero-subtitle">
-                        <!-- Dynamic subtitle will be loaded from about.md frontmatter -->
-                        Established in 2010, Forzak LLC is a Los Angeles-based investment and consulting company with a global reach.
+                        Comprehensive investment banking and financing solutions for businesses of all sizes.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Main Content -->
+        <!-- Main Description Section -->
         <section class="py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-12 gap-12 items-center">
-                    <!-- Text Content - 7 columns -->
-                    <div class="col-span-12 lg:col-span-7">
-                        <div id="about-main-content" class="prose prose-lg max-w-none font-body">
-                            <!-- Content will be loaded dynamically from about.md -->
-                            <div class="flex items-center justify-center py-8">
-                                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                                <span class="ml-3 text-neutral-600">Loading content...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Team Photo - 5 columns -->
-                    <div class="col-span-12 lg:col-span-5">
-                        <div class="rounded-lg overflow-hidden shadow-lg">
-                            <img src="/assets/about.png" alt="Forzak LLC Professional Team" class="w-full h-full object-cover aspect-[4/3]">
-                        </div>
+                <div id="solutions-main-content" class="prose prose-lg max-w-none font-body text-center">
+                    <!-- Content will be loaded dynamically -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading content...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Services Section -->
-         <!-- TODO: Check whether "bridge financing" is an acceptable service -->
+        <!-- Investment Services Grid -->
         <section class="py-16 bg-neutral-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div id="services-content">
-                    <!-- Services content will be loaded dynamically from about.md -->
+                <div id="investment-services-grid">
+                    <!-- Investment services will be loaded dynamically -->
                     <div class="flex items-center justify-center py-8">
                         <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                        <span class="ml-3 text-neutral-600">Loading services...</span>
+                        <span class="ml-3 text-neutral-600">Loading investment services...</span>
                     </div>
                 </div>
             </div>
         </section>
 
-
-        <!-- Personnel Section -->
-        <section class="py-16 bg-neutral-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div id="personnel-content">
-                    <!-- Personnel content will be loaded dynamically from about.md -->
-                    <div class="flex items-center justify-center py-8">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                        <span class="ml-3 text-neutral-600">Loading personnel...</span>
-                    </div>
-                </div>
+        <!-- CTA Section -->
+        <section class="py-16 bg-primary text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4 font-heading">Ready to Explore Our Investment Solutions?</h2>
+                <p class="text-xl mb-8 opacity-90 font-body">
+                    Let's discuss how our comprehensive financing options can help your business grow.
+                </p>
+                <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
+                    Schedule a Consultation
+                </a>
             </div>
         </section>
     </main>
@@ -157,6 +142,7 @@
                         <li><a href="/about.html" class="text-neutral-300 hover:text-white transition-colors">About Us</a></li>
                         <li><a href="/services.html" class="text-neutral-300 hover:text-white transition-colors">Services</a></li>
                         <li><a href="/investments.html" class="text-neutral-300 hover:text-white transition-colors">Investments</a></li>
+                        <li><a href="/investment-solutions.html" class="text-neutral-300 hover:text-white transition-colors">Solutions</a></li>
                         <li><a href="/contact.html" class="text-neutral-300 hover:text-white transition-colors">Contact</a></li>
                     </ul>
                 </div>

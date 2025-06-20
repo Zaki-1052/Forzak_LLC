@@ -270,6 +270,71 @@ window.loadPageContent = {
                 contentLoader.showError(industriesContainer, error.message);
             }
         }
+    },
+
+    async investmentSolutions() {
+        console.log('💼 Investment Solutions page loading function called');
+        
+        try {
+            console.log('🔄 Loading investment solutions content...');
+            const content = await contentLoader.loadContent('investment-solutions');
+            console.log('✅ Investment solutions content loaded successfully:', content);
+            
+            // Update page title if needed
+            const titleElement = document.querySelector('h1');
+            console.log('🏷️ Title element:', titleElement);
+            if (titleElement && content.frontmatter.title) {
+                console.log(`📝 Updating title from "${titleElement.textContent}" to "${content.frontmatter.title}"`);
+                titleElement.textContent = content.frontmatter.title;
+            }
+            
+            // Update hero subtitle if needed
+            const subtitleElement = document.getElementById('hero-subtitle');
+            console.log('📄 Subtitle element:', subtitleElement);
+            if (subtitleElement && content.frontmatter.description) {
+                console.log(`📝 Updating subtitle to: "${content.frontmatter.description}"`);
+                subtitleElement.textContent = content.frontmatter.description;
+            }
+            
+            // Render main content
+            const mainContentContainer = document.getElementById('solutions-main-content');
+            console.log('📦 Main content container:', mainContentContainer);
+            
+            if (mainContentContainer && content.sections.mainContent) {
+                console.log('🎨 Applying styling to main content...');
+                const styledContent = contentLoader.applyContentStyling(content.sections.mainContent);
+                console.log('🎨 Styled content:', styledContent);
+                mainContentContainer.innerHTML = styledContent;
+                console.log('✅ Main content rendered');
+            }
+            
+            // Render investment services grid
+            const servicesGridContainer = document.getElementById('investment-services-grid');
+            console.log('📊 Services grid container:', servicesGridContainer);
+            
+            if (servicesGridContainer) {
+                console.log('🎨 Generating investment services grid...');
+                const servicesGridHtml = contentLoader.generateInvestmentSolutionsGrid(content.sections);
+                console.log('🎨 Services grid HTML:', servicesGridHtml);
+                servicesGridContainer.innerHTML = servicesGridHtml;
+                console.log('✅ Investment services grid rendered');
+            }
+            
+            console.log('🎉 Investment Solutions page loading completed successfully');
+            
+        } catch (error) {
+            console.error('❌ Failed to load investment solutions content:', error);
+            
+            const mainContentContainer = document.getElementById('solutions-main-content');
+            if (mainContentContainer) {
+                contentLoader.showError(mainContentContainer, error.message);
+            }
+            
+            const servicesGridContainer = document.getElementById('investment-services-grid');
+            if (servicesGridContainer) {
+                contentLoader.showError(servicesGridContainer, error.message);
+            }
+        }
     }
 };
 
@@ -286,6 +351,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('services.html')) {
         console.log('✅ Services page detected - calling services loader');
         window.loadPageContent.services();
+    } else if (path.includes('investment-solutions.html')) {
+        console.log('✅ Investment Solutions page detected - calling investment solutions loader');
+        window.loadPageContent.investmentSolutions();
     } else if (path.includes('investments.html')) {
         console.log('✅ Investments page detected - calling investments loader');
         window.loadPageContent.investments();

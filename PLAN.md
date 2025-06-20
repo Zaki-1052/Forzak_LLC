@@ -8,38 +8,38 @@
 ## Implementation Tasks
 
 ### 1. Fix Content Loading Issues
-- [ ] Fix the financial products section to show the correct bullet list
-- [ ] Fix main content showing only the title
-- [ ] Improve content parsing in contentLoader.js for investments
+- [x] Fix the financial products section to show the correct bullet list
+- [x] Fix main content showing only the title
+- [x] Improve content parsing in contentLoader.js for investments
 
 ### 2. Create New Markdown Files
-- [ ] Create investment-solutions.md with sections from Private Equity onwards
-- [ ] Update investments.md to only include first 8 sections
+- [x] Create investment-solutions.md with sections from Private Equity onwards
+- [x] Update investments.md to only include first 8 sections
 
 ### 3. Create New HTML Page
-- [ ] Create investment-solutions.html based on investments.html template
-- [ ] Update page title and meta description
-- [ ] Adjust content sections as needed
+- [x] Create investment-solutions.html based on investments.html template
+- [x] Update page title and meta description
+- [x] Adjust content sections as needed
 
 ### 4. Update Navigation
-- [ ] Add "Investment Solutions" to navigation in index.html
-- [ ] Add "Investment Solutions" to navigation in about.html
-- [ ] Add "Investment Solutions" to navigation in services.html
-- [ ] Add "Investment Solutions" to navigation in investments.html
-- [ ] Add "Investment Solutions" to navigation in contact.html
-- [ ] Add "Investment Solutions" to navigation in new investment-solutions.html
-- [ ] Update active states for both investment pages
+- [x] Add "Investment Solutions" to navigation in index.html
+- [x] Add "Investment Solutions" to navigation in about.html
+- [x] Add "Investment Solutions" to navigation in services.html
+- [x] Add "Investment Solutions" to navigation in investments.html
+- [x] Add "Investment Solutions" to navigation in contact.html
+- [x] Add "Investment Solutions" to navigation in new investment-solutions.html
+- [x] Update active states for both investment pages
 
 ### 5. Update Content Loader
-- [ ] Add new loader function for investment-solutions in main.js
-- [ ] Fix the generateFinancialProductsSection to pull correct content
-- [ ] Update investments loader to handle split content properly
+- [x] Add new loader function for investment-solutions in main.js
+- [x] Fix the generateFinancialProductsSection to pull correct content
+- [x] Update investments loader to handle split content properly
 
 ### 6. Content Display Improvements
-- [ ] Create proper grid layouts for investment service cards
-- [ ] Add icons for each investment service type
-- [ ] Improve visual hierarchy and readability
-- [ ] Fix the main content display issue
+- [x] Create proper grid layouts for investment service cards
+- [x] Add icons for each investment service type
+- [x] Improve visual hierarchy and readability
+- [x] Fix the main content display issue
 
 ### 7. Testing Checklist
 - [ ] Verify investments.html loads correct content
