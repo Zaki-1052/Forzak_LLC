@@ -1366,7 +1366,7 @@ export class ContentLoader {
                             <div class="text-neutral-800 font-body">
                                 ${summary}
                                 <a href="#${service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}" 
-                                   class="inline-block mt-4 text-secondary hover:text-primary font-semibold transition-colors">
+                                   class="inline-block mt-4 text-secondary hover:text-primary font-semibold transition-colors smooth-scroll">
                                     Learn More →
                                 </a>
                             </div>
@@ -1438,12 +1438,29 @@ export class ContentLoader {
             <div class="space-y-12">
         `;
         
+        // Icons for specialized services
+        const specializedIcons = [
+            // DIP Financing - shield/protection
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>`,
+            // Real Estate - building
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>`,
+            // Asset Based - vault/safe
+            `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>`
+        ];
+        
         financingServices.forEach((service, index) => {
             const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
             
             html += `
-                <div class="${bgClass} rounded-lg shadow-md p-8 md:p-12">
-                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
+                <div class="${bgClass} rounded-lg shadow-md p-8 md:p-12 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group cursor-pointer">
+                    <div class="flex items-start mb-6">
+                        <div class="bg-primary/10 rounded-full w-14 h-14 flex items-center justify-center flex-shrink-0 mr-4 transition-colors duration-300 group-hover:bg-primary/20">
+                            <svg class="w-7 h-7 text-primary transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                ${specializedIcons[index % specializedIcons.length]}
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-primary font-heading">${this.escapeHtml(service.title)}</h3>
+                    </div>
                     <div class="text-neutral-800 font-body">
                         ${service.content}
                     </div>

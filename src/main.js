@@ -366,5 +366,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Add smooth scroll behavior for anchor links
+document.addEventListener('click', (e) => {
+    // Check if clicked element is a smooth scroll link
+    if (e.target.matches('a.smooth-scroll') || e.target.closest('a.smooth-scroll')) {
+        e.preventDefault();
+        const link = e.target.matches('a.smooth-scroll') ? e.target : e.target.closest('a.smooth-scroll');
+        const targetId = link.getAttribute('href');
+        
+        if (targetId && targetId.startsWith('#')) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    }
+});
+
 // Start Alpine
 Alpine.start() 
