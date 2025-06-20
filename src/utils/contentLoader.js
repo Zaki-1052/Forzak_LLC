@@ -1298,15 +1298,17 @@ export class ContentLoader {
         console.log('💎 Generating investment solutions grid, available sections:', Object.keys(sections));
         console.log('📋 All sections.other:', sections.other.map(s => s.title));
         
-        // For investment-solutions.md, get all sections except the first one which is the intro
+        // For investment-solutions.md, get only the first 4 core services for cards
+        const coreServices = ['private equity', 'private placements', 'management buyouts', 'financial restructuring'];
         const investmentServices = sections.other.filter(section => {
             const title = section.title.toLowerCase();
-            // Skip the intro section if it exists
+            // Skip the intro section and only include core services
             return title !== 'tailored financial solutions for your business' && 
-                   section.title !== ''; // Skip empty titles
+                   section.title !== '' && // Skip empty titles
+                   coreServices.some(service => title.includes(service));
         });
         
-        console.log('✅ Found investment services after filtering:', investmentServices.map(s => s.title));
+        console.log('✅ Found core investment services for cards:', investmentServices.map(s => s.title));
         
         if (investmentServices.length === 0) {
             console.warn('⚠️ No investment services found');
@@ -1315,7 +1317,7 @@ export class ContentLoader {
         
         let html = `
             <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
-                Our Investment Solutions
+                Our Core Investment Solutions
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         `;
@@ -1338,9 +1340,18 @@ export class ContentLoader {
         ];
         
         investmentServices.forEach((service, index) => {
-            // Extract first paragraph as summary
+            // Extract first 1-2 sentences as summary for cleaner card display
             const firstParagraphMatch = service.content.match(/<p[^>]*>(.*?)<\/p>/);
-            const summary = firstParagraphMatch ? firstParagraphMatch[0] : service.content;
+            let summary = '';
+            if (firstParagraphMatch) {
+                const fullText = firstParagraphMatch[1];
+                // Extract first 1-2 sentences (ending with period, exclamation, or question mark)
+                const sentences = fullText.match(/[^.!?]+[.!?]+/g) || [];
+                const firstTwoSentences = sentences.slice(0, 2).join(' ');
+                summary = `<p class="text-neutral-800 mb-4 font-body leading-relaxed text-lg">${firstTwoSentences}</p>`;
+            } else {
+                summary = service.content;
+            }
             
             html += `
                 <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -1367,7 +1378,7 @@ export class ContentLoader {
         
         html += '</div>';
         
-        // Add detailed sections below the grid
+        // Add detailed sections below the grid for core services only
         html += '<div class="mt-16 space-y-16">';
         
         investmentServices.forEach((service, index) => {
@@ -1393,6 +1404,54 @@ export class ContentLoader {
         
         html += '</div>';
         
+        return html;
+    }
+
+    /**
+     * Generate specialized financing services section for investment solutions page
+     * @param {Object} sections - Parsed sections object
+     * @returns {string} HTML for specialized financing services
+     */
+    generateSpecializedFinancingServices(sections) {
+        console.log('💼 Generating specialized financing services, available sections:', Object.keys(sections));
+        console.log('📋 All sections.other:', sections.other.map(s => s.title));
+        
+        // Get the specialized financing services (last 3 services)
+        const specializedServices = ['debtor-in-possession financing', 'real estate development financing', 'asset based financing'];
+        const financingServices = sections.other.filter(section => {
+            const title = section.title.toLowerCase();
+            return specializedServices.some(service => title.includes(service) || 
+                   (service === 'asset based financing' && title.includes('when you need more than a bank')));
+        });
+        
+        console.log('✅ Found specialized financing services:', financingServices.map(s => s.title));
+        
+        if (financingServices.length === 0) {
+            console.warn('⚠️ No specialized financing services found');
+            return '';
+        }
+        
+        let html = `
+            <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
+                Specialized Financing Services
+            </h2>
+            <div class="space-y-12">
+        `;
+        
+        financingServices.forEach((service, index) => {
+            const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+            
+            html += `
+                <div class="${bgClass} rounded-lg shadow-md p-8 md:p-12">
+                    <h3 class="text-2xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(service.title)}</h3>
+                    <div class="text-neutral-800 font-body prose prose-lg max-w-none">
+                        ${service.content}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += '</div>';
         return html;
     }
 

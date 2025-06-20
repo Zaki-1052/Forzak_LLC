@@ -307,6 +307,18 @@ window.loadPageContent = {
                 console.log('✅ Investment services grid rendered');
             }
             
+            // Render specialized financing services
+            const specializedServicesContainer = document.getElementById('specialized-financing-services');
+            console.log('💼 Specialized services container:', specializedServicesContainer);
+            
+            if (specializedServicesContainer) {
+                console.log('🎨 Generating specialized financing services...');
+                const specializedServicesHtml = contentLoader.generateSpecializedFinancingServices(content.sections);
+                console.log('🎨 Specialized services HTML:', specializedServicesHtml);
+                specializedServicesContainer.innerHTML = specializedServicesHtml;
+                console.log('✅ Specialized financing services rendered');
+            }
+            
             console.log('🎉 Investment Solutions page loading completed successfully');
             
         } catch (error) {
@@ -320,6 +332,11 @@ window.loadPageContent = {
             const servicesGridContainer = document.getElementById('investment-services-grid');
             if (servicesGridContainer) {
                 contentLoader.showError(servicesGridContainer, error.message);
+            }
+            
+            const specializedServicesContainer = document.getElementById('specialized-financing-services');
+            if (specializedServicesContainer) {
+                contentLoader.showError(specializedServicesContainer, error.message);
             }
         }
     }
