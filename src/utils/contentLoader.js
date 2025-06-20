@@ -961,11 +961,10 @@ export class ContentLoader {
                                 <div class="text-neutral-800 font-body">${this.getManagementConsultingIntro(section.content)}</div>
                             </div>
                             <div>
-                                <!-- TODO: Management Consulting Image -->
-                                <!-- AI-generated image of intense business consultation between two men at modern office desk, 
-                                     speaker in dark suit with red tie gesturing passionately, blurred office background -->
-                                <div class="aspect-[3/2] bg-neutral-200 rounded-lg flex items-center justify-center">
-                                    <span class="text-sm text-neutral-500 text-center p-4">Management Consulting<br/>Image Placeholder</span>
+                                <div class="aspect-[3/2] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                                    <img src="/assets/img/meeting.png" 
+                                         alt="Professional business consultation meeting - executive in dark suit gesturing during strategic discussion" 
+                                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300">
                                 </div>
                             </div>
                         </div>
