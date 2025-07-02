@@ -1344,9 +1344,17 @@ export class ContentLoader {
         specialSectionIndices.forEach((specialIndex, i) => {
             const specialSection = sections.other[specialIndex];
             const specialBgClass = specialIndex % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+            
+            // Handle special formatting for the "Backing" title to split it across two lines
+            let formattedTitle = this.escapeHtml(specialSection.title);
+            if (specialSection.title.toLowerCase().includes('backing') && specialSection.title.includes('–')) {
+                // Replace "– " with "–<br>" to break the line after the dash
+                formattedTitle = formattedTitle.replace('–&nbsp;', '–<br>').replace('– ', '–<br>');
+            }
+            
             html += `
                 <div class="${specialBgClass} rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-                    <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(specialSection.title)}</h2>
+                    <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${formattedTitle}</h2>
                     <div class="text-neutral-800 font-body">
                         ${specialSection.content}
                     </div>
