@@ -91,6 +91,9 @@
                             <!-- Contact Form -->
                             <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" 
                                   x-data="contactForm()" @submit.prevent="submitForm">
+                                <!-- Hidden form-name field for Netlify -->
+                                <input type="hidden" name="form-name" value="contact" />
+                                
                                 <!-- Honeypot field -->
                                 <div class="hidden">
                                     <label>Don't fill this out if you're human: <input name="bot-field" /></label>
@@ -368,21 +371,38 @@
                 validateForm() {
                     this.errors = {};
                     
+                    // Name validation
                     if (!this.formData.name.trim()) {
                         this.errors.name = 'Name is required';
                     }
                     
+                    // Email validation
                     if (!this.formData.email.trim()) {
                         this.errors.email = 'Email is required';
                     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.formData.email)) {
                         this.errors.email = 'Please enter a valid email address';
                     }
                     
+                    // Message validation
                     if (!this.formData.message.trim()) {
                         this.errors.message = 'Message is required';
+                    } else if (this.formData.message.trim().length < 10) {
+                        this.errors.message = 'Message must be at least 10 characters long';
+                    } else if (this.containsLinks(this.formData.message)) {
+                        this.errors.message = 'Please do not include links in your message';
                     }
                     
                     return Object.keys(this.errors).length === 0;
+                },
+                
+                containsLinks(text) {
+                    // Simple link detection for common patterns
+                    const linkPatterns = [
+                        /https?:\/\/[^\s]+/i,
+                        /www\.[^\s]+/i,
+                        /[^\s]+\.(com|org|net|io|co|uk|de|fr|jp|cn|in|br|au|ca|ru|nl|it|es)[^\w]/i
+                    ];
+                    return linkPatterns.some(pattern => pattern.test(text));
                 },
                 
                 async submitForm() {
@@ -395,19 +415,25 @@
                     this.showError = false;
                     
                     try {
+                        // Create FormData and convert to URLSearchParams for Netlify
                         const formData = new FormData();
+                        formData.append('form-name', 'contact');
+                        
+                        // Add all form fields
                         Object.keys(this.formData).forEach(key => {
                             formData.append(key, this.formData[key]);
                         });
-                        formData.append('form-name', 'contact');
                         
+                        // Submit with proper encoding for Netlify
                         const response = await fetch('/', {
                             method: 'POST',
-                            body: formData
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams(formData).toString()
                         });
                         
                         if (response.ok) {
                             this.showSuccess = true;
+                            // Reset form
                             this.formData = {
                                 name: '',
                                 email: '',
@@ -416,11 +442,26 @@
                                 service: '',
                                 message: ''
                             };
+                            // Hide success message after 5 seconds
+                            setTimeout(() => {
+                                this.showSuccess = false;
+                            }, 5000);
                         } else {
+                            // Try to parse error response
+                            const contentType = response.headers.get('content-type');
+                            if (contentType && contentType.includes('application/json')) {
+                                const data = await response.json();
+                                console.error('Form submission error:', data);
+                            }
                             throw new Error('Form submission failed');
                         }
                     } catch (error) {
+                        console.error('Form submission error:', error);
                         this.showError = true;
+                        // Hide error message after 5 seconds
+                        setTimeout(() => {
+                            this.showError = false;
+                        }, 5000);
                     } finally {
                         this.isSubmitting = false;
                     }
