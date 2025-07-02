@@ -4,14 +4,17 @@ import './styles/main.css'
 // Import Alpine.js
 import Alpine from 'alpinejs'
 
-// Import content loader
-import { contentLoader } from './utils/contentLoader.js'
+// Memoized helper to lazy load content loader only when needed
+async function ensureContentLoader() {
+    if (window.contentLoader) return window.contentLoader;
+    
+    const module = await import('./utils/contentLoader.js');
+    window.contentLoader = module.contentLoader;
+    return window.contentLoader;
+}
 
 // Make Alpine available globally
 window.Alpine = Alpine
-
-// Make content loader available globally
-window.contentLoader = contentLoader
 
 // Content loading functions for each page
 window.loadPageContent = {
@@ -19,6 +22,7 @@ window.loadPageContent = {
         console.log('🏠 About page loading function called');
         
         try {
+            const contentLoader = await ensureContentLoader();
             console.log('🔄 Loading about content...');
             const content = await contentLoader.loadContent('about');
             console.log('✅ About content loaded successfully:', content);
@@ -105,6 +109,7 @@ window.loadPageContent = {
         console.log('🛠️ Services page loading function called');
         
         try {
+            const contentLoader = await ensureContentLoader();
             console.log('🔄 Loading services content...');
             const content = await contentLoader.loadContent('services');
             console.log('✅ Services content loaded successfully:', content);
@@ -184,6 +189,7 @@ window.loadPageContent = {
         console.log('💰 Investments page loading function called');
         
         try {
+            const contentLoader = await ensureContentLoader();
             console.log('🔄 Loading investments content...');
             const content = await contentLoader.loadContent('investments');
             console.log('✅ Investments content loaded successfully:', content);
@@ -263,6 +269,7 @@ window.loadPageContent = {
         console.log('💼 Investment Solutions page loading function called');
         
         try {
+            const contentLoader = await ensureContentLoader();
             console.log('🔄 Loading investment solutions content...');
             const content = await contentLoader.loadContent('investment-solutions');
             console.log('✅ Investment solutions content loaded successfully:', content);
