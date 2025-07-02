@@ -356,16 +356,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('📍 Current path:', path);
     console.log('🔧 Available loadPageContent methods:', Object.keys(window.loadPageContent));
     
-    if (path.includes('about.html')) {
+    if (path.includes('about.html') || path.includes('/about')) {
         console.log('✅ About page detected - calling about loader');
         window.loadPageContent.about();
-    } else if (path.includes('services.html')) {
+    } else if (path.includes('services.html') || path.includes('/services')) {
         console.log('✅ Services page detected - calling services loader');
         window.loadPageContent.services();
-    } else if (path.includes('investment-solutions.html')) {
+    } else if (path.includes('investment-solutions.html') || path.includes('/investment-solutions')) {
         console.log('✅ Investment Solutions page detected - calling investment solutions loader');
         window.loadPageContent.investmentSolutions();
-    } else if (path.includes('investments.html')) {
+    } else if (path.includes('investments.html') || path.includes('/investments')) {
         console.log('✅ Investments page detected - calling investments loader');
         window.loadPageContent.investments();
     } else {
