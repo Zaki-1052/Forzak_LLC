@@ -16,9 +16,11 @@ export class ContentLoaderCore {
         try {
             console.log(`🔄 Starting to load content: ${contentName}`);
             
-            // Fetch the markdown file as text
+            // Fetch the markdown file as text  
             const fetchUrl = `/content/${contentName}.md`;
             console.log(`📡 Fetching from URL: ${fetchUrl}`);
+            console.log(`🌍 Current origin: ${window.location.origin}`);
+            console.log(`🔗 Full URL: ${window.location.origin}${fetchUrl}`);
             
             const response = await fetch(fetchUrl);
             console.log(`📡 Fetch response:`, {
