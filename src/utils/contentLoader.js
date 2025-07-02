@@ -1278,40 +1278,11 @@ export class ContentLoader {
                     </div>
                 `;
             } else if (hasSpecialSections && index === specialSectionIndices[0]) {
-                // Start special layout for the three sections with glass image
-                console.log('🥽 Starting special layout with glass image for sections:', specialSectionIndices);
-                html += `
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                        <div class="lg:col-span-3 space-y-8">
-                `;
+                // Start special layout for the three sections with vertical images
+                console.log('🥽 Starting special layout with vertical images for sections:', specialSectionIndices);
                 
-                // Render all three special sections
-                specialSectionIndices.forEach((specialIndex, i) => {
-                    const specialSection = sections.other[specialIndex];
-                    const specialBgClass = specialIndex % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
-                    html += `
-                        <div class="${specialBgClass} rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
-                            <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(specialSection.title)}</h2>
-                            <div class="text-neutral-800 font-body">
-                                ${specialSection.content}
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += `
-                        </div>
-                        <div class="lg:col-span-1">
-                            <div class="sticky top-24">
-                                <div class="aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                                    <img src="/assets/img/glass.png" 
-                                         alt="Financial analysis with magnifying glass over charts and graphs showing investment opportunities and market data" 
-                                         class="w-full h-full object-cover object-center">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                // Generate the special sections with images layout
+                html += this.generateSpecialSectionsWithImages(sections, specialSectionIndices);
             } else if (!hasSpecialSections || !specialSectionIndices.includes(index)) {
                 // Regular section layout (skip if this section is part of the special group)
                 html += `
@@ -1327,6 +1298,88 @@ export class ContentLoader {
         });
         
         html += '</div>';
+        return html;
+    }
+
+    /**
+     * Generate special sections layout with vertical images
+     * @param {Object} sections - Parsed sections object  
+     * @param {Array} specialSectionIndices - Indices of sections to render with images
+     * @returns {string} HTML for special sections with images
+     */
+    generateSpecialSectionsWithImages(sections, specialSectionIndices) {
+        // Configuration for vertical images - easily add/remove images here
+        const verticalImagesConfig = [
+            {
+                filename: 'glass.png',
+                alt: 'Financial analysis with magnifying glass over charts and graphs showing investment opportunities and market data'
+            },
+            {
+                filename: 'pen.png', 
+                alt: 'Professional business pen and documents representing contract signing and deal closure'
+            },
+            {
+                filename: 'suit.png',
+                alt: 'Professional business attire representing expertise and trustworthiness'
+            }
+        ];
+        
+        // For now, we'll assume all configured images exist
+        // In a real implementation, you could check file existence
+        const availableImages = verticalImagesConfig.filter(img => {
+            // Simple check - only include glass.png and pen.png for now since suit.png doesn't exist yet
+            return img.filename === 'glass.png' || img.filename === 'pen.png';
+        });
+        
+        console.log('🖼️ Available vertical images:', availableImages.map(img => img.filename));
+        
+        // Calculate grid layout based on number of images
+        const numImages = availableImages.length;
+        const contentSpan = numImages === 1 ? 3 : (numImages === 2 ? 2 : 2); // Adjust content width
+        const imageSpan = numImages === 1 ? 1 : (numImages === 2 ? 2 : 2); // Adjust image width
+        
+        let html = `
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div class="lg:col-span-${contentSpan} space-y-8">
+        `;
+        
+        // Render all special sections
+        specialSectionIndices.forEach((specialIndex, i) => {
+            const specialSection = sections.other[specialIndex];
+            const specialBgClass = specialIndex % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+            html += `
+                <div class="${specialBgClass} rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+                    <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(specialSection.title)}</h2>
+                    <div class="text-neutral-800 font-body">
+                        ${specialSection.content}
+                    </div>
+                </div>
+            `;
+        });
+        
+        html += `
+                </div>
+                <div class="lg:col-span-${imageSpan}">
+                    <div class="sticky top-24 space-y-6">
+        `;
+        
+        // Render available images
+        availableImages.forEach((imageConfig, index) => {
+            html += `
+                <div class="aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                    <img src="/assets/img/${imageConfig.filename}" 
+                         alt="${imageConfig.alt}" 
+                         class="w-full h-full object-cover object-center">
+                </div>
+            `;
+        });
+        
+        html += `
+                    </div>
+                </div>
+            </div>
+        `;
+        
         return html;
     }
 
