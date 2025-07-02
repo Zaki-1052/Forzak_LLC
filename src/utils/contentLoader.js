@@ -1023,10 +1023,10 @@ export class ContentLoader {
                                 <div class="text-neutral-800 font-body">${section.content}</div>
                             </div>
                             <div class="lg:col-span-1">
-                                <!-- TODO: Risk Management Vertical Image -->
-                                <!-- Professional image representing risk assessment, monitoring, or crisis management -->
-                                <div class="aspect-[2/3] bg-neutral-200 rounded-lg flex items-center justify-center h-full">
-                                    <span class="text-sm text-neutral-500 text-center p-4">Risk Management<br/>Vertical Image<br/>Placeholder</span>
+                                <div class="aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                                    <img src="/assets/img/graphs.png" 
+                                         alt="Risk management analytics with graphs and charts showing financial data and performance metrics" 
+                                         class="w-full h-full object-cover object-center">
                                 </div>
                             </div>
                         </div>
