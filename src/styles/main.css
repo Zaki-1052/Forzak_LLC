@@ -30,6 +30,33 @@
     font-weight: 400 !important;
   }
 
+  /* Performance optimizations */
+  .lazy-load {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .lazy-load.loaded {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .lazy-load {
+      transition: none;
+    }
+    
+    .animate-bounce {
+      animation: none;
+    }
+    
+    .group-hover\\:scale-105:hover {
+      transform: none;
+    }
+  }
+
 
   /* Navigation improvements */
   .nav-link {

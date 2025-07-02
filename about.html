@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Forzak LLC</title>
     <meta name="description" content="Learn about Forzak LLC, a Los Angeles-based investment and consulting company formed in 2010, providing global financial services.">
+    <meta name="keywords" content="about forzak llc, investment company, consulting firm, Los Angeles, financial advisory, Sameer Alibhai">
+    <meta name="author" content="Sameer Alibhai">
+    
+    <!-- Favicon and App Icons -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/assets/icons/logo_trimmed.png">
+    <meta name="theme-color" content="#003366">
     
     <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +20,30 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="/src/styles/main.css">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://forzak.net/about.html">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "url": "https://forzak.net/about.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Forzak LLC",
+        "description": "Los Angeles-based investment and consulting company formed in 2010, providing global financial services.",
+        "foundingDate": "2010",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Los Angeles",
+          "@addressRegion": "CA",
+          "addressCountry": "US"
+        }
+      }
+    }
+    </script>
 </head>
 <body class="min-h-screen">
     <!-- Navigation -->
@@ -98,7 +129,7 @@
                     <!-- Team Photo - 5 columns -->
                     <div class="col-span-12 lg:col-span-5">
                         <div class="rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                            <img src="/assets/img/about.png" alt="Forzak LLC Professional Team" class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-300">
+                            <img src="/assets/img/about.png" alt="Forzak LLC Professional Team" class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-300" loading="lazy">
                         </div>
                     </div>
                 </div>

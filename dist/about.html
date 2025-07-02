@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Services - Forzak LLC</title>
-    <meta name="description" content="Forzak LLC offers comprehensive consulting services including management consulting, corporate restructuring, M&A advisory, and strategic guidance.">
-    <meta name="keywords" content="business services, management consulting, corporate restructuring, financial advisory">
+    <title>About Us - Forzak LLC</title>
+    <meta name="description" content="Learn about Forzak LLC, a Los Angeles-based investment and consulting company formed in 2010, providing global financial services.">
+    <meta name="keywords" content="about forzak llc, investment company, consulting firm, Los Angeles, financial advisory, Sameer Alibhai">
     <meta name="author" content="Sameer Alibhai">
     
     <!-- Favicon and App Icons -->
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/assets/icons/logo_trimmed.png">
     <meta name="theme-color" content="#003366">
-    <link rel="canonical" href="https://forzakllc.com/services.html">
     
     <!-- Preload fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +19,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="/src/styles/main.css">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://forzak.net/about.html">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "url": "https://forzak.net/about.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "Forzak LLC",
+        "description": "Los Angeles-based investment and consulting company formed in 2010, providing global financial services.",
+        "foundingDate": "2010",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Los Angeles",
+          "@addressRegion": "CA",
+          "addressCountry": "US"
+        }
+      }
+    }
+    </script>
+  <script type="module" crossorigin src="/assets/alpine-C2E5OfTl.js"></script>
+  <script type="module" crossorigin src="/assets/main-BXTuv5ok.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-Dn1xyeR_.css">
 </head>
 <body class="min-h-screen">
     <!-- Navigation -->
@@ -38,8 +63,8 @@
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="/index.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Home</a>
-                        <a href="/about.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
-                        <a href="/services.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
+                        <a href="/about.html" class="text-primary font-bold border-b-2 border-accent-gold px-3 py-2 text-base font-medium transition-colors font-heading">About</a>
+                        <a href="/services.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Services</a>
                         <a href="/investments.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Investments</a>
                         <a href="/investment-solutions.html" class="text-neutral-800 hover:text-secondary px-3 py-2 text-base font-medium transition-colors font-heading">Solutions</a>
                         <a href="/contact.html" class="btn-primary ml-4">Contact Us</a>
@@ -61,8 +86,8 @@
             <div x-show="open" x-transition class="md:hidden">
                 <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
                     <a href="/index.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Home</a>
-                    <a href="/about.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">About</a>
-                    <a href="/services.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">Services</a>
+                    <a href="/about.html" class="text-primary font-bold border-l-4 border-accent-gold block px-3 py-2 text-base font-medium font-heading bg-primary/5">About</a>
+                    <a href="/services.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Services</a>
                     <a href="/investments.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Investments</a>
                     <a href="/investment-solutions.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Solutions</a>
                     <a href="/contact.html" class="text-neutral-800 hover:text-secondary block px-3 py-2 text-base font-medium font-heading">Contact Us</a>
@@ -71,59 +96,54 @@
         </div>
     </nav>
 
-    <!-- Services Content -->
+    <!-- About Us Content -->
     <main class="pt-20">
         <!-- Hero Section -->
         <section class="bg-gradient-to-br from-neutral-100 to-white py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="max-w-4xl mx-auto text-center">
                     <h1 class="text-4xl md:text-6xl font-bold text-primary mb-6 font-heading">
-                        Our Services
+                        About Us
                     </h1>
                     <p class="text-xl text-neutral-800 font-body" id="hero-subtitle">
-                        <!-- Dynamic subtitle will be loaded from services.md frontmatter -->
-                        Market leading advisory firm providing comprehensive consulting and financial services.
+                        <!-- Dynamic subtitle will be loaded from about.md frontmatter -->
+                        Established in 2010, Forzak LLC is a Los Angeles-based investment and consulting company with a global reach.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Main Description Section -->
+        <!-- Main Content -->
         <section class="py-12">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-primary mb-6 font-heading">
-                        Forzak Will Do More for Your Business
-                    </h2>
-                </div>
-                <div id="services-main-content" class="font-body text-center">
-                    <!-- Content will be loaded dynamically from services.md -->
-                    <div class="flex items-center justify-center py-8">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                        <span class="ml-3 text-neutral-600">Loading content...</span>
+                <div class="grid grid-cols-12 gap-12 items-center">
+                    <!-- Text Content - 7 columns -->
+                    <div class="col-span-12 lg:col-span-7">
+                        <div id="about-main-content" class="font-body">
+                            <!-- Content will be loaded dynamically from about.md -->
+                            <div class="flex items-center justify-center py-8">
+                                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                                <span class="ml-3 text-neutral-600">Loading content...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Photo - 5 columns -->
+                    <div class="col-span-12 lg:col-span-5">
+                        <div class="rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                            <img src="/assets/img/about.png" alt="Forzak LLC Professional Team" class="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Core Values Section -->
+        <!-- Services Section -->
+         <!-- TODO: Check whether "bridge financing" is an acceptable service -->
         <section class="py-16 bg-neutral-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div id="core-values-content">
-                    <!-- Core values content will be loaded dynamically from services.md -->
-                    <div class="flex items-center justify-center py-8">
-                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
-                        <span class="ml-3 text-neutral-600">Loading core values...</span>
-                    </div>
-                </div> 
-            </div>
-        </section>
-
-        <!-- Services Sections -->
-        <section class="py-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div id="services-sections-content">
-                    <!-- Services sections content will be loaded dynamically from services.md -->
+                <div id="services-content">
+                    <!-- Services content will be loaded dynamically from about.md -->
                     <div class="flex items-center justify-center py-8">
                         <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
                         <span class="ml-3 text-neutral-600">Loading services...</span>
@@ -132,28 +152,17 @@
             </div>
         </section>
 
-        <!-- Horizontal Featured Image -->
-        <section class="py-4">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="aspect-[3/1] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
-                    <img src="/assets/img/handshake.png" 
-                         alt="Professional business handshake representing successful partnerships and strategic business agreements" 
-                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                         loading="lazy">
-                </div>
-            </div>
-        </section>
 
-        <!-- CTA Section -->
-        <section class="py-16 bg-primary text-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl font-bold mb-4 font-heading">Ready to Transform Your Business?</h2>
-                <p class="text-xl mb-8 opacity-90 font-body">
-                    Let's discuss how our expertise can help you achieve your goals.
-                </p>
-                <a href="/contact.html" class="btn-primary bg-white text-primary hover:bg-neutral-100 text-lg px-8 py-4">
-                    Schedule a Consultation
-                </a>
+        <!-- Personnel Section -->
+        <section class="py-16 bg-neutral-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div id="personnel-content">
+                    <!-- Personnel content will be loaded dynamically from about.md -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                        <span class="ml-3 text-neutral-600">Loading personnel...</span>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -209,6 +218,5 @@
     <script>
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="/src/main.js"></script>
 </body>
 </html> 

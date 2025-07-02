@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://forzak.net/sitemap.xml
+
+# Disallow sensitive areas (if any in the future)
+Disallow: /admin/
+Disallow: /.git/
