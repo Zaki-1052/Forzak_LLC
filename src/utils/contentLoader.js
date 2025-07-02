@@ -1284,25 +1284,10 @@ export class ContentLoader {
     generateFinancialProductsSection(sections) {
         console.log('💳 Generating financial products section, available sections:', Object.keys(sections));
         
-        // Look for the section that has the diverse line of products
-        const productsSection = sections.other.find(section => 
-            section.title.toLowerCase().includes('backing') || 
-            section.title.toLowerCase().includes('diverse line')
-        );
-        
-        if (!productsSection) {
-            console.warn('⚠️ No financial products section found');
-            return '';
-        }
-        
-        return `
-            <h2 class="text-3xl font-bold text-primary text-center mb-12 font-heading">
-                ${this.escapeHtml(productsSection.title)}
-            </h2>
-            <div class="bg-neutral-100 rounded-lg p-8">
-                <div class="text-neutral-800 font-body">${productsSection.content}</div>
-            </div>
-        `;
+        // Don't render any specific section here to avoid duplication
+        // The financial products content should be part of the main sections flow
+        console.log('💳 Skipping financial products section to avoid duplication');
+        return '';
     }
 
     /**
