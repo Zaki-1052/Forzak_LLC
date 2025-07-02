@@ -10,12 +10,7 @@
     "lint": "eslint src --ext .js,.html",
     "format": "prettier --write \"src/**/*.{js,html,css,md}\""
   },
-  "keywords": [
-    "business",
-    "landing-page",
-    "investment",
-    "consulting"
-  ],
+  "keywords": ["business", "landing-page", "investment", "consulting"],
   "author": "Forzak LLC",
   "license": "UNLICENSED",
   "private": true,
