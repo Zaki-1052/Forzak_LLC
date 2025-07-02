@@ -1254,22 +1254,76 @@ export class ContentLoader {
         
         let html = '<div class="space-y-12">';
         
+        // Find the indices of the three special sections that need the glass image
+        const backingIndex = sections.other.findIndex(s => s.title.toLowerCase().includes('backing'));
+        const invitationIndex = sections.other.findIndex(s => s.title.toLowerCase().includes('personal invitation'));
+        const financingIndex = sections.other.findIndex(s => s.title.toLowerCase().includes('financing needs'));
+        
+        // Determine if we need to create a special layout for the last three sections
+        const hasSpecialSections = backingIndex !== -1 && invitationIndex !== -1 && financingIndex !== -1;
+        const specialSectionIndices = hasSpecialSections ? [backingIndex, invitationIndex, financingIndex].sort((a, b) => a - b) : [];
+        
         sections.other.forEach((section, index) => {
             const bgClass = index % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
             
             // Check if this section has special rendering (like industries grid)
             if (section.hasIndustries) {
                 console.log('🏭 Rendering section with industries grid:', section.title);
-            }
-            
-            html += `
-                <div class="${bgClass} rounded-lg p-8">
-                    <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>
-                    <div class="text-neutral-800 font-body">
-                        ${section.content}
+                html += `
+                    <div class="${bgClass} rounded-lg p-8">
+                        <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>
+                        <div class="text-neutral-800 font-body">
+                            ${section.content}
+                        </div>
                     </div>
-                </div>
-            `;
+                `;
+            } else if (hasSpecialSections && index === specialSectionIndices[0]) {
+                // Start special layout for the three sections with glass image
+                console.log('🥽 Starting special layout with glass image for sections:', specialSectionIndices);
+                html += `
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                        <div class="lg:col-span-3 space-y-8">
+                `;
+                
+                // Render all three special sections
+                specialSectionIndices.forEach((specialIndex, i) => {
+                    const specialSection = sections.other[specialIndex];
+                    const specialBgClass = specialIndex % 2 === 0 ? 'bg-white' : 'bg-neutral-50';
+                    html += `
+                        <div class="${specialBgClass} rounded-lg p-8 shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(specialSection.title)}</h2>
+                            <div class="text-neutral-800 font-body">
+                                ${specialSection.content}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                        <div class="lg:col-span-1">
+                            <div class="sticky top-24">
+                                <div class="aspect-[2/3] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                                    <img src="/assets/img/glass.png" 
+                                         alt="Financial analysis with magnifying glass over charts and graphs showing investment opportunities and market data" 
+                                         class="w-full h-full object-cover object-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (!hasSpecialSections || !specialSectionIndices.includes(index)) {
+                // Regular section layout (skip if this section is part of the special group)
+                html += `
+                    <div class="${bgClass} rounded-lg p-8">
+                        <h2 class="text-2xl font-bold text-primary mb-4 font-heading">${this.escapeHtml(section.title)}</h2>
+                        <div class="text-neutral-800 font-body">
+                            ${section.content}
+                        </div>
+                    </div>
+                `;
+            }
+            // Skip rendering individual sections that are part of the special group (already rendered above)
         });
         
         html += '</div>';
