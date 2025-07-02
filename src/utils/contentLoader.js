@@ -959,6 +959,7 @@ export class ContentLoader {
                             <div>
                                 <h3 class="text-3xl font-bold text-primary mb-6 font-heading">${this.escapeHtml(section.title)}</h3>
                                 <div class="text-neutral-800 font-body">${this.getManagementConsultingIntro(section.content)}</div>
+                                ${mcSubsections.length > 0 ? '<h2 class="text-2xl font-bold text-primary mt-20 font-heading">Our services include:</h2>' : ''}
                             </div>
                             <div>
                                 <div class="aspect-[3/2] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">

@@ -49,6 +49,7 @@ Management Consulting includes a number of value-adding services that assist cli
 - Competitor analysis: identify and leverage areas of industry best practice
 - Business case analysis to consider and assess value of options
 - Develop operational and financial key performance indicators to measure and control strategic implementation and performance
+- Identify areas of weakness and solutions to implement  
 - Project management and change management
 - Tender process management
 
@@ -58,7 +59,7 @@ Management Consulting includes a number of value-adding services that assist cli
 - Increase your business' sales growth and achieve faster growth than the market
 - Define/re-define the core business model, sustainable competitive advantage and unique selling proposition
 - Develop clear competitive differentiation and establish effective competitive positioning
-- Objective review and assessment of product or service offering relative to competitors' offerings, and identify areas of weakness and solutions to implement
+- Objective review and assessment of product or service offering relative to competitors' offerings
 - Craft an effective marketing message
 - Where and how to effectively communicate your value to the market
 
