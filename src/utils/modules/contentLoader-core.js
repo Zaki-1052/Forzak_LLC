@@ -17,7 +17,7 @@ export class ContentLoaderCore {
             console.log(`🔄 Starting to load content: ${contentName}`);
             
             // Fetch the markdown file as text
-            const fetchUrl = `/src/content/${contentName}.md`;
+            const fetchUrl = `/content/${contentName}.md`;
             console.log(`📡 Fetching from URL: ${fetchUrl}`);
             
             const response = await fetch(fetchUrl);
