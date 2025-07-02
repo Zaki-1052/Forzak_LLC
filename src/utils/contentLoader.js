@@ -1328,7 +1328,7 @@ export class ContentLoader {
         // In a real implementation, you could check file existence
         const availableImages = verticalImagesConfig.filter(img => {
             // Simple check - only include glass.png and pen.png for now since suit.png doesn't exist yet
-            return img.filename === 'glass.png' || img.filename === 'pen.png';
+            return img.filename === 'glass.png' || img.filename === 'pen.png' || img.filename === 'suit.png';
         });
         
         console.log('🖼️ Available vertical images:', availableImages.map(img => img.filename));

@@ -14,7 +14,7 @@ Forzak LLC offers a comprehensive suite of investment banking and financing solu
 
 Forzak targets the capital and financial advisory requirements of high-growth, profitable businesses.
 
-- Forzak can make direct investments of up to \$1 million, either in its own capacity 'on balance sheet' or by arranging a syndicate of investors.
+- Forzak can make direct investments of up to $1 million, either in its own capacity 'on balance sheet' or by arranging a syndicate of investors.
 - Investments can be for either new capital or the sale of existing shares.
 - Forzak takes an active interest in its investments and is specifically looking to identify investment opportunities where it can add value beyond simply the provision of capital.
 - Forzak has a flexible investment mandate in respect to industry; however, it will not make an investment in a business that has not proven the commercial potential of its product or service. Invariably, this requires existing product or service revenues and, if the business is not currently profitable, the ability to identify a clear path to profitability.
@@ -55,7 +55,7 @@ In addition, management buyouts allow investors to participate with owner/manage
 
 ## Financial Restructuring
 
-Forzak concentrates its investment banking resources on smaller-sized transactions ranging in value from \$500,000 to \$5 million.
+Forzak concentrates its investment banking resources on smaller-sized transactions ranging in value from $500,000 to $5 million.
 
 Forzak works with clients through the numerous complex issues, which arise in distressed situations. Our experience with traditional mergers & acquisitions in a variety of industries and our extensive background in advising companies through bankruptcy and restructuring situations represents the core of our comprehensive distressed merger and acquisition service offering. Forzak has a proven background of assisting our clients in negotiating and closing the most complex transactions.
 
@@ -86,7 +86,7 @@ Our loan facilities can be backed by many types of collateral, including account
 Asset based financing has enjoyed remarkable growth within the banking world. What was once considered a minor part of financial services now rivals traditional banking in the most vibrant part of the American economy, the middle market. The theory of asset based lending – matching a company's assets to its borrowing needs – has passed several tests.
 
 - Asset based lenders have been reliable and supportive to companies in need of financing during difficult economic times.
-- Asset based lenders have provided loan packages well above the \$300 million range.
+- Asset based lenders have provided loan packages well above the $300 million range.
 - Asset based lenders today serve almost every sector of North American industry and every geographic area.
 
 Our straightforward approach to business can be summed up in three words – ***Listening ... Learning ... Lending*****.**
