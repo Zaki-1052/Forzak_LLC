@@ -4,20 +4,35 @@ import './styles/main.css'
 // Import Alpine.js
 import Alpine from 'alpinejs'
 
-// Import content loader
-import { contentLoader } from './utils/contentLoader.js'
+// NOTE: We no longer import the heavy content loader synchronously because it
+// unnecessarily downloads ~1650 lines of JavaScript on every single page. We
+// will instead perform a *lazy* dynamic import the first time a page actually
+// needs the loader.  This keeps initial payloads small and ensures that each
+// page only fetches the code it really requires.
+
+// Lazy-load helper.  Returns a memoised instance of the content loader.
+async function ensureContentLoader () {
+  if (window.contentLoader) return window.contentLoader;
+
+  const module = await import('./utils/contentLoader.js');
+  window.contentLoader = module.contentLoader;
+  return window.contentLoader;
+}
 
 // Make Alpine available globally
 window.Alpine = Alpine
 
-// Make content loader available globally
-window.contentLoader = contentLoader
+
 
 // Content loading functions for each page
 window.loadPageContent = {
     async about() {
         console.log('🏠 About page loading function called');
         
+        // Dynamically import the content loader only when this page actually
+        // needs it, keeping the initial JS bundle as small as possible.
+        const contentLoader = await ensureContentLoader();
+
         try {
             console.log('🔄 Loading about content...');
             const content = await contentLoader.loadContent('about');
@@ -103,6 +118,8 @@ window.loadPageContent = {
 
     async services() {
         console.log('🛠️ Services page loading function called');
+
+        const contentLoader = await ensureContentLoader();
         
         try {
             console.log('🔄 Loading services content...');
@@ -182,6 +199,8 @@ window.loadPageContent = {
 
     async investments() {
         console.log('💰 Investments page loading function called');
+
+        const contentLoader = await ensureContentLoader();
         
         try {
             console.log('🔄 Loading investments content...');
@@ -261,6 +280,8 @@ window.loadPageContent = {
 
     async investmentSolutions() {
         console.log('💼 Investment Solutions page loading function called');
+
+        const contentLoader = await ensureContentLoader();
         
         try {
             console.log('🔄 Loading investment solutions content...');
