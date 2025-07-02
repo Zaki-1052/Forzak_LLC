@@ -1333,14 +1333,11 @@ export class ContentLoader {
         
         console.log('🖼️ Available vertical images:', availableImages.map(img => img.filename));
         
-        // Calculate grid layout based on number of images
-        const numImages = availableImages.length;
-        const contentSpan = numImages === 1 ? 3 : (numImages === 2 ? 2 : 2); // Adjust content width
-        const imageSpan = numImages === 1 ? 1 : (numImages === 2 ? 2 : 2); // Adjust image width
-        
+        // Keep consistent grid layout: content always takes 3 columns, images always take 1 column
+        // Images just stack vertically within that 1 column
         let html = `
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                <div class="lg:col-span-${contentSpan} space-y-8">
+                <div class="lg:col-span-3 space-y-8">
         `;
         
         // Render all special sections
@@ -1359,7 +1356,7 @@ export class ContentLoader {
         
         html += `
                 </div>
-                <div class="lg:col-span-${imageSpan}">
+                <div class="lg:col-span-1">
                     <div class="sticky top-24 space-y-6">
         `;
         
