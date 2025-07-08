@@ -225,4 +225,16 @@
     line-height: 1.5 !important;
     flex-shrink: 0 !important;
   }
+
+  /* Mobile-specific header overlap fix */
+  @media (max-width: 767px) {
+    /* Add small padding-top buffer for mobile to prevent header overlap */
+    main.pt-16 {
+      padding-top: 4rem !important; /* 72px instead of 64px - adds 8px buffer */
+    }
+    
+    main.pt-20 {
+      padding-top: 5rem !important; /* 88px instead of 80px - adds 8px buffer */
+    }
+  }
 } 
