@@ -20,9 +20,10 @@ window.Alpine = Alpine
 window.loadPageContent = {
     async about() {
         console.log('🏠 About page loading function called');
-        
+
+        let contentLoader;
         try {
-            const contentLoader = await ensureContentLoader();
+            contentLoader = await ensureContentLoader();
             console.log('🔄 Loading about content...');
             const content = await contentLoader.loadContent('about');
             console.log('✅ About content loaded successfully:', content);
@@ -92,24 +93,27 @@ window.loadPageContent = {
             
         } catch (error) {
             console.error('❌ Failed to load about content:', error);
-            
-            const mainContentContainer = document.getElementById('about-main-content');
-            if (mainContentContainer) {
-                contentLoader.showError(mainContentContainer, error.message);
-            }
-            
-            const personnelContainer = document.getElementById('personnel-content');
-            if (personnelContainer) {
-                contentLoader.showError(personnelContainer, error.message);
+
+            if (contentLoader) {
+                const mainContentContainer = document.getElementById('about-main-content');
+                if (mainContentContainer) {
+                    contentLoader.showError(mainContentContainer, error.message);
+                }
+
+                const personnelContainer = document.getElementById('personnel-content');
+                if (personnelContainer) {
+                    contentLoader.showError(personnelContainer, error.message);
+                }
             }
         }
     },
 
     async services() {
         console.log('🛠️ Services page loading function called');
-        
+
+        let contentLoader;
         try {
-            const contentLoader = await ensureContentLoader();
+            contentLoader = await ensureContentLoader();
             console.log('🔄 Loading services content...');
             const content = await contentLoader.loadContent('services');
             console.log('✅ Services content loaded successfully:', content);
@@ -174,22 +178,25 @@ window.loadPageContent = {
             }
             
             console.log('🎉 Services page loading completed successfully');
-            
+
         } catch (error) {
             console.error('❌ Failed to load services content:', error);
-            
-            const mainContentContainer = document.getElementById('services-main-content');
-            if (mainContentContainer) {
-                contentLoader.showError(mainContentContainer, error.message);
+
+            if (contentLoader) {
+                const mainContentContainer = document.getElementById('services-main-content');
+                if (mainContentContainer) {
+                    contentLoader.showError(mainContentContainer, error.message);
+                }
             }
         }
     },
 
     async investments() {
         console.log('💰 Investments page loading function called');
-        
+
+        let contentLoader;
         try {
-            const contentLoader = await ensureContentLoader();
+            contentLoader = await ensureContentLoader();
             console.log('🔄 Loading investments content...');
             const content = await contentLoader.loadContent('investments');
             console.log('✅ Investments content loaded successfully:', content);
@@ -254,22 +261,25 @@ window.loadPageContent = {
             }
             
             console.log('🎉 Investments page loading completed successfully');
-            
+
         } catch (error) {
             console.error('❌ Failed to load investments content:', error);
-            
-            const mainContentContainer = document.getElementById('investments-main-content');
-            if (mainContentContainer) {
-                contentLoader.showError(mainContentContainer, error.message);
+
+            if (contentLoader) {
+                const mainContentContainer = document.getElementById('investments-main-content');
+                if (mainContentContainer) {
+                    contentLoader.showError(mainContentContainer, error.message);
+                }
             }
         }
     },
 
     async investmentSolutions() {
         console.log('💼 Investment Solutions page loading function called');
-        
+
+        let contentLoader;
         try {
-            const contentLoader = await ensureContentLoader();
+            contentLoader = await ensureContentLoader();
             console.log('🔄 Loading investment solutions content...');
             const content = await contentLoader.loadContent('investment-solutions');
             console.log('✅ Investment solutions content loaded successfully:', content);
@@ -327,23 +337,25 @@ window.loadPageContent = {
             }
             
             console.log('🎉 Investment Solutions page loading completed successfully');
-            
+
         } catch (error) {
             console.error('❌ Failed to load investment solutions content:', error);
-            
-            const mainContentContainer = document.getElementById('solutions-main-content');
-            if (mainContentContainer) {
-                contentLoader.showError(mainContentContainer, error.message);
-            }
-            
-            const servicesGridContainer = document.getElementById('investment-services-grid');
-            if (servicesGridContainer) {
-                contentLoader.showError(servicesGridContainer, error.message);
-            }
-            
-            const specializedServicesContainer = document.getElementById('specialized-financing-services');
-            if (specializedServicesContainer) {
-                contentLoader.showError(specializedServicesContainer, error.message);
+
+            if (contentLoader) {
+                const mainContentContainer = document.getElementById('solutions-main-content');
+                if (mainContentContainer) {
+                    contentLoader.showError(mainContentContainer, error.message);
+                }
+
+                const servicesGridContainer = document.getElementById('investment-services-grid');
+                if (servicesGridContainer) {
+                    contentLoader.showError(servicesGridContainer, error.message);
+                }
+
+                const specializedServicesContainer = document.getElementById('specialized-financing-services');
+                if (specializedServicesContainer) {
+                    contentLoader.showError(specializedServicesContainer, error.message);
+                }
             }
         }
     }
