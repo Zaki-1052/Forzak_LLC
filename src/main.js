@@ -7,10 +7,21 @@ import Alpine from 'alpinejs'
 // Memoized helper to lazy load content loader only when needed
 async function ensureContentLoader() {
     if (window.contentLoader) return window.contentLoader;
-    
+
     const module = await import('./utils/contentLoader.js');
     window.contentLoader = module.contentLoader;
     return window.contentLoader;
+}
+
+// Fallback error display function for when contentLoader is unavailable
+function showFallbackError(container, message) {
+    if (!container) return;
+    container.innerHTML = `
+        <div style="padding: 2rem; background-color: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
+            <h3 style="margin-top: 0; color: #a00;">⚠️ Error Loading Content</h3>
+            <p style="margin-bottom: 0;">${message || 'Failed to load content. Please refresh the page or try again later.'}</p>
+        </div>
+    `;
 }
 
 // Make Alpine available globally
@@ -94,16 +105,20 @@ window.loadPageContent = {
         } catch (error) {
             console.error('❌ Failed to load about content:', error);
 
+            const mainContentContainer = document.getElementById('about-main-content');
+            const personnelContainer = document.getElementById('personnel-content');
+
             if (contentLoader) {
-                const mainContentContainer = document.getElementById('about-main-content');
                 if (mainContentContainer) {
                     contentLoader.showError(mainContentContainer, error.message);
                 }
-
-                const personnelContainer = document.getElementById('personnel-content');
                 if (personnelContainer) {
                     contentLoader.showError(personnelContainer, error.message);
                 }
+            } else {
+                // Fallback error display when contentLoader failed to load
+                showFallbackError(mainContentContainer, error.message);
+                showFallbackError(personnelContainer, error.message);
             }
         }
     },
@@ -182,11 +197,15 @@ window.loadPageContent = {
         } catch (error) {
             console.error('❌ Failed to load services content:', error);
 
+            const mainContentContainer = document.getElementById('services-main-content');
+
             if (contentLoader) {
-                const mainContentContainer = document.getElementById('services-main-content');
                 if (mainContentContainer) {
                     contentLoader.showError(mainContentContainer, error.message);
                 }
+            } else {
+                // Fallback error display when contentLoader failed to load
+                showFallbackError(mainContentContainer, error.message);
             }
         }
     },
@@ -265,11 +284,15 @@ window.loadPageContent = {
         } catch (error) {
             console.error('❌ Failed to load investments content:', error);
 
+            const mainContentContainer = document.getElementById('investments-main-content');
+
             if (contentLoader) {
-                const mainContentContainer = document.getElementById('investments-main-content');
                 if (mainContentContainer) {
                     contentLoader.showError(mainContentContainer, error.message);
                 }
+            } else {
+                // Fallback error display when contentLoader failed to load
+                showFallbackError(mainContentContainer, error.message);
             }
         }
     },
@@ -341,21 +364,25 @@ window.loadPageContent = {
         } catch (error) {
             console.error('❌ Failed to load investment solutions content:', error);
 
+            const mainContentContainer = document.getElementById('solutions-main-content');
+            const servicesGridContainer = document.getElementById('investment-services-grid');
+            const specializedServicesContainer = document.getElementById('specialized-financing-services');
+
             if (contentLoader) {
-                const mainContentContainer = document.getElementById('solutions-main-content');
                 if (mainContentContainer) {
                     contentLoader.showError(mainContentContainer, error.message);
                 }
-
-                const servicesGridContainer = document.getElementById('investment-services-grid');
                 if (servicesGridContainer) {
                     contentLoader.showError(servicesGridContainer, error.message);
                 }
-
-                const specializedServicesContainer = document.getElementById('specialized-financing-services');
                 if (specializedServicesContainer) {
                     contentLoader.showError(specializedServicesContainer, error.message);
                 }
+            } else {
+                // Fallback error display when contentLoader failed to load
+                showFallbackError(mainContentContainer, error.message);
+                showFallbackError(servicesGridContainer, error.message);
+                showFallbackError(specializedServicesContainer, error.message);
             }
         }
     }
