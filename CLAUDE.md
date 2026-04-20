@@ -1,0 +1,72 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+Forzak LLC marketing site: a multi-page static website for an investment & advisory consulting firm. Built with vanilla HTML, Tailwind CSS, Alpine.js, and Vite. Deployed to Netlify as static assets from `dist/`.
+
+Source of truth for product intent lives in `spec.md` (design system, IA, color tokens, accessibility targets). Assistant-behavior rules live in `RULES.md`.
+
+## Commands
+
+```bash
+npm run dev       # Vite dev server with HMR
+npm run build     # Production build → dist/ (all 6 HTML entry points)
+npm run preview   # Serve the production build locally
+npm run lint      # eslint src --ext .js,.html  (note: no eslint config checked in)
+npm run format    # Prettier on src/**/*.{js,html,css,md}
+```
+
+There is no test suite. `npm run lint` will fail until an eslint config is added — don't assume it works out of the box.
+
+## Architecture
+
+### Multi-page Vite app, not an SPA
+
+Each page is a separate HTML file at the repo root (`index.html`, `about.html`, `services.html`, `investments.html`, `investment-solutions.html`, `contact.html`). All six are declared as Rollup `input` entries in `vite.config.js:11` — adding a new page requires editing that list. Navigation between pages is plain `<a href="...">`, not client-side routing.
+
+All pages share:
+- `src/styles/main.css` — Tailwind entry + custom components (`.btn`, `.custom-list`, personnel cards, focus rings). Overrides `@tailwindcss/typography` prose styles for `.custom-list`.
+- `src/main.js` — single JS entry loaded by every page. Boots Alpine, dispatches the correct content loader based on `window.location.pathname`.
+- Tailwind custom tokens in `tailwind.config.js`: `primary` `#003366`, `secondary` `#0055A5`, `accent-gold` `#C9A54B`, `neutral-100`, `neutral-800`; fonts `Poppins` (heading) / `Merriweather` (body).
+
+### Content pipeline: runtime markdown fetch
+
+Page copy is **not** compiled into HTML at build time. Instead:
+
+1. Markdown lives in `public/content/*.md` (about, services, investments, investment-solutions) with YAML frontmatter. Files in `public/` are copied verbatim to `dist/` by Vite.
+2. On `DOMContentLoaded`, `src/main.js` detects the current page from the URL and calls the matching `window.loadPageContent.*()` method.
+3. That method lazy-imports `src/utils/contentLoader.js`, `fetch`es `/content/<name>.md`, parses frontmatter + sections, and injects HTML into specific `id`-targeted containers in the static HTML (e.g. `#about-main-content`, `#services-sections-content`, `#investment-services-grid`).
+
+**Implication:** HTML pages contain empty placeholder containers. If you edit an `.html` file and don't see your copy change in the browser, the content is being overwritten at runtime from the matching `.md` file — edit that instead. To move content *between* pages or change structure, you usually need to touch both the HTML shell and the loader module for that page.
+
+### ContentLoader composition
+
+`src/utils/contentLoader.js` is a facade — the real logic is split across `src/utils/modules/`:
+
+- `contentLoader-core.js` — fetch, frontmatter parsing, markdown→HTML, caching (`Map`), loading/error states.
+- `contentLoader-shared.js` — `parseContentSections` section-splitter; routes services content to a specialized parser. Extends `ContentLoaderCore`.
+- `contentLoader-about.js`, `-services.js`, `-investments.js`, `-solutions.js` — page-specific section generators (`generatePersonnelCards`, `generateCoreValuesSection`, `generateInvestmentSections`, `generateInvestmentSolutionsGrid`, etc.).
+
+`ContentLoader` in `contentLoader.js` instantiates each module and re-binds their methods onto itself for backward compatibility — when adding a new generator, bind it in the constructor the same way. Caching happens at the facade level (`loadContent` in `contentLoader.js:78`), not in `core.loadContent`.
+
+The markdown parser is a small hand-rolled one (not a library): it handles `#`-`####` headings, `**bold**`/`*italic*`, and `-` bullet lists rendered as `<ul class="custom-list">` with `▸` custom bullets. It does not support links, tables, code blocks, or nested lists. Section splitting is driven by `## ` headings and, for `services.md`, specific marker strings like `### Forzak Will Do More for Your Business` and `### Core Values` (see `contentLoader-shared.js:34`). If you rename those headings in markdown, update the parser.
+
+### Build output
+
+`vite build` produces `dist/` with hashed asset bundles in `dist/assets/` and copies `public/` wholesale (including `content/*.md`, favicons, images). Netlify (`netlify.toml`) publishes `dist/`, redirects `/index` and `/index.html` → `/`, and sets long immutable cache headers for static assets plus a short TTL for `.md` so content edits propagate quickly.
+
+## Conventions
+
+- **Do not edit `dist/`** — it's the build output, regenerated by `npm run build`. Edits to source HTML, JS, CSS, or markdown go in the repo root / `src/` / `public/content/`.
+- **Copy changes go in `public/content/*.md`**, not the HTML files — see content pipeline above.
+- **New page**: add `foo.html` at root, register it in `vite.config.js` `rollupOptions.input`, add a loader in `src/main.js` + path dispatch, and (if dynamic) a `public/content/foo.md` plus a `contentLoader-foo.js` module wired into `contentLoader.js`.
+- **Tailwind content globs** (`tailwind.config.js:3`) cover root `*.html` and `src/**/*.{html,js,md}`. Classes generated only at runtime inside string templates in the loader modules *are* picked up because those files match the globs — keep dynamic class names as literal strings (not interpolated fragments) so the JIT can see them.
+- **Alpine.js** is used inline via `x-data` / `@scroll.window` directives in the HTML (see the nav in `index.html`). It is started by `Alpine.start()` at the bottom of `src/main.js` after `window.Alpine` is set.
+- **Console logging**: `src/main.js` and the loader modules are heavily instrumented with emoji-prefixed `console.log` calls. They're intentional — preserve them when refactoring unless removing an entire flow.
+- **RULES.md** describes a preferred assistant response format (Plan / History / Source Tree / Next Task) and coding philosophy (DRY, KISS, SRP, CQS, fail-fast). The repo itself does not enforce it; apply judgment.
+
+## Git workflow
+
+Active development branch for Claude-driven work: `claude/add-claude-documentation-I4RxS`. Push with `git push -u origin <branch>`. Do not open PRs unless explicitly asked.
